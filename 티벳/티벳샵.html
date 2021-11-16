@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>티벳샵</title>
+    
+    <link rel="stylesheet" href="./fontawesome/css/all.css">
+    <link rel="stylesheet" href="./reset.css">
+    <link rel="stylesheet" href="./style.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="./slick/slick.min.js"></script>
+    <link rel="stylesheet" href="./slick/slick.css">
+    <link rel="stylesheet" href="./slick/slick-theme.css">
+    
+</head>
+<body>
+    <header>
+        <ul class="top-menu">
+            <li>
+                <a href="#">SERVICE</a>
+            </li>
+            <li>
+                <a href="#">SEARCH</a>
+            </li>
+            <li>
+                <a href="#">LOGIN</a>
+            </li>
+            <li>
+                <a href="#">SIGN UP</a>
+            </li>
+            <li>
+                <a href="#">MY PAGE</a>
+            </li>
+            <li>
+                <a href="#">CART</a>
+            </li>
+        </ul>
+        <div id="logo">THE TIBET</div>
+        <ul class="gnb">
+            <li>
+                <i class="fa fa-bars"></i>
+            </li>
+            <li>
+                <a href="#">NEW</a>
+            </li>
+            <li>
+                <a href="#">OUTER</a>
+            </li>
+            <li>
+                <a href="#">TOP</a>
+            </li>
+            <li>
+                <a href="#">PANTS</a>
+            </li>
+            <li>
+                <a href="#">BAG</a>
+            </li>
+            <li>
+                <a href="#">ACC</a>
+            </li>
+            <li>
+                <a href="#">SALE</a>
+            </li>
+        </ul>
+    </header>
+    <section>
+        
+        <div class="slider">
+            <div>
+                <img src="http://placehold.it/350x100?text=1">
+            </div>
+            <div>
+                <img src="http://placehold.it/350x100?text=2">
+            </div>
+            <div>
+                <img src="http://placehold.it/350x100?text=3">
+            </div>
+            <div>
+                <img src="http://placehold.it/350x100?text=4">
+            </div>
+        </div>
+
+        <article class="slider2">
+            <div>
+                <img src="http://placehold.it/350x100?text=1">
+            </div>
+            <div>
+                <img src="http://placehold.it/350x100?text=2">
+            </div>
+            <div>
+                <img src="http://placehold.it/350x100?text=3">
+            </div>
+            <div>
+                <img src="http://placehold.it/350x100?text=4">
+            </div>
+        </article>
+
+        <article>
+            
+        </article>
+
+        <div class="container">
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <ul>
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
+                <li>6</li>
+                <li>7</li>
+                <li>8</li>
+            </ul>
+        </div>
+    </section>
+    <footer>
+        <ul> COMMUNITY
+            <li>
+                <a href="#">공지사항</a>
+            </li>
+            <li>
+                <a href="#">리뷰 게시판</a>
+            </li>
+            <li>
+                <a href="#">질문/답변</a>
+            </li>
+            <li>
+                <a href="#">자주하는 질문</a>
+            </li>
+        </ul>
+        <ul> MY SHOP
+            <li>
+                <a href="#">로그인</a>
+            </li>
+            <li>
+                <a href="#">회원가입</a>
+            </li>
+            <li>
+                <a href="#">장바구니</a>
+            </li>
+            <li>
+                <a href="#">관심상품</a>
+            </li><li>
+                <a href="#">주문조회</a>
+            </li>
+        </ul>
+        <ul> PRODUCT
+            <li>
+                <a href="#">WOMEN</a>
+            </li>
+            <li>
+                <a href="#">OUTER</a>
+            </li>
+            <li>
+                <a href="#">TOP</a>
+            </li>
+            <li>
+                <a href="#">PANTS</a>
+            </li><li>
+                <a href="#">SHOES</a>
+            </li>
+        </ul>
+        <dl>CS CENTER <br> 1833-3351
+            <dt>평일</dt>
+            <dd>오전 11:00 ~ 오후 06:00</dd>
+            <dt>점심</dt>
+            <dd>오후 12:00 ~ 오후 01:00</dd>
+            <dt>휴무</dt>
+            <dd>토. 일. 공휴일</dd>
+            <dt>메일</dt>
+            <dd>raucoworldwide@gmail.com</dd>
+        </dl>
+        <dl>BANK INFO
+            <dt>기업은행</dt>
+            <dd>048-136651-01-019</dd>
+            <dt>예금주</dt>
+            <dd>주식회사 라우코하우스</dd>
+        </dl>
+        <dl>RETURN & EXCHANGE
+            <address>서울시 동대문구 제기동 970 cj대한통운 회기대리점</address>
+            <dt>CJ 대한통운 택배</dt>
+            <dd>1588-1255</dd>
+            <p>CJ대한통운 택배를 이용해주세요</p>
+        </dl>
+    </footer>
+
+    <script>
+        $(function(){
+            $('.slider').slick({
+                slide: 'div',        //슬라이드 되어야 할 태그 ex) div, li 
+                infinite : true,     //무한 반복 옵션     
+                slidesToShow : 1,        // 한 화면에 보여질 컨텐츠 개수
+                slidesToScroll : 1,        //스크롤 한번에 움직일 컨텐츠 개수
+                speed : 100,     // 다음 버튼 누르고 다음 화면 뜨는데까지 걸리는 시간(ms)
+                arrows : true,         // 옆으로 이동하는 화살표 표시 여부
+                dots : true,         // 스크롤바 아래 점으로 페이지네이션 여부
+                autoplay : true,            // 자동 스크롤 사용 여부
+                autoplaySpeed : 10000,         // 자동 스크롤 시 다음으로 넘어가는데 걸리는 시간 (ms)
+                pauseOnHover : true,        // 슬라이드 이동    시 마우스 호버하면 슬라이더 멈추게 설정
+                vertical : false,        // 세로 방향 슬라이드 옵션
+                prevArrow : "<button type='button' class='slick-prev fas fa-arrow-left'></button>",        // 이전 화살표 모양 설정
+                nextArrow : "<button type='button' class='slick-next fas fa-arrow-right'></button>",        // 다음 화살표 모양 설정
+                dotsClass : "slick-dots",     //아래 나오는 페이지네이션(점) css class 지정
+                draggable : true,     //드래그 가능 여부 
+                
+                responsive: [ // 반응형 웹 구현 옵션
+                    {  
+                        breakpoint: 960, //화면 사이즈 960px
+                        settings: {
+                            //위에 옵션이 디폴트 , 여기에 추가하면 그걸로 변경
+                            slidesToShow:3 
+                        } 
+                    },
+                    { 
+                        breakpoint: 768, //화면 사이즈 768px
+                        settings: {    
+                            //위에 옵션이 디폴트 , 여기에 추가하면 그걸로 변경
+                            slidesToShow:2 
+                        } 
+                    }
+                ]
+ 
+            });
+          })
+
+          $(function(){
+            $('.slider2').slick({
+                slide: 'div',        //슬라이드 되어야 할 태그 ex) div, li 
+                infinite : true,     //무한 반복 옵션     
+                slidesToShow : 1,        // 한 화면에 보여질 컨텐츠 개수
+                slidesToScroll : 1,        //스크롤 한번에 움직일 컨텐츠 개수
+                speed : 100,     // 다음 버튼 누르고 다음 화면 뜨는데까지 걸리는 시간(ms)
+                arrows : true,         // 옆으로 이동하는 화살표 표시 여부
+                dots : false,         // 스크롤바 아래 점으로 페이지네이션 여부
+                autoplay : false,            // 자동 스크롤 사용 여부
+                autoplaySpeed : 10000,         // 자동 스크롤 시 다음으로 넘어가는데 걸리는 시간 (ms)
+                pauseOnHover : true,        // 슬라이드 이동    시 마우스 호버하면 슬라이더 멈추게 설정
+                vertical : false,        // 세로 방향 슬라이드 옵션
+                prevArrow : "<button type='button' class='slick-prev fas fa-arrow-left'></button>",        // 이전 화살표 모양 설정
+                nextArrow : "<button type='button' class='slick-next fas fa-arrow-right'></button>",        // 다음 화살표 모양 설정
+                dotsClass : "slick-dots",     //아래 나오는 페이지네이션(점) css class 지정
+                draggable : true,     //드래그 가능 여부 
+                
+                responsive: [ // 반응형 웹 구현 옵션
+                    {  
+                        breakpoint: 960, //화면 사이즈 960px
+                        settings: {
+                            //위에 옵션이 디폴트 , 여기에 추가하면 그걸로 변경
+                            slidesToShow:3 
+                        } 
+                    },
+                    { 
+                        breakpoint: 768, //화면 사이즈 768px
+                        settings: {    
+                            //위에 옵션이 디폴트 , 여기에 추가하면 그걸로 변경
+                            slidesToShow:2 
+                        } 
+                    }
+                ]
+ 
+            });
+          })
+    </script>
+</body>
+</html>

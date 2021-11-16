@@ -1,0 +1,80 @@
+body{
+    width: 100vw;
+    background: white;
+    color: #222;
+    padding: 0 40px;
+}
+
+header .top-menu{
+    display: flex;
+    justify-content: space-around;
+}
+
+header .top-menu li{
+    width: 100px;
+    /* border: 1px solid black; */
+}
+
+header .top-menu li:nth-child(1){
+    flex-grow: 1;
+}
+
+header #logo{
+    width: 250px;
+    height: 80px;
+    /* border: 1px solid black; */
+    margin: 0 auto;
+    text-align: center;
+    line-height: 80px;
+    font-size: 3rem;
+}
+
+header .gnb{
+    display: flex;
+}
+
+header .gnb li{
+    width: 200px;
+
+}
+
+
+
+section .container{
+    display: flex;
+    justify-content:space-between;
+    /* border: 1px solid black; */
+    flex-wrap: wrap;
+}
+
+.container .item{
+    width: 15%;
+    height: 150px;
+    margin-right: 20px;
+    background-color: palegoldenrod;
+}
+
+.container ul{
+    flex-basis: 100%;
+    display: flex;
+    justify-content:center;
+}
+
+.container ul li{
+    margin-right: 10px;
+}
+
+footer{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+footer ul{
+    width: 30%;
+    margin-top: 50px;
+}
+
+footer dl{
+    width: 30%;
+    margin-top: 50px;
+}
