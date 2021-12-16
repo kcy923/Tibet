@@ -19,7 +19,7 @@ request.setCharacterEncoding("UTF-8");
 <%
 		 Object data = session.getAttribute("find_id");
 		 String findid = (String)data;
-  		 %>
+%>
 <style>
 .title {
 	width: 100%;

@@ -20,6 +20,9 @@ window.onload=function()
   result();
 }
 
+function result(){
+	alert("아이디나  비밀번호가 틀립니다. 다시 로그인해주세요");
+}
 </script>
 </c:if>
 <title>로그인</title>

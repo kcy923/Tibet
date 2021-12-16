@@ -18,108 +18,15 @@ request.setCharacterEncoding("UTF-8");
 <link rel="stylesheet" href="resources/fontawesome/css/all.css">
 <link rel="stylesheet" href="resources/css/reset.css">
 <link rel="stylesheet" href="resources/css/style.css">
+<link rel="stylesheet" href="resources/css/signup.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script src="/resources/js/addressapi.js"></script>
 
 <title>회원가입</title>
 
-<style>
-.title {
-	margin: 20px 34%;
-	font-size: 30px;
-	font-weight: bold;
-}
 
-.info-rect {
-	width: 32%;
-	height: auto;
-	background: white;
-	margin: 0px 34% 15px;
-	padding: 1%;
-	border: 1px solid black;
-	border-radius: 6px;
-}
-
-.form-group {
-	margin-bottom: 22px;
-}
-
-.form-group .form-control {
-	width: 33%;
-}
-
-.form-group label {
-	position: relative;
-	display: inline-block;
-	width: 150px;
-	top: 1px;
-}
-
-.form-group .mailsend-margin {
-	margin-right: 10%;
-}
-
-.form-address {
-	width: 50%;
-}
-
-#mem_address {
-	width: 20%;
-}
-
-#id-info {
-	font-size: 12px;
-	width: auto;
-}
-
-#pwd-info {
-	position: relative;
-	top: 6px;
-	font-size: 12px;
-	width: auto;
-	margin: 0;
-}
-
-.correction-btn {
-	width: 20%;
-	height: 50px;
-	margin-right: 5%;
-	margin-left: 41%;
-	border: none;
-	background-color: #1e1e1e;
-	border-radius: 6px;
-	color: white;
-	font-size: 17px;
-	font-weight: bold;
-	display: inline-block;
-	text-align: center;
-	vertical-align: middle;
-	cursor: pointer;
-}
-
-.checkbox-group {
-	width: 18%;
-	height: auto;
-	background: #E5E5E5;
-	margin: 0px 41% 15px;
-	padding: 1%;
-	border: none;
-	border-radius: 6px;
-	display: flex;
-	flex-direction: column;
-}
-
-.check-child {
-	margin: 1px 25px;
-}
-
-.check-parent {
-	margin-bottom: 3px;
-}
-</style>
-</head>
-<script type="text/javascript">
 <script>
 function fn_overlapped(){
     var _id=$("#_user_id").val();
@@ -138,7 +45,7 @@ function fn_overlapped(){
        	    alert("사용할 수 있는 ID입니다.");
        	    $('#btnOverlapped').prop("disabled", true);
        	    $('#_user_id').prop("disabled", true);
-       	    $('#user_id').val(_id);
+       	    $('#userr_id').val(_id);
           }else{
         	  alert("사용할 수 없는 ID입니다.");
           }
@@ -150,9 +57,9 @@ function fn_overlapped(){
           //alert("작업을완료 했습니다");
        }
     });  //end ajax	 
- }	 
-</script>
+ }	
 
+</script>
 <body>
 	<section>
 		<div class="title">
@@ -165,10 +72,12 @@ function fn_overlapped(){
 
 			<div class="form-group">
 				<label for="id">아이디</label> <input type="text" class="form-control"
-					id="user_id" name="user_id" placeholder=" "> <label
-					id="id-info">(영문소문자/숫자, 4~16자)</label>
-					<!-- <input type="button"  id="btnOverlapped" value="중복체크" onClick="fn_overlapped()" /> -->
-				<div class="eheck_font" id="pw2_check"></div>
+					id="user_id" name="user_id" placeholder=" ">					
+					<label id="id-info">(영문소문자/숫자, 4~12자)</label>
+					<div class="check_font" id="overlapped"></div>
+
+
+				<!-- <div class="eheck_font" id="pw2_check"></div> -->
 			</div>
 			<div class="form-group">
 				<label for="pw">비밀번호</label> <input type="password"
@@ -251,69 +160,10 @@ function fn_overlapped(){
 			</div>
 		</div>
 		<div class="cor-button">
-			<button class="correction-btn" type="submit">회원가입</button>
+    	<button type="submit" onclick="joinform_check();">가입하기</button>
+    	 			
 		</div>
 		</form>
 	</section>
-	<script>
-	/* 우편번호 API */
-	function execPostCode() {
-        new daum.Postcode({
-            oncomplete: function(data) {
-               // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-               // 도로명 주소의 노출 규칙에 따라 주소를 조합한다.
-               // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-               var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
-               var extraRoadAddr = ''; // 도로명 조합형 주소 변수
-
-               // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-               // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-               if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-                   extraRoadAddr += data.bname;
-               }
-               // 건물명이 있고, 공동주택일 경우 추가한다.
-               if(data.buildingName !== '' && data.apartment === 'Y'){
-                  extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-               }
-               // 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-               if(extraRoadAddr !== ''){
-                   extraRoadAddr = ' (' + extraRoadAddr + ')';
-               }
-               // 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가한다.
-               if(fullRoadAddr !== ''){
-                   fullRoadAddr += extraRoadAddr;
-               }
-
-               // 우편번호와 주소 정보를 해당 필드에 넣는다.
-               console.log(data.zonecode);
-               console.log(fullRoadAddr);
-               
-               
-               $("[name=user_zip]").val(data.zonecode);
-               $("[name=user_addr1]").val(fullRoadAddr);
-               
-               document.getElementById('user_zip').value = data.zonecode; //5자리 새우편번호 사용
-               document.getElementById('user_addr1').value = fullRoadAddr;
-               /*document.getElementById('signUpUserCompanyAddressDetail').value = data.jibunAddress;*/
-           }
-        }).open();
-    }
-	
-	/* 체크박스 전체선택 */
-	function selectAll(selectAll)  {
-		  const checkboxes 
-		     = document.querySelectorAll('input[type="checkbox"]');
-		  
-		  checkboxes.forEach((checkbox) => {
-		    checkbox.checked = selectAll.checked
-		  })
-		}
-	
-	/* 체크박스 체크 여부 확인 */
-	if(document.getElementById("user_mailSend").checked) {
-    	document.getElementById("user_mailSend_hidden").disabled = true;
-	}
-	</script>
 </body>
 </html>

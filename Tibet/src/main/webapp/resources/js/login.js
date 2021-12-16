@@ -1,5 +1,5 @@
-var idck = 0;
-$(function() {
+
+(function() {
     //idck 버튼을 클릭했을 때 
     $("#idck").click(function() {
         
@@ -9,7 +9,7 @@ $(function() {
         $.ajax({
             async: true,
             type : 'POST',
-            data : userid,
+            data : user_id,
             url : "idcheck.do",
             dataType : "json",
             contentType: "application/json; charset=UTF-8",

@@ -40,6 +40,7 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 		
 		
 		 memberVO = memberService.login(loginMap);
+		 
 		if(memberVO!= null && memberVO.getUser_id()!=null){ //아이디가 존재하는경우 여부 검사
 			HttpSession session=request.getSession();
 			session=request.getSession();
@@ -86,8 +87,10 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
 		try {
-		    memberService.addMember(_memberVO);
+			memberService.addMember(_memberVO);
 		    
+			
+			
 		    message  = "<script>";
 		    message +=" alert('회원가입이 완료되었어요');";
 		    message += " location.href='"+request.getContextPath()+"/login.do';";
@@ -106,7 +109,6 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 	
 
 
-	
 	@Override
 	@RequestMapping(value="/overlapped.do" ,method = RequestMethod.POST) // 아이디 중복검사
 	public ResponseEntity overlapped(@RequestParam("id") String id,HttpServletRequest request, HttpServletResponse response) throws Exception{
@@ -114,5 +116,8 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 		String result = memberService.overlapped(id);
 		resEntity = new ResponseEntity(result, HttpStatus.OK);
 		return resEntity;
+		
+		
+		
 	}
 }
