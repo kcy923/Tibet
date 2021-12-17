@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%	int qnaNo = 1; 
 	int reviewNo = 1;
@@ -10,6 +12,7 @@
 
 <head>
 	<link href="resources/css/style-product.css" rel="stylesheet" type="text/css">
+	<script type="text/javascipt" src="resources/js/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
@@ -23,45 +26,15 @@
 					<div class="products-info-image swiper-container">
 						<!-- 이미지 -->
 						<div class="product-img">
-							<img src="resources/img/t1.jpg"/>
+							<img src="resources/${vo.product_thumbnail}"/>
 						</div>
-						<!-- 
-						<div class="swiper-wrapper">
-							<c:if test="${prodDto.imgUrl_1 != ''}">
-								<div class="swiper-slide">
-									<img src="${prodDto.imgUrl_1}" />
-								</div>
-							</c:if>
-							<c:if test="${prodDto.imgUrl_2 != ''}">
-								<div class="swiper-slide">
-									<img src="${prodDto.imgUrl_2}" />
-								</div>
-							</c:if>
-							<c:if test="${prodDto.imgUrl_3 != ''}">
-								<div class="swiper-slide">
-									<img src="${prodDto.imgUrl_3}" />
-								</div>
-							</c:if>
-							<c:if test="${prodDto.imgUrl_4 != ''}">
-								<div class="swiper-slide">
-									<img src="${prodDto.imgUrl_4}" />
-								</div>
-							</c:if>
-						</div>
-						 -->
 					</div>
 				</div>
 				<div class="products-box-detail">
-					<div class="products-box-detail-company">
-						<!-- 제조사 -->
-						<a href="${prodDto.url}"> <!-- 제조사 URL 동기적 --> <span
-							class="products-box-detail-company-color">${prodDto.companyName}</span>
-						</a>
-					</div>
+					
 					<div class="products-box-detail-name">
 						<!-- 상품명 -->
-						<!-- <span>${prodDto.productName}</span> -->
-						<span>티셔츠</span>
+						<span>${vo.product_name}</span>
 					</div>
 					<!-- 가격 -->
 					<div class="products-box-detail-price">
@@ -69,14 +42,13 @@
 							<span class="products-box-detail-allPrice-title">상품 금액</span> 
 						</div>
 						<div>
-							<span class="products-box-detail-price-figure">${prodDto.price}</span>
-							<span id="products-price">30,000원</span>
+							<span id="products-price"><fmt:formatNumber value="${vo.product_price}" pattern="###,###,###원"/></span>
 						</div>
 					</div>
 					<div class="products-reserves border-btm-e1e1e1">
 						<!-- 판매량 -->
-						<span class="products-box-detail-soldCount-figure">${prodDto.soldCount }</span>
-						<span class="products-box-detail-soldCount-figure">적립금 : 1.500원</span>
+						<span class="products-box-detail-soldCount-figure"><fmt:formatNumber value="${vo.product_price * 0.05}" pattern="###,###,###원"/></span>
+						<!-- <span class="products-box-detail-soldCount-figure">적립금 : 1.500원</span> -->
 					</div>
 					<div class="products-box-detail-postInfo border-btm-e1e1e1">
 						<span class="products-box-detail-postInfo-title">배송정보</span> <span
@@ -100,12 +72,21 @@
 							<span>color</span>
 						</div>
 						<div class="selectbox">
-							<label for="ex_select">-옵션을 선택해주세요-</label>
-							<select id="ex_select">
-								<option value="필수" selected>-옵션을 선택해주세요-</option>
+							<label for="color_select">-옵션을 선택해주세요-</label>
+							<select id="color_select">					
+								<!-- <option value="필수" selected>-옵션을 선택해주세요-</option>
 								<option value="black">black</option>
-								<option value="white">white</option>
+								<option value="white">white</option> -->
+								<option selected>-옵션을 선택해주세요-</option>
+								<c:forEach items="${productDetail}" var="vo">
+									<option><c:out value="${vo.product_color}"/></option>
+								</c:forEach>
 							</select>
+							<select name="color_select" size="1">
+								<option value="" selected></option>
+								
+							</select>
+
 						</div>
 					</div>
 					<div class="dropdown-option">
@@ -239,64 +220,6 @@
 						<a class="detail-qna-header-a"
 							href="<%=request.getContextPath()%>/review?cmd=reviewAll&prodNo=${prodDto.prodId}">전체보기</a>
 					</div>
-					<br>
-					<div class="service-qna">
-						<table class="service-qna-front">
-							<thead class="service-qna-title mgb15">
-								<tr >
-									<th class="qna-no">번호</th>
-									<th class="qna-tit">제목</th>
-									<th class="qna-nm">작성자</th>
-									<th class="qna-date">작성일</th>
-								</tr>
-							</thead>
-							<tbody class="service-qna-content mgb20">
-								<tr class="qna-table-tr">
-									<td class="qna-no">1</td>
-									<td class="mgb20-txt">
-									 <a href="">안녕하세요 이곳은 리뷰 페이지 입니다.</a></td>
-									<td class="qna-nm">작성자</td>
-									<td class="qna-date">2021-11-25</td>
-								</tr>
-								<tr>
-									<td class="qna-no">2</td>
-									<td class="mgb20-txt">
-									<a href="">안녕하세요 이곳은 리뷰 페이지 입니다.</a></td>
-									<td class="qna-nm">작성자</td>
-									<td class="qna-date">2021-11-24</td>
-								</tr>
-								<tr>
-									<td class="qna-no">3</td>
-									<td class="mgb20-txt">
-									<a href="">안녕하세요 이곳은 리뷰 페이지 입니다.</a></td>
-									<td class="qna-nm">작성자</td>
-									<td class="qna-date">2021-11-25</td>
-								</tr>
-								<tr>
-									<td class="qna-no">4</td>
-									<td class="mgb20-txt">
-									<a href="">안녕하세요 이곳은 리뷰 페이지 입니다.</a></td>
-									<td class="qna-nm">작성자</td>
-									<td class="qna-date">2021-11-25</td>
-								</tr>
-							</tbody>
-						</table>
-						<br>
-					</div>
-				</div>
-				
-				<!-- 
-				<div id="detail-review-box">
-					<div class="detail-review-header">
-						리뷰 (${countReview})
-						<c:if test="${sessionScope.principal != null}">
-							<a
-								href="<%=request.getContextPath()%>/review?cmd=reviewWrite&prodNo=${prodDto.prodId}"
-								class="detail-qna-header-a" id="detail-qna-write">리뷰작성</a>
-						</c:if>
-						<a class="detail-qna-header-a"
-							href="<%=request.getContextPath()%>/review?cmd=reviewAll&prodNo=${prodDto.prodId}">전체보기</a>
-					</div>
 					<div class="detail-qna-body">
 						<c:if test="${reviewList != null}">
 							<c:forEach var="review" items="${reviewList}">
@@ -314,8 +237,8 @@
 							</c:forEach>
 						</c:if>
 					</div>
+
 				</div>
-				 -->
 				<!-- 리뷰 끝 -->
 
 				<!-- Q&A 시작 -->
@@ -342,40 +265,46 @@
 								</tr>
 							</thead>
 							<tbody class="service-qna-content mgb20">
-								<tr class="qna-table-tr">
-									<td class="qna-no">1</td>
-									<td class="mgb20-txt"><i class="fas fa-lock"></i> <a
-										href="">비밀글 입니다.</a></td>
-									<td class="qna-nm">작성자</td>
-									<td class="qna-date">2021-11-25</td>
-								</tr>
-								<tr>
-									<td class="qna-no">2</td>
-									<td class="mgb20-txt"><i class="fas fa-lock"></i> <a
-										href="">비밀글 입니다.</a></td>
-									<td class="qna-nm">작성자</td>
-									<td class="qna-date">2021-11-24</td>
-								</tr>
-								<tr>
-									<td class="qna-no">3</td>
-									<td class="mgb20-txt"><i class="fas fa-lock"></i> <a
-										href="">비밀글 입니다.</a></td>
-									<td class="qna-nm">작성자</td>
-									<td class="qna-date">2021-11-25</td>
-								</tr>
-								<tr>
-									<td class="qna-no">4</td>
-									<td class="mgb20-txt"><i class="fas fa-lock-open"></i> <a
-										href="">안녕하세요 이곳은 Q&A 페이지 입니다.</a></td>
-									<td class="qna-nm">작성자</td>
-									<td class="qna-date">2021-11-25</td>
-								</tr>
+								<c:choose>
+									<c:when test="${prodQnasList == null}">
+										<tr>
+											<td>
+												<p>
+													<b><span>등록된 글이 없습니다.</span></b>
+												</p>
+											</td>
+										</tr>
+									</c:when>
+									<c:when test="${prodQnasList != null}">
+										<c:forEach var="qna" items="${prodQnasList}">
+										<c:if test="${qna.product_num eq vo.product_num }">
+											<c:set var="i" value="${i + 1}"/>
+											<tr>
+												<td class="qna-no">${i}</td>
+												<c:choose>
+													<c:when test="${qna.qna_lock eq 0}">
+														<td class="qna-tit-td"><i class="fas fa-lock-open"></i><a
+															href="#">&nbsp;&nbsp;${qna.qna_title}</a></td>
+													</c:when>
+													<c:when test="${qna.qna_lock eq 1}">
+														<td class="qna-tit-td"><i class="fas fa-lock"></i><a
+															href="#">&nbsp;&nbsp;비밀글입니다.</a></td>
+													</c:when>
+												</c:choose>
+												<td class="qna-nm">${qna.user_id}</td>
+												<td class="qna-date"><fmt:formatDate value="${qna.qna_date}" pattern="yyyy.MM.dd"/></td>
+											</tr>
+											</c:if>
+										</c:forEach>
+									</c:when>
+								</c:choose>
 							</tbody>
 						</table>
 						<br>
 						<div class="qna-write">
-							<button type="button" onclick="location.href='${contextPath}/qnaWrite.do'" class="qna-btn"></a>문의하기</button>
+							<button type="button" onclick="location.href='${contextPath}/qnaWrite.do'" class="qna-btn">문의하기</button>
 						</div>
+						<ul id="pagingul"></ul>
 					</div>
 				</div>
 				<!-- 
@@ -463,6 +392,165 @@
 	</section>
 </body>
 
+<script>
+	function color_option(){
+		String[] colorArray = ${vo.product_color}.split(",");
+		
+		//List<String> colorList = new ArrayList<>();
+		for (int i = 0; i < colorArray.length; i++) {
+			//colorList.add(colorArray[i]);
+			var option = $("<option>"+colorArray[i]+"</option>");
+	        $('#color_select').append(option);
+		}
+		
+		/*var option = $("<option>"+changeItem[count]+"</option>");
+        $('#select2').append(option);
+		
+		var myParent = document.body; 
 
+		//Create and append select list 
+		var selectList = document.createElement("select"); 
+
+		selectList.id = "ex_select"; 
+		myParent.appendChild(selectList); 
+
+		//Create and append the options 
+		for (var i = 0; i < colorArray.length; i++) { 
+			var option = document.createElement("option");
+			option.value = colorArray[i];
+			option.text = colorArray[i];
+			selectList.appendChild(option); 
+		}*/
+	}
+	
+	function size_option(){
+		
+	}	
+	
+	
+	
+	
+	/*-------------------------------------------------------------------------------------------------------------------------------*/
+
+	let totalData = ${qna_num}; //총 데이터 수
+	let dataPerPage = 5; //한 페이지에 나타낼 글 수
+	let pageCount = 10; //페이징에 나타낼 페이지 수
+	let globalCurrentPage = 1; //현재 페이지
+	
+	 /*
+	 $.ajax({ // ajax로 데이터 가져오기
+		method: "GET",
+		url: "https://url/data?" + data,
+		dataType: "json",
+		success: function (d) {
+		   //totalData 구하기
+		   totalData = d.data.length;
+	 });
+	 */
+	 
+	 //글 목록 표시 호출 (테이블 생성)
+	 displayData(1, dataPerPage);
+	 
+	 //페이징 표시 호출
+	 paging(totalData, dataPerPage, pageCount, 1);
+	});
+	
+	function paging(totalData, dataPerPage, pageCount, currentPage) {
+		  console.log("currentPage : " + currentPage);
+
+		  totalPage = Math.ceil(totalData / dataPerPage); //총 페이지 수
+		  
+		  if(totalPage<pageCount){
+		    pageCount=totalPage;
+		  }
+		  
+		  let pageGroup = Math.ceil(currentPage / pageCount); // 페이지 그룹
+		  let last = pageGroup * pageCount; //화면에 보여질 마지막 페이지 번호
+		  
+		  if (last > totalPage) {
+		    last = totalPage;
+		  }
+
+		  let first = last - (pageCount - 1); //화면에 보여질 첫번째 페이지 번호
+		  let next = last + 1;
+		  let prev = first - 1;
+
+		  let pageHtml = "";
+
+		  if (prev > 0) {
+		    pageHtml += "<li><a href='#' id='prev'> 이전 </a></li>";
+		  }
+
+		 //페이징 번호 표시 
+		  for (var i = first; i <= last; i++) {
+		    if (currentPage == i) {
+		      pageHtml +=
+		        "<li class='on'><a href='#' id='" + i + "'>" + i + "</a></li>";
+		    } else {
+		      pageHtml += "<li><a href='#' id='" + i + "'>" + i + "</a></li>";
+		    }
+		  }
+
+		  if (last < totalPage) {
+		    pageHtml += "<li><a href='#' id='next'> 다음 </a></li>";
+		  }
+
+		  $("#pagingul").html(pageHtml);
+		  let displayCount = "";
+		  displayCount = "현재 1 - " + totalPage + " 페이지 / " + totalData + "건";
+		  $("#displayCount").text(displayCount);
+
+
+		  //페이징 번호 클릭 이벤트 
+		  $("#pagingul li a").click(function () {
+		    let $id = $(this).attr("id");
+		    selectedPage = $(this).text();
+
+		    if ($id == "next") selectedPage = next;
+		    if ($id == "prev") selectedPage = prev;
+		    
+		    //전역변수에 선택한 페이지 번호를 담는다...
+		    globalCurrentPage = selectedPage;
+		    //페이징 표시 재호출
+		    paging(totalData, dataPerPage, pageCount, selectedPage);
+		    //글 목록 표시 재호출
+		    displayData(selectedPage, dataPerPage);
+		  });
+		}
+	
+	//현재 페이지(currentPage)와 페이지당 글 개수(dataPerPage) 반영
+	function displayData(currentPage, dataPerPage) {
+
+	  let chartHtml = "";
+
+	//Number로 변환하지 않으면 아래에서 +를 할 경우 스트링 결합이 되어버림.. 
+	  currentPage = Number(currentPage);
+	  dataPerPage = Number(dataPerPage);
+	  
+	  for (
+	    var i = (currentPage - 1) * dataPerPage;
+	    i < (currentPage - 1) * dataPerPage + dataPerPage;
+	    i++
+	  ) {
+	    chartHtml +=
+	      "<tr><td>" +
+	      dataList[i].d1 +
+	      "</td><td>" +
+	      dataList[i].d2 +
+	      "</td><td>" +
+	      dataList[i].d3 +
+	      "</td></tr>";
+	  }
+	  $("#dataTableBody").html(chartHtml);
+	}
+	
+	$("#dataPerPage").change(function () {
+	    dataPerPage = $("#dataPerPage").val();
+	    //전역 변수에 담긴 globalCurrent 값을 이용하여 페이지 이동없이 글 표시개수 변경 
+	    paging(totalData, dataPerPage, pageCount, globalCurrentPage);
+	    displayData(globalCurrentPage, dataPerPage);
+	 });
+	
+</script>
 
 <script type="text/javascript" src="resources/js/product.js"></script>

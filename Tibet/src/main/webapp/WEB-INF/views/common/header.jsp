@@ -31,7 +31,7 @@ request.setCharacterEncoding("UTF-8");
 		<ul class="top-menu">
 			<li><a href="${contextPath}/notice.do">SERVICE</a></li>
 			<li><a href="${contextPath}/login.do">LOGIN</a></li>
-			<li><a href="${contextPath}/signup.do">SIGN UP</a></li>
+			<li><a href="${contextPath}/signupForm.do">SIGN UP</a></li>
 			<li><a href="${contextPath}/cart.do"><i
 					class="fas fa-shopping-cart"></i></a></li>
 			<li><button id="open-button">
@@ -43,7 +43,7 @@ request.setCharacterEncoding("UTF-8");
 		</div>
 		<ul class="gnb">
 			<li class="hamburger"><i class="fa fa-bars"></i></li>
-			<li><a href="${contextPath}/new.do">NEW</a>
+			<li><a href="${contextPath}/productlistNew.do">NEW</a>
 				<ul class="sub">
 					<li><a href="${contextPath}/new.do">신상품(5%)</a></li>
 

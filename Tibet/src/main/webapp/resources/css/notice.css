@@ -105,12 +105,28 @@ table{
 
 .service-notice-front th, td{
     padding: 10px;
-    padding-left: 40px;
+    /*padding-left: 40px;*/
     border-bottom: 1px solid #999;
 }
 
-.not-tit{
-    letter-spacing: 20px;
+.not-no{
+	width: 10%;
+}
+
+.not-tit .no-tit-td{
+    width: 55%;
+}
+
+.not-tit-td:hover{
+	text-decoration: underline;
+}
+
+.not-nm{
+	width: 15%;
+}
+
+.not-date{
+	width: 20%;
 }
 
 .service-notice-front{
@@ -124,10 +140,6 @@ table{
 
 .service-notice-front tbody tr .mgb20-txt:hover{
     text-decoration: underline;
-}
-
-.not-no{
-    width: 8%;
 }
 
 .notice .paging{

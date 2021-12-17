@@ -419,7 +419,6 @@
 
 .service-qna-front{
     width: 100%;
-
 }
 
 .service-qna-front tbody .qna-goods{
@@ -431,7 +430,23 @@
 
 
 .qna-no{
-    width: 8%;
+    width: 10%;
+}
+
+.qna_tit .qna-tit-td{
+	width: 55%;
+}
+
+.qna-tit-td:hover{
+	text-decoration: underline;
+}
+
+.qna-nm{
+	width: 10%;
+}
+
+.qna-date{
+	width: 25%;
 }
 
 .service-qna-front{
@@ -453,10 +468,6 @@
 
 .service-qna-content tr:last-child  {
 	border-bottom: 1px solid #999;
-}
-
-.qna-write{
-
 }
 
 .qna-btn{

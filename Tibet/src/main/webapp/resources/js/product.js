@@ -252,3 +252,14 @@ $("#tab-purchaseInfo-a").click(function(event){
 	event.preventDefault();
 	$('html,body').animate({scrollTop:tab4+10}, 1000);
 });
+
+
+
+$(document).ready(function() {
+	var selectTarget = $('.selectboxselect');
+
+	selectTarget.change(function() {
+		var select_name = $(this).children('option:selected').text();
+		$(this).siblings('label').text(select_name);
+	});
+});

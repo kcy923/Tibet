@@ -49,12 +49,6 @@ div{
     color: white;
 }
 
-
-.qna-tit{
-    letter-spacing: 20px;
-}
-
-
 .service-qna{
     padding: 0px 80px;
 }
@@ -82,6 +76,7 @@ div{
 	font-weight: bold;
 	line-height: 1.2;
 }
+
 .service-front-fonter-qna:hover{
     text-decoration: underline;
 }
@@ -145,16 +140,35 @@ table{
 }
 
 
-.service-qna-front tbody .qna-goods{
+/*.service-qna-front tbody .qna-goods{
     width: 8%;
     height: 8%;
     padding-bottom: 0px;
-    padding-top: 30px;
-}
+}*/
 
 
 .qna-no{
-    width: 8%;
+    width: 10%;
+}
+
+.qna-goods{
+	width: 15%;
+}
+
+.qna-tit .qna-tit-td{
+	width: 40%;
+}
+
+.qna-tit-td:hover{
+	text-decoration: underline;
+}
+
+.qna-nm{
+	width: 10%;
+}
+
+.qna-date{
+	width: 15%;
 }
 
 .service-qna-front{

@@ -50,6 +50,35 @@ request.setCharacterEncoding("UTF-8");
 						</tr>
 					</thead>
 					<tbody class="service-qna-content mgb20">
+						<c:choose>
+							<c:when test="${qnasList == null}">
+								<tr>
+									<td>
+										<p>
+											<b><span>등록된 글이 없습니다.</span></b>
+										</p>
+									</td>
+								</tr>
+							</c:when>
+							<c:when test="${qnasList != null}">
+								<c:forEach var="qna" items="${qnasList}" varStatus="qna_num">
+									<tr>
+										<td class="qna-no">${qna.qna_num}</td>
+										<td class="qna-goods"><img src="" alt="" width="90px"></td>
+										<c:choose>											
+											<c:when test="${qna.qna_lock eq 0}">
+												<td class="qna-tit-td"><i class="fas fa-lock-open"></i><a href="#">&nbsp;&nbsp;${qna.qna_title}</a></td>
+											</c:when>
+											<c:when test="${qna.qna_lock eq 1}">
+												<td class="qna-tit-td"><i class="fas fa-lock"></i><a href="#">&nbsp;&nbsp;비밀글입니다.</a></td>
+											</c:when>
+										</c:choose>
+										<td class="qna-nm">${qna.user_id}</td>
+										<td class="qna-date"><fmt:formatDate value="${qna.qna_date}" pattern="yyyy.MM.dd"/></td>
+									</tr>
+								</c:forEach>
+							</c:when>
+						</c:choose>
 						<tr>
 							<td class="qna-no">1</td>
 							<td class="qna-goods"><img src="resources/img/1-1.jpg"

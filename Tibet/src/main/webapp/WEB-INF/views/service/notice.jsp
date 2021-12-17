@@ -42,36 +42,27 @@ request.setCharacterEncoding("UTF-8");
 						</tr>
 					</thead>
 					<tbody class="service-notice-content mgb20">
-						<tr>
-							<td class="not-no">1</td>
-							<td class="mgb20-txt"><a href="">공지사항 글입니다.</a></td>
-							<td class="not-nm">tibet 관리자</td>
-							<td class="not-date">2021-11-26</td>
-						</tr>
-						<tr>
-							<td class="not-no">2</td>
-							<td class="mgb20-txt"><a href="">공지사항 글입니다.</a></td>
-							<td class="not-nm">tibet 관리자</td>
-							<td class="not-date">2021-11-26</td>
-						</tr>
-						<tr>
-							<td class="not-no">3</td>
-							<td class="mgb20-txt"><a href="">공지사항 글입니다.</a></td>
-							<td class="not-nm">tibet 관리자</td>
-							<td class="not-date">2021-11-26</td>
-						</tr>
-						<tr>
-							<td class="not-no">4</td>
-							<td class="mgb20-txt"><a href="">공지사항 글입니다.</a></td>
-							<td class="not-nm">tibet 관리자</td>
-							<td class="not-date">2021-11-26</td>
-						</tr>
-						<tr>
-							<td class="not-no">5</td>
-							<td class="mgb20-txt"><a href="">공지사항 글입니다.</a></td>
-							<td class="not-nm">tibet 관리자</td>
-							<td class="not-date">2021-11-26</td>
-						</tr>
+						<c:choose>
+							<c:when test="${noticesList == null}">
+								<tr>
+									<td>
+										<p>
+											<b><span>등록된 글이 없습니다.</span></b>
+										</p>
+									</td>
+								</tr>
+							</c:when>
+							<c:when test="${noticesList != null}">
+								<c:forEach var="notice" items="${noticesList}" varStatus="notice_num">
+									<tr>
+										<td class="not-no">${notice.notice_num}</td>
+										<td class="not-tit-td"><a href="#">${notice.notice_title}</a></td>   <!-- 공지사항 내용 페이지 만들어야 됨 -->
+										<td class="not-nm">${notice.user_id}</td>
+										<td class="not-date"><fmt:formatDate value="${notice.notice_date}" pattern="yyyy.MM.dd"/></td>
+									</tr>
+								</c:forEach>
+							</c:when>
+						</c:choose>
 					</tbody>
 				</table>
 			</div>

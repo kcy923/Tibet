@@ -11,11 +11,13 @@
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
-	<annotation-driven />
+	<mvc:annotation-driven />
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
-
+	<!-- <resources mapping="/resources/css/**" location="/resources/css/" /> 
+	<resources mapping="/resources/js/**" location="/resources/js/" />  -->
+	
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<!-- 
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -40,6 +42,20 @@
 
 	<context:component-scan base-package="com.myspring.tibet" />
 	
-	
+	<mvc:interceptors>
+	<mvc:interceptor>
+		<mvc:mapping path="/*.do" />
+		<mvc:mapping path="/*/*.do" />
+		<beans:bean
+			class="com.myspring.tibet.common.interceptor.ViewNameInterceptor" />
+	</mvc:interceptor>
+	</mvc:interceptors>
+
+	<beans:bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="52428800" />
+		<beans:property name="maxInMemorySize" value="1000000" />
+		<beans:property name="defaultEncoding" value="utf-8" />
+	</beans:bean>
 	
 </beans:beans>

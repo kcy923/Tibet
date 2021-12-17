@@ -344,7 +344,7 @@ request.setCharacterEncoding("UTF-8");
 					<a href="${contextPath}/orderList.do" class="font-777">주문내역</a>
 				</div>
 				<div class="mypage-front-fonter-memModify">
-					<a href="" >회원정보</a>
+					<a href="${contextPath}/memModify.do" class="font-777">회원정보</a>
 				</div>
 				<div class="mypage-front-fonter-delivery">
 					<a href="" class="font-777">배송조회</a>
