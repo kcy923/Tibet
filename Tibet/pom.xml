@@ -30,6 +30,7 @@
 			<artifactId>tiles-servlet</artifactId>
 			<version>2.2.2</version>
 		</dependency>
+<<<<<<< HEAD
 
 		<!-- 마이바티스 -->
 		<dependency>
@@ -76,6 +77,9 @@
 			<version>1.4</version>
 		</dependency>
 
+=======
+		
+>>>>>>> 389120975c33ed21224ab2d351abec41037e832d
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -86,7 +90,11 @@
 				<exclusion>
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
+<<<<<<< HEAD
 				</exclusion>
+=======
+				 </exclusion>
+>>>>>>> 389120975c33ed21224ab2d351abec41037e832d
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -94,6 +102,7 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
+<<<<<<< HEAD
 		
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -107,11 +116,15 @@
         <artifactId>jquery</artifactId>
         <version>2.2.1</version>
       </dependency>   
+=======
+				
+>>>>>>> 389120975c33ed21224ab2d351abec41037e832d
 		<!-- AspectJ -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
 			<version>${org.aspectj-version}</version>
+<<<<<<< HEAD
 		</dependency>
 		<!-- Validator -->
 	 <dependency>
@@ -123,6 +136,10 @@
 	 	<version>4.2.0.Final</version>
 
 	 </dependency>
+=======
+		</dependency>	
+		
+>>>>>>> 389120975c33ed21224ab2d351abec41037e832d
 		<!-- Logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -172,7 +189,11 @@
 			<artifactId>javax.inject</artifactId>
 			<version>1</version>
 		</dependency>
+<<<<<<< HEAD
 
+=======
+				
+>>>>>>> 389120975c33ed21224ab2d351abec41037e832d
 		<!-- Servlet -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -191,6 +212,7 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
+<<<<<<< HEAD
 
 		<!-- json -->
 		<dependency>
@@ -199,11 +221,14 @@
 			<version>2.4</version>
 			<classifier>jdk15</classifier>
 		</dependency>
+=======
+>>>>>>> 389120975c33ed21224ab2d351abec41037e832d
 	
 		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+<<<<<<< HEAD
 			<version>4.2</version>
 			<scope>test</scope>
 		</dependency>
@@ -213,6 +238,11 @@
 			<version>${org.springframework-version}</version>
 		</dependency>
         
+=======
+			<version>4.7</version>
+			<scope>test</scope>
+		</dependency>        
+>>>>>>> 389120975c33ed21224ab2d351abec41037e832d
 	</dependencies>
     <build>
         <plugins>
