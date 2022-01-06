@@ -9,6 +9,7 @@ public class ProductVO {
 	private String product_num;
 	private String product_name;
 	private int product_price;
+	private int product_sale;
 	private String product_color;
 	private String product_size;
 	private String product_detail;
@@ -47,7 +48,12 @@ public class ProductVO {
 	public void setProduct_price(int product_price) {
 		this.product_price = product_price;
 	}
-	
+	public int getProduct_sale() {
+		return product_sale;
+	}
+	public void setProduct_sale(int product_sale) {
+		this.product_sale = product_sale;
+	}	
 	public String getProduct_color() {
 		return product_color;
 	}

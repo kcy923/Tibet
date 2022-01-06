@@ -20,10 +20,10 @@
 			<div class="favor-head border-btm-black mgb20">장바구니</div>
 			 
 			<div>
-				<table class="cart-table">
+				<table id="cart-table">
 					<thead class="cart-table-head">
 						<tr>
-							<th class="cart-check"><input type="checkbox" name="cartChk" value="selectAll" onclick="selectAll(this, this.form)"/></th>
+							<th class="cart-check"><input type="checkbox" name="cartChk" value="selectAll" onclick="selectAll(this)"/></th>
 							<th class="cart-img">상품이미지</th>
 							<th class="cart-info">상품정보</th>
 							<th class="cart-price">판매가</th>
@@ -79,17 +79,46 @@
 			<div class="cart-middle-box mgt20 mgb100">
 				<div class="cart-middle-priceAll">
 					<input name="total_sum" type="text" size="20" readonly>
-					<span class="mgr5 f15-555" id="middle-price">상품 0원</span> 
+					<div>
+						<div class="mgr5 f15-555">상품&nbsp;<div id="middle-price">0</div>원</div>
+					</div>
 					<span>+</span>
-					<span class="mgr5 mgl5 f15-555">배송비 0원</span>
+					<div>
+						<div class="mgr5 mgl5 f15-555">배송비&nbsp;<div id="middle-delivery">2,500</div>원</div>
+					</div>
 					<span>=</span>
-					<span class="cart-middle-totalPrice mgl20 pdl20 f15-bd-purple">합계</span>
-					<span class="mgl10 f25-bd-purple">30,000원</span>
+					<div>
+						<div class="cart-middle-totalPrice pdl20 f25-bd-purple">합계&nbsp;<div class="f25-bd-purple">0</div>원</div>
+					</div>
+					<!-- <span class="cart-middle-totalPrice mgl20 pdl20 f15-bd-purple">합계</span>
+					<span class="mgl10 f25-bd-purple">30,000원</span> -->
 				</div>
 				<p class="mgt5 mgb0 cart-middle-content">[100,000원 이상 구매 시 무료배송]</p>
 			</div>
 
 			<div class="cart-under-box">
+				<table>
+					<thead class="price-table-head">
+						<tr>
+							<th class="total-product">총 상품금액</th>
+							<th class="total-delivery">총 배송비</th>
+							<th class="total-discount">총 할인금액</th>
+							<th class="total-price">결졔예정금액</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="total-product-td"></td>
+							<td class="total-delivery-td"></td>
+							<td class="total-discount-td"></td>
+							<td class="total-price-td"></td>
+						</tr>
+					</tbody>
+				</table>
+				
+				
+				
+				<!-- 
 				<div class="cart-under-box-inner-left-box">
 					<ul class="cart-under-box-inner-left-ul">
 						<li class="cart-under-box-inner-left-li">
@@ -114,6 +143,7 @@
 					<span class="cart-undex-box-inner-right-box-span mgr10 f15-aaa">총 결제 예상 금액</span>
 					<span class="mgl13 f30-bd-111">0원</span>
 				</div>
+				 -->
 			</div>
 
 			<div class="cart-go-to-check-box">
@@ -144,21 +174,23 @@
 	
 	<script>		
 		/* 전체선택 */
-		function selectAll(selectAll, frm)  {
+		function selectAll(selectAll)  {
 	    	const checkboxes = document.getElementsByName('cartChk');
 			  
 			checkboxes.forEach((checkbox) => {
 				checkbox.checked = selectAll.checked;
 			})
 			
-			var sum = 0;
-			var count = frm.cartChk.length;
-			for(var i=0; i < count; i++ ){
-			    if( frm.cartChk[i].checked == true ){
-			  	  sum += parseInt(frm.cartChk[i].value);
-			    }
+			/*const table = document.getElementById('cart-table');
+			
+			// 합계 계산
+			let sum = 0;
+			for(let i = 0; i < table.rows.length; i++) {
+			  sum += parseInt(table.rows[i].cells[6].innerHTML);
 			}
-			frm.total_sum.value = sum;
+			  
+			// 합계 출력
+			document.getElementsByName('total_sum').innerText = sum;*/
 		}
 		
 		/* 수량 조절 버튼 */
@@ -201,12 +233,23 @@
 		function itemSum(frm){
 		   var sum = 0;
 		   var count = frm.cartChk.length;
+		   
 		   for(var i=0; i < count; i++ ){
 		       if( frm.cartChk[i].checked == true ){
 			    sum += parseInt(frm.cartChk[i].value);
 		       }
 		   }
+		   
 		   frm.total_sum.value = sum;
+		   $("#middle-price").text(sum.toLocaleString());
+		   
+		   var delivery = 2500;
+		   if(sum >= 100000){
+			   delivery = 0;
+			   $("#middle-delivery").text(delivery.toLocaleString());
+		   } else{
+			   $("#middle-delivery").text(delivery.toLocaleString());
+		   }
 		}
 		/*let total = parseInt(document.getElementById('middle-price').value);
 		

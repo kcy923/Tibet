@@ -35,7 +35,7 @@ section {
     text-align: center;
     padding-top: 10px;
     font-size: 30px;
-    font-weight: 500;
+    font-weight: bold;
 }
 
 .mgb20 {
@@ -43,7 +43,7 @@ section {
 }
 
 
-.cart-table{
+#cart-table{
 	height: auto;
 	width: 100%;
 	border-collapse: collapse;
@@ -297,7 +297,9 @@ input[type=number]::-webkit-outer-spin-button {
 
 .pdl20 {
     padding: 20px;
+    display: flex;
 }
+
 .f15-555 {
 	padding: 20px;
     font-size: 15px;
@@ -305,6 +307,7 @@ input[type=number]::-webkit-outer-spin-button {
     color: #555;
     line-height: 1.2;
 	text-align: center;
+	display: flex;
 }
 
 
