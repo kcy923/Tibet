@@ -1,23 +1,34 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" isELIgnored="false"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%
-request.setCharacterEncoding("UTF-8");
-%>
+
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" href="resources/css/reset.css">
 <link rel="stylesheet" href="resources/css/style.css">
 <link rel="stylesheet" href="resources/css/login.css">
+<link rel="stylesheet" href="resources/js/login.js">
 
-<title>Insert title here</title>
+<c:if test='${not empty message }'>
+<script>
+window.onload=function()
+{
+  result();
+}
+
+function result(){
+	alert("아이디나 비밀번호가 틀립니다. 다시 로그인해주세요");
+}
+</script>
+</c:if>
+<title>로그인</title>
+
 </head>
+
 <body>
 	<section>
 		<div class="title">
@@ -29,16 +40,16 @@ request.setCharacterEncoding("UTF-8");
 			<form class="form-signin" method="post">
 				<div class="login-box">
 					<div class="login-id">
-						<input type="text" class="login-text-box" name="id" placeholder="아이디" required>
+						<input type="text" class="login-text-box" name="user_id" placeholder="아이디" required>
 					</div>
 					<div class="login-pw">
-						<input type="password" class="login-text-box" name="password" placeholder="비밀번호" required>
+						<input type="password" class="login-text-box" name="user_pw" placeholder="비밀번호" required>
 						<p class="checks" id="checks">${findpw_checkf}</p>
 					</div>
 					<div class="href">
 						<a href="${contextPath}/findID.do" class="hover">아이디 찾기</a>
 						<a href="${contextPath}/findPW.do" class="hover">비밀번호 찾기</a>
-						<a href="${contextPath}/signup.do" class="hover">회원가입</a>
+						<a href="${contextPath}/signupForm.do" class="hover">회원가입</a>
 					</div>
 					<div class="urls">
 					<div class="kakao">
@@ -55,7 +66,7 @@ request.setCharacterEncoding("UTF-8");
 				<br> <br>
 
 				<div class="login">
-					<button type="submit" class="login-btn">로그인</button>
+					<input type="submit" class="login-btn" value="로그인">
 				</div>
 			</form>
 		</div>

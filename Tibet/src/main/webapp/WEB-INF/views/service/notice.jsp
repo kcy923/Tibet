@@ -54,11 +54,12 @@ request.setCharacterEncoding("UTF-8");
 							</c:when>
 							<c:when test="${noticesList != null}">
 								<c:forEach var="notice" items="${noticesList}" varStatus="notice_num">
+									<c:set var="i" value="${i + 1}"/>
 									<tr>
-										<td class="not-no">${notice.notice_num}</td>
+										<td class="not-no">${i}</td>
 										<td class="not-tit-td"><a href="#">${notice.notice_title}</a></td>   <!-- 공지사항 내용 페이지 만들어야 됨 -->
 										<td class="not-nm">${notice.user_id}</td>
-										<td class="not-date"><fmt:formatDate value="${notice.notice_date}" pattern="yyyy.MM.dd"/></td>
+										<td class="not-date"><fmt:formatDate value="${notice.notice_date}" pattern="yyyy-MM-dd"/></td>
 									</tr>
 								</c:forEach>
 							</c:when>

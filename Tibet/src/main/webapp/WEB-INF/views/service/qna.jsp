@@ -62,8 +62,9 @@ request.setCharacterEncoding("UTF-8");
 							</c:when>
 							<c:when test="${qnasList != null}">
 								<c:forEach var="qna" items="${qnasList}" varStatus="qna_num">
+									<c:set var="i" value="${i + 1}"/>
 									<tr>
-										<td class="qna-no">${qna.qna_num}</td>
+										<td class="qna-no">${i}</td>
 										<td class="qna-goods"><img src="" alt="" width="90px"></td>
 										<c:choose>											
 											<c:when test="${qna.qna_lock eq 0}">

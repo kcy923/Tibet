@@ -21,6 +21,7 @@ request.setCharacterEncoding("UTF-8");
 
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script src="/resources/js/addressapi.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 <title>회원가입</title>
 
@@ -126,21 +127,20 @@ request.setCharacterEncoding("UTF-8");
 				<b>회원가입</b>
 			</h1>
 		</div>
-		<form action="${contextPath}/signup.do" method="post">
+		<form name="signupForm" action="${contextPath}/signup.do" method="post">
 		<div class="info-rect">
 
 			<div class="form-group">
 				<label for="id">아이디</label> <input type="text" class="form-control"
 					id="user_id" name="user_id" placeholder=" "> <label
-					id="id-info">(영문소문자/숫자, 4~16자)</label>
-					<!-- <input type="button"  id="btnOverlapped" value="중복체크" onClick="fn_overlapped()" /> -->
-				<div class="eheck_font" id="pw2_check"></div>
+					id="id-info">(영문 소문자/숫자, 4~12자)</label>
+					<!-- <input type="button" id="btnOverlapped" name="btnOverlapped" value="중복체크" onClick="fn_overlapped()" /> -->
+					<button id="btnOverlapped" name="btnOverlapped" value="1" onClick="fn_overlapped()">중복체크</button>
 			</div>
 			<div class="form-group">
 				<label for="pw">비밀번호</label> <input type="password"
 					class="form-control" id="user_pw" name="user_pw" placeholder=" ">
-				<label id="pwd-info">(영문 대소문자/숫자/특수문자 중 <br>2가지 이상 조합,
-					10자~16자)
+				<label id="pwd-info">(영문 대소문자/숫자, 8자~12자)
 				</label>
 			</div>
 			<!-- <div class="form-group">
@@ -200,27 +200,29 @@ request.setCharacterEncoding("UTF-8");
 				<label>전체 동의</label>
 			</div>
 			<div class="check-child">
-				<input type="checkbox" name="check-Agree" class="normal"> <label>개인정보
-					처리방침 동의</label>
+				<input type="checkbox" name="check-Agree1" class="normal"> <label>개인정보
+					처리방침 동의(필수)</label>
 			</div>
 			<div class="check-child">
-				<input type="checkbox" name="check-Agree" class="normal"> <label>서비스
-					이용약관 동의</label>
+				<input type="checkbox" name="check-Agree2" class="normal"> <label>서비스
+					이용약관 동의(필수)</label>
 			</div>
 			<!-- <div class="check-child">
 				<input type="checkbox" name="user_mailSend" id="user_mailSend" class="normal" value="checkbox_Check()"> <label>마케팅
 					수신 동의</label>
 			</div> -->
 			<div class="check-child">
-				<input type="checkbox" name="user_mailSend" value='1' id="user_mailSend"/><label>마케팅 수신 동의</label>
+				<input type="checkbox" name="user_mailSend" value='1' id="user_mailSend"/> <label>마케팅 수신 동의</label>
 				<input type="hidden" name="user_mailSend" value='0' id="user_mailSend_hidden"/>
 			</div>
 		</div>
 		<div class="cor-button">
-			<button class="correction-btn" type="submit">회원가입</button>
+			<!-- <button type="submit" class="correction-btn" onclick="inputCheck()">회원가입</button> -->
+			<input type="button" class="correction-btn" value="회원가입" onclick="inputCheck()">
 		</div>
 		</form>
 	</section>
+	
 	<script>
 	/* 우편번호 API */
 	function execPostCode() {
@@ -266,6 +268,7 @@ request.setCharacterEncoding("UTF-8");
         }).open();
     }
 	
+	
 	/* 체크박스 전체선택 */
 	function selectAll(selectAll)  {
 		  const checkboxes 
@@ -276,10 +279,125 @@ request.setCharacterEncoding("UTF-8");
 		  })
 		}
 	
+	
 	/* 체크박스 체크 여부 확인 */
 	if(document.getElementById("user_mailSend").checked) {
     	document.getElementById("user_mailSend_hidden").disabled = true;
 	}
+	
+	
+	/* ID 유효성 검사 */
+	function fn_overlapped(){
+	    var _id=$("#user_id").val();
+	    if(_id==''){
+	       alert("ID를 입력하세요");
+	       return;
+	    }
+	    $.ajax({
+	       type:"post",
+	       async:false,  
+	       url:"${contextPath}/overlapped.do",
+	       dataType:"text",
+	       data: {id:_id},
+	       success:function (data,textStatus){
+	          if(data=='false'){
+	              alert("사용할 수 있는 ID입니다.");
+	              $('#btnOverlapped').prop("disabled", true);
+	              $('#_user_id').prop("disabled", true);
+	              $('#user_id').val(_id);
+	          }else{
+	             alert("사용할 수 없는 ID입니다.");
+	          }
+	       },
+	       error:function(data,textStatus){
+	          alert("에러가 발생했습니다.");ㅣ
+	       },
+	       complete:function(data,textStatus){
+	          //alert("작업을완료 했습니다");
+	       }
+	    });  //end ajax 
+	    	    
+	    document.getElementById("btnOverlapped").value = '0';
+	 }
+	
+	
+	/* 빈칸 확인 */
+	function inputCheck() {
+		var form = document.signupForm;
+		if(form.user_id.value == "") {
+			alert("ID를 입력해주세요");
+			form.user_id.focus();
+			return false;
+		} else if (form.btnOverlapped.value == "1") {
+			alert("ID 중복확인을 해주세요.");
+			form.btnOverlapped.focus();
+			return false;
+		} else if (form.user_pw.value == "") {
+			alert("비밀번호를 입력해주세요");
+			form.user_pw.focus();
+			return false;
+		} else if (form.user_name.value == "") {
+			alert("이름을 입력해주세요");
+			form.user_name.focus();
+			return false;
+		} else if (form.user_birth.value == "") {
+			alert("생년월일을 입력해주세요");
+			form.user_birth.focus();
+			return false;
+		} else if (form.user_email.value == "") {
+			alert("이메일을 입력해주세요");
+			form.user_email.focus();
+			return false;
+		} else if (form.user_phone.value == "") {
+			alert("휴대폰 번호를 입력해주세요");
+			form.user_phone.focus();
+			return false;
+		} else if (form.user_gender.value == "") {
+			alert("성별을 입력해주세요");
+			form.user_gender.focus();
+			return false;
+		} else if (form.user_zip.value == "") {
+			alert("주소를 입력해주세요");
+			form.user_zip.focus();
+			return false;
+		} 
+		
+		
+		/* 아이디 정확도 검사 */
+	    var idCheck = /^(?=.*[a-z])(?=.*[0-9]).{4,12}$/;
+	    var get_user_id = document.getElementById("user_id");
+	    
+	 	if(!idCheck.test(get_user_id.value)){
+	 		alert("ID는 영소문자, 숫자 조합으로 4~12자리만 가능합니다.");
+	 		get_user_id.focus();
+	 		return false;
+	 	}
+	 	
+	 	
+	 	/* 비밀번호 정확도 검사 */
+	 	var pwCheck = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,12}$/;
+		    var get_user_pw = document.getElementById("user_pw");
+		    
+		 	if(!pwCheck.test(get_user_pw.value)){
+		 		alert("비밀번호는 영문 대소문자, 숫자 조합으로 8~12자리만 가능합니다.");
+		 		get_user_pw.focus();
+		 		return false;
+		 }
+		 
+		 	
+		/* 필수 체크박스 확인 */
+		if ($("input:checkbox[name=check-Agree1]").is(":checked") == false) {
+			alert('필수 약관에 동의해 주세요.');
+	        return false;
+     	} else if($("input:checkbox[name=check-Agree2]").is(":checked") == false) {
+     		alert('필수 약관에 동의해 주세요.');
+            return false;
+     	}
+		
+		
+		form.submit();
+	}
+	
 	</script>
 </body>
 </html>

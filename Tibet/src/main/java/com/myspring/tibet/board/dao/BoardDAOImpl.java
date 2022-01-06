@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.myspring.tibet.board.vo.NoticeVO;
 import com.myspring.tibet.board.vo.QnaVO;
+import com.myspring.tibet.board.vo.ReviewVO;
 
 @Repository("boardDAO")
 public class BoardDAOImpl implements BoardDAO {
@@ -31,5 +32,16 @@ public class BoardDAOImpl implements BoardDAO {
 	public List selectProdQnasList(String product_num) throws DataAccessException {
 		List<QnaVO> prodQnasList = sqlSession.selectList("mapper.board.selectAllQnasList", product_num);
 		return prodQnasList;
+	}
+	
+	@Override
+	public List selectProdReviewsList(String product_num) throws DataAccessException {
+		List<ReviewVO> prodReviewsList = sqlSession.selectList("mapper.board.selectProdReviewsList", product_num);
+		return prodReviewsList;
+	}
+	
+	@Override
+	public void insertQnaWritePage(QnaVO qnaVO) throws DataAccessException{
+		sqlSession.insert("mapper.board.insertQnaWritePage", qnaVO);
 	}
 }

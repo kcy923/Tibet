@@ -16,10 +16,6 @@ request.setCharacterEncoding("UTF-8");
 <link rel="stylesheet" href="resources/css/reset.css">
 <link rel="stylesheet" href="resources/css/style.css">
 <title>비밀번호 찾기 결과</title>
-<%
-		 Object data = session.getAttribute("findpw");
-		 String findupw = (String)data;
-  		 %>
 <style>
 .title {
 	width: 100%;
@@ -92,12 +88,13 @@ display: inline-block;
 		</div>
 
 		<div class="info-rect">
-			<input type="hidden" name="member_id" value=<%= findupw %>>
-				<p class="check" id="check">
-					고객님의 비밀번호는
-					<%= findupw %>
-					입니다.
-				</p>
+			<input type="hidden" name="member_pw">
+			<c:if test="${check == 0 }">
+				<label class="check" id="check">고객님의 비밀번호는 '${user_pw}' 입니다.</label>
+			</c:if>
+			<c:if test="${check == 1}">
+				<label class="check" id="check">일치하는 정보가 존재하지 않습니다.</label>
+			</c:if>
 		</div>
 		<button id="correction-btn" class="correction-btn" type="submit"
 			onclick="location.href='${contextPath}/login.do'">로그인 페이지로 이동</button>

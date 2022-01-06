@@ -165,16 +165,17 @@
 	height: 100%; /* 높이 초기화 */
 	line-height: normal; /* line-height 초기화 */
 	font-family: inherit; /* 폰트 상속 */
-	padding: .8em .5em; /* 여백과 높이 결정 */
+	padding: .5em .5em; /* 여백과 높이 결정 */
 	border: 0;
 	/*opacity: 0;  숨기기 */
 	/*filter: alpha(opacity = 0); /* IE8 숨기기 */
 	/*-webkit-appearance: none; /* 네이티브 외형 감추기 */
 	/*-moz-appearance: none;*/
 	appearance: none;
+	margin-bottom: 10px;
 }
 
-#ex_select {
+#size_select #color_select{
 	padding: 0 0;
 	padding-left: 10px;
 }
@@ -196,28 +197,85 @@
 	color: #777777;
 }
 
+.count{
+	display: flex;
+	padding: 7px 0px;
+	border-bottom: 1px solid #E1E1E1;
+	line-height: 36px;
+}
+
+.count span{
+	width: 50px;
+	display: table-cell;
+	text-align: left;
+	vertical-align: middle;
+	color: #777777;
+	font-size: 14px;
+}
+
+#plus-btn{
+	margin-left: 30px;
+	height: 35px;
+	width: 35px;
+	background: none;
+	border: none;
+	font-size: 25px;
+	cursor: pointer;
+}
+
+#quantity-input{
+	height: 35px;
+	width: 35px;
+	font-size: 15px;
+	text-align: center;
+	border: none;
+}
+
+#minus-btn{
+	height: 35px;
+	width: 40px;
+	background: none;
+	border: none;
+	font-size: 35px;
+	cursor: pointer;
+	margin-top: -6px;
+}
+
+.total{
+	display: flex;
+	flex-flow: row nowrap;
+    justify-content: space-between;
+    margin-top: 7px;
+}
+
+.total-price{
+	font-size: 24px;
+	font-weight: bold;
+}
+
+#total-products-price{
+	font-size: 24px;
+	font-weight: bold;
+}
+
+.total-products-price{
+	font-size: 24px;
+	font-weight: bold;
+	display: right;
+}
 
 .products-box-detail-allPrice {
 	height: 80px;
 	margin-top: 30px;
 }
 
-.products-box-detail-allPrice-title {
+.products-box-detail-allPrice-title{
 	font-size: 24px;
 	font-weight: bold;
 }
 
 .products-won{
 	text-align: right;
-}
-
-.products-box-detail-allPrice-figure {
-	font-size: 28px;
-	color: red;
-	font-weight: 700;
-	float: right;
-	font-style: italic;
-	margin-right: 70px;
 }
 
 #products-btn{
@@ -242,7 +300,20 @@
 	cursor: pointer;
 }
 
-.cart-btn {
+.cart-btn-yes {
+	width: 45%;
+	height: 60px;
+	font-size: 17px;
+	font-weight: 500;
+	padding: 16px 4px;
+	background-color: white;
+	border: 1px solid #E3E5E8;
+	border-radius: 6px;
+	vertical-align: middle;
+	cursor: pointer;
+}
+
+.cart-btn-no {
 	width: 45%;
 	height: 60px;
 	font-size: 17px;
@@ -380,21 +451,6 @@
 }
 
 
-
-
-
-.qna-tit{
-    letter-spacing: 20px;
-}
-
-.service-qna{
-    padding: 0px 80px;
-}
- 
-.service-qna table{
-	height: 100px;
-}
-
 .mgb10{
     margin-top: 10px;
     margin-bottom: 0px;
@@ -412,22 +468,47 @@
     line-height: 7.5;
 }
 
+.service-qna {
+    padding: 0px 80px;
+}
+ 
+.service-qna table{
+	height: 100px;
+}
+
 .service-qna-front th, td{
     padding: 10px;
     border-bottom: 1px solid #999;
 }
 
-.service-qna-front{
+.service-qna-front {
     width: 100%;
+    text-align: center;
 }
 
-.service-qna-front tbody .qna-goods{
+.service-qna-front tbody {
     width: 8%;
     height: 8%;
     padding-bottom: 0px;
     padding-top: 30px;
 }
 
+.service-qna-front tbody tr .mgb20-txt{
+    text-align: left;
+    margin-left: 5%;
+}
+
+.service-qna-front tbody tr .mgb20-txt:hover{
+    text-decoration: underline;
+}
+
+.service-qna-content tr{
+	border-bottom: 1px dashed #999;
+}
+
+.service-qna-content tr:last-child  {
+	border-bottom: 1px solid #999;
+}
 
 .qna-no{
     width: 10%;
@@ -449,25 +530,66 @@
 	width: 25%;
 }
 
-.service-qna-front{
+.service-review {
+    padding: 0px 80px;
+}
+ 
+.service-review table{
+	height: 100px;
+}
+
+.service-review-front th, td{
+    padding: 10px;
+    border-bottom: 1px solid #999;
+}
+
+.service-review-front {
+    width: 100%;
     text-align: center;
 }
 
-.service-qna-front tbody tr .mgb20-txt{
+.service-review-front tbody {
+    width: 8%;
+    height: 8%;
+    padding-bottom: 0px;
+    padding-top: 30px;
+}
+
+.service-review-front tbody tr .mgb20-txt{
     text-align: left;
     margin-left: 5%;
 }
 
-.service-qna-front tbody tr .mgb20-txt:hover{
+.service-review-front tbody tr .mgb20-txt:hover{
     text-decoration: underline;
 }
 
-.service-qna-content tr{
+.service-review-content tr{
 	border-bottom: 1px dashed #999;
 }
 
-.service-qna-content tr:last-child  {
+.service-review-content tr:last-child  {
 	border-bottom: 1px solid #999;
+}
+
+.review-no{
+    width: 10%;
+}
+
+.review_tit .review-tit-td{
+	width: 55%;
+}
+
+.review-tit-td:hover{
+	text-decoration: underline;
+}
+
+.review-nm{
+	width: 10%;
+}
+
+.review-date{
+	width: 25%;
 }
 
 .qna-btn{
@@ -566,4 +688,11 @@
 .detail-sticky-go-to-top-btn-img {
 	width: 100%;
 	height: 100%;
+}
+
+#arrow_btn{
+	width: 30px;
+    background: none;
+    border: none;
+    cursor: pointer;
 }

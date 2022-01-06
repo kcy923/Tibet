@@ -11,6 +11,8 @@ public class QnaVO {
 	private String qna_content;
 	private Date qna_date;
 	private int qna_lock;
+	private Integer qna_pw;
+	private String qna_img;
 	private String user_id;
 	private String product_num;
 	
@@ -55,5 +57,17 @@ public class QnaVO {
 	}
 	public void setProduct_num(String product_num) {
 		this.product_num = product_num;
+	}
+	public Integer getQna_pw() {
+		return qna_pw;
+	}
+	public void setQna_pw(Integer qna_pw) {
+		this.qna_pw = qna_pw;
+	}
+	public String getQna_img() {
+		return qna_img;
+	}
+	public void setQna_img(String qna_img) {
+		this.qna_img = qna_img;
 	}
 }

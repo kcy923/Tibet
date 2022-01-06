@@ -11,22 +11,30 @@
 	</select>
 	
 	<select id="productDetail" resultType="com.myspring.tibet.product.vo.ProductVO">
-			select product_num , product_name, product_price, product_color, product_size,product_detail,product_thumbnail,product_img1,product_img2,product_img3,main_category_num, main_category_num from product where product_num=#{product_num}
+			<!-- select product_num , product_name, product_price, product_color, product_size,product_detail,product_thumbnail,product_img1,product_img2,product_img3,main_category_num, main_category_num from product where product_num=#{product_num} -->
 			<!-- SELECT * FROM product LEFT JOIN qna ON product.product_num = qna.product_num where product.product_num=#{product.product_num} -->
+			select 
+			product_num , product_name, product_price, 
+			substring_index(product_color,",",1) as color1,
+			substring_index(substring_index(product_color,",",2),",",-1) as color2,
+			substring_index(substring_index(product_color,",",3),",",-1) as color3,
+			substring_index(product_size,",",1) as size1,
+			substring_index(substring_index(product_size,",",2),",",-1) as size2,
+			substring_index(substring_index(product_size,",",3),",",-1) as size3, 
+			product_detail,product_thumbnail,product_img1,product_img2,product_img3,main_category_num, main_category_num 
+			from product where product_num=#{product_num}
 	</select>
 
-	<select id="productListLowprice"
-		resultType="com.myspring.tibet.product.vo.ProductVO">
+	<select id="productListLowprice" resultType="com.myspring.tibet.product.vo.ProductVO">
 			select product_num , product_name, product_price,product_thumbnail,main_category_num, sub_category_num from product ORDER BY product_price
 	</select>
 	
-	<select id="productListHighprice"
-		resultType="com.myspring.tibet.product.vo.ProductVO">
+	<select id="productListHighprice" resultType="com.myspring.tibet.product.vo.ProductVO">
 			select product_num , product_name, product_price,product_thumbnail,main_category_num, sub_category_num from product ORDER BY product_price DESC
 	</select>
 	
-	<select id="productListNew"
-		resultType="com.myspring.tibet.product.vo.ProductVO">
+	<select id="productListNew" resultType="com.myspring.tibet.product.vo.ProductVO">
 			select product_num , product_name, product_price,product_thumbnail,product_date,main_category_num, sub_category_num from product ORDER BY product_date DESC
 	</select>
+	
 </mapper>

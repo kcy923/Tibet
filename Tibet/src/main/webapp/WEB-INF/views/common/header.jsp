@@ -29,14 +29,38 @@ request.setCharacterEncoding("UTF-8");
 <body>
 	<header>
 		<ul class="top-menu">
-			<li><a href="${contextPath}/notice.do">SERVICE</a></li>
-			<li><a href="${contextPath}/login.do">LOGIN</a></li>
-			<li><a href="${contextPath}/signupForm.do">SIGN UP</a></li>
-			<li><a href="${contextPath}/cart.do"><i
-					class="fas fa-shopping-cart"></i></a></li>
+			<!--  로그인시 로그아웃표시 -->
+			<c:choose>
+				<c:when test="${isLogOn==true and not empty memberInfo and memberInfo.user_id !='admin'}">
+					<li><a href="${contextPath}/notice.do">SERVICE</a></li>
+					<li><a href="${contextPath}/logout.do">LOGOUT</a></li>
+					<li><a href="${contextPath}/memModify.do">MYPAGE</a></li>
+					<li><a href="${contextPath}/cart${memberInfo.user_id}.do">CART</a></li>
+
+				</c:when>
+				<c:when test="${isLogOn==true and not empty memberInfo and memberInfo.user_id =='admin' }">
+					<li><a href="${contextPath}/notice.do">SERVICE</a></li>
+					<li><a href="${contextPath}/logout.do">LOGOUT</a></li>
+					<li class="no_line"><a
+						href="${contextPath}/admin/goods/adminMain.do">Manager</a></li>
+				</c:when>
+				<c:otherwise>
+					<li><a href="${contextPath}/notice.do">SERVICE</a></li>
+					<li><a href="${contextPath}/login.do">LOGIN</a></li>
+					<li><a href="${contextPath}/signupForm.do">SIGN UP</a></li>
+				</c:otherwise>
+			</c:choose>
+
+
+
+			<!-- 관리자로 로그인시 관리자표시 -->
+
+
+
 			<li><button id="open-button">
 					<i class="fas fa-search"></i>
 				</button></li>
+
 		</ul>
 		<div id="logo">
 			<a href="${contextPath}/main.do">THE TIBET</a>
@@ -87,7 +111,7 @@ request.setCharacterEncoding("UTF-8");
 		</ul>
 		<div class="drop-box"></div>
 	</header>
-	
+
 	<div class="modal">
 		<div class="modal_body">
 			<h1>SEARCH</h1>
@@ -139,6 +163,6 @@ request.setCharacterEncoding("UTF-8");
 		
 		$('html, body').css({'overflow': 'auto', 'height': '100%'}); //scroll hidden 해제 $('#element').off('scroll touchmove mousewheel'); // 터치무브 및 마우스휠 스크롤 가능
 	</script>
-	
+
 </body>
 </html>

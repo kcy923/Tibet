@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.myspring.tibet.product.dao.ProductDAO;
 import com.myspring.tibet.product.vo.ProductVO;
 
-@Service
+@Service("productService")
 public class ProductServiceImpl implements ProductService{
 	@Inject
 	private ProductDAO productDao;
@@ -38,5 +38,4 @@ public class ProductServiceImpl implements ProductService{
 	public ProductVO productDetail(String product_num) throws Exception {
 		return productDao.productDetail(product_num);
 	}
-	
 }

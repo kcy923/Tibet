@@ -10,4 +10,6 @@ public interface BoardDAO {
 	public List selectAllNoticesList() throws DataAccessException;
 	public List selectAllQnasList() throws DataAccessException;
 	public List selectProdQnasList(String product_num) throws DataAccessException;
+	public List selectProdReviewsList(String product_num) throws DataAccessException;
+	public void insertQnaWritePage(QnaVO qnaVO) throws DataAccessException;
 }

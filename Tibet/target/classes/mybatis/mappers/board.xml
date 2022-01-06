@@ -24,22 +24,48 @@
     <result property="product_num" column="product_num" />
 </resultMap>
 
+<resultMap id="reviewResult" type="reviewVO">
+    <result property="review_num" column="review_num" />
+    <result property="review_title" column="review_title" />
+    <result property="review_img" column="review_img" />
+    <result property="review_content" column="review_content" />
+    <result property="review_usesize" column="review_usesize" />
+    <result property="review_height" column="review_height" />
+    <result property="review_weight" column="review_weight" />
+    <result property="review_date" column="review_date" />
+    <result property="user_id" column="user_id" />
+    <result property="product_num" column="product_num" />
+</resultMap>
+
 
 <select id="selectAllNoticesList" resultMap="noticeResult">
     <![CDATA[
-     	select * from notice 		
+     	select * from notice order by notice_date desc 		
     ]]>
 </select>
 
 <select id="selectAllQnasList" resultMap="qnaResult">
     <![CDATA[
-     	select * from qna 		
+     	select * from qna order by qna_date desc 		
     ]]>
 </select>
 
 <select id="selectProdQnasList" resultMap="qnaResult">
     <![CDATA[
-     	select * from qna where qna.product_num=#{product.product_num}
+     	select * from qna where qna.product_num=#{product.product_num} order by qna_date desc 
+    ]]>
+</select>
+
+<insert id="insertQnaWritePage" parameterType="qnaVO">
+	<![CDATA[
+     	insert into qna(qna_num, qna_title, qna_content, qna_pw, qna_lock, qna_img, user_id, product_num)
+     	values(#{qna_num}, #{qna_title}, #{qna_content}, #{qna_pw}, #{qna_lock}, #{qna_img}, #{user_id}, #{product_num})
+    ]]>
+</insert>
+
+<select id="selectProdReviewsList" resultMap="reviewResult">
+    <![CDATA[
+     	select * from review where review.product_num=#{product.product_num} order by review_date desc
     ]]>
 </select>
 

@@ -2,11 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%	int qnaNo = 1; 
-	int reviewNo = 1;
-%>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
@@ -16,7 +12,12 @@
 </head>
 
 <body>
+	<%
+		//session.getAttribute("isLogOn");
+    	//session.getAttribute("memberInfo");
+    %>
 	<section>
+	<!-- <form name="productForm" action="${contextPath}/cart${memberInfo.user_id}.do" method="post"> -->
 		<!-- 전체 박스 시작 -->
 		<div class="products-detail">
 			<!-- 상단 박스 시작 -->
@@ -48,7 +49,6 @@
 					<div class="products-reserves border-btm-e1e1e1">
 						<!-- 판매량 -->
 						<span class="products-box-detail-soldCount-figure"><fmt:formatNumber value="${vo.product_price * 0.05}" pattern="###,###,###원"/></span>
-						<!-- <span class="products-box-detail-soldCount-figure">적립금 : 1.500원</span> -->
 					</div>
 					<div class="products-box-detail-postInfo border-btm-e1e1e1">
 						<span class="products-box-detail-postInfo-title">배송정보</span> <span
@@ -73,20 +73,12 @@
 						</div>
 						<div class="selectbox">
 							<label for="color_select">-옵션을 선택해주세요-</label>
-							<select id="color_select">					
-								<!-- <option value="필수" selected>-옵션을 선택해주세요-</option>
-								<option value="black">black</option>
-								<option value="white">white</option> -->
-								<option selected>-옵션을 선택해주세요-</option>
-								<c:forEach items="${productDetail}" var="vo">
-									<option><c:out value="${vo.product_color}"/></option>
-								</c:forEach>
+							<select id="color_select">
+								<option value="선택" selected>-옵션을 선택해주세요-</option>
+								<option value="${vo.color1}">${vo.color1}</option>
+								<option value="${vo.color2}">${vo.color2}</option>
+								<option value="${vo.color3}">${vo.color3}</option>
 							</select>
-							<select name="color_select" size="1">
-								<option value="" selected></option>
-								
-							</select>
-
 						</div>
 					</div>
 					<div class="dropdown-option">
@@ -94,13 +86,28 @@
 							<span>size</span>
 						</div>
 						<div class="selectbox">
-							<label for="ex_select">-옵션을 선택해주세요-</label>
-							<select id="ex_select">
-								<option value="필수" selected>-옵션을 선택해주세요-</option>
-								<option value="S">S</option>
-								<option value="M">M</option>
-								<option value="L">L</option>
+							<label for="size_select">-옵션을 선택해주세요-</label>
+							<select id="size_select">
+								<option value="선택" selected>-옵션을 선택해주세요-</option>
+								<option value="${vo.size1}">${vo.size1}</option>
+								<option value="${vo.size2}">${vo.size2}</option>
+								<option value="${vo.size3}">${vo.size3}</option>
 							</select>
+						</div>
+					</div>
+					<div class="count">
+						<span>수량</span>
+						<input type='button' id='plus-btn' onclick='count("plus")' value='+' /> 
+						<!-- <div id='quantity-input'>1</div> -->
+						<input type="text" id="quantity-input" value="1">
+						<input type='button' id='minus-btn' onclick='count("minus")' value='-' />
+					</div>
+					<div class="total">
+						<div>
+						<span class="total-price">Total</span> 
+						</div>
+						<div>
+							<div id="total-products-price"><fmt:formatNumber value="${vo.product_price}" pattern="###,###,###원"/></div>
 						</div>
 					</div>
 					<br><br>
@@ -119,6 +126,18 @@
 							</c:otherwise>
 						</c:choose>
 						<!-- 장바구니 버튼 시작 -->
+						<c:if test="${isLogOn eq true}">
+							<button type="button" class="cart-btn-yes" data-num="${vo.product_num}" data-name="${vo.product_name}" data-thumbnail="${vo.product_thumbnail}" data-price="${vo.product_price}" 
+									onclick="goCart()"> <!-- goCart('${contextPath}/cart${memberInfo.user_id}.do') -->
+								<i class="fas fa-shopping-cart">&nbsp;장바구니</i>
+							</button>
+						</c:if>
+						<c:if test="${isLogOn eq false || isLogOn eq null}">
+							<button type="button" class="cart-btn-no" onclick="goLogin()">
+								<i class="fas fa-shopping-cart">&nbsp;장바구니</i>
+							</button>
+						</c:if>
+						<!-- 
 						<c:choose>
 							<c:when test="${sessionScope.principal != null}">
 								<c:choose>
@@ -142,39 +161,15 @@
 								</button>
 							</c:otherwise>
 						</c:choose>
+						 -->
 						<!-- 장바구니 버튼 끝 -->
 					</div>
-					<!-- 찜 버튼 시작 -->
-					<!-- 
-					<c:choose>
-						<c:when test="${sessionScope.principal != null}">
-							<c:choose>
-								<c:when test="${isFavor eq true }">
-									<button type="button" class="fav-btn"
-										onclick="rmvFavor(${sessionScope.principal.id}, ${prodDto.prodId});">
-										<i class="material-icons" style="color: red;">favorite</i>
-									</button>
-								</c:when>
-								<c:otherwise>
-									<button type="button" class="fav-btn"
-										onclick="addFavor(${sessionScope.principal.id}, ${prodDto.prodId});">
-										<i class="material-icons">favorite_border</i>
-									</button>
-								</c:otherwise>
-							</c:choose>
-						</c:when>
-						<c:otherwise>
-							<button type="button" class="fav-btn" onclick="needLogin();">
-								<i class="material-icons">favorite_border</i>
-							</button>
-						</c:otherwise>
-					</c:choose>
-					 -->
-					<!-- 찜 버튼 끝 -->
 					<!-- 버튼 끝 -->
 				</div>
 			</div>
 			<!-- 상단 박스 끝 -->
+			
+			
 			<!-- 아래 박스 전체 시작-->
 			<div class="wrap-detail-info">
 				<!-- 상품정보/리뷰/Q&A/주문정보 시작 -->
@@ -195,63 +190,86 @@
 				<!-- 상품 상세 설명 이미지/글 시작 -->
 				<!-- 우측 하단 sticky  -->
 				<div class="detail-sticky-go-to-top-btn-box">
-					<a href="#" class="detail-sticky-go-to-top-btn-a"> <img
-						class="detail-sticky-go-to-top-btn-img"
-						src="resources/img/arrowUp.png" />
-					</a>
+					<button type="button" onclick="$('html,body').animate({scrollTop : 0}, 500)" id="arrow_btn">
+						<img class="detail-sticky-go-to-top-btn-img" src="resources/img/arrowUp.png" />
+					</button>
 				</div>
 				<!-- 우측 하단 sticky 끝 -->
+				
+				<!-- 상품 상세 설명 이미지/글 시작 -->
 				<div id="detail-img-text-box">${prodDto.detail}</div>
 				<div class="productDetail-img">
-					<img src="resources/img/t1-1.jpg"/>
-					<img src="resources/img/t2-1.jpg"/>
+					<img src="resources/${vo.product_img1}"/>
+					<img src="resources/${vo.product_img2}"/>
+					<!-- <img src="resources/${vo.product_img3}"/> -->
+					<br><br><br><br><br><br><br><br><br><br>
+					<img src="resources/${vo.product_detail}"/>
 				</div>
 				<!-- 상품 상세 설명 이미지/글 끝 -->
 
 				<!-- 리뷰 시작 -->
 				<div id="detail-review-box">
 					<div class="detail-review-header">
-						리뷰 (${countReview})
+						리뷰
 						<c:if test="${sessionScope.principal != null}">
 							<a
 								href="<%=request.getContextPath()%>/review?cmd=reviewWrite&prodNo=${prodDto.prodId}"
 								class="detail-qna-header-a" id="detail-qna-write">리뷰작성</a>
 						</c:if>
-						<a class="detail-qna-header-a"
-							href="<%=request.getContextPath()%>/review?cmd=reviewAll&prodNo=${prodDto.prodId}">전체보기</a>
 					</div>
-					<div class="detail-qna-body">
-						<c:if test="${reviewList != null}">
-							<c:forEach var="review" items="${reviewList}">
-								<div class="detail-qna-item">
-									<span class="detail-qna-item-number"><%=reviewNo%></span> <a
-										href="<%=request.getContextPath()%>/review?cmd=openReviewDetail&reviewId=${review.id}"
-										target="_blank"> <span class="detail-qna-item-detail">${review.detail}</span>
-									</a> <span class="detail-qna-item-writerName">
-										${fn:substring(review.name, 0, fn:length(review.name)-1)}* </span> <span
-										class="detail-qna-item-createDate"> <fmt:formatDate
-											value="${review.createDate}" type="date" />
-									</span>
-								</div>
-								<%reviewNo += 1;%>
-							</c:forEach>
-						</c:if>
+					<br>
+					<div class="service-review">
+						<table class="service-review-front">
+							<thead class="service-review-title mgb15">
+								<tr >
+									<th class="review-no">번호</th>
+									<th class="review-tit">제목</th>
+									<th class="review-nm">작성자</th>
+									<th class="review-date">작성일</th>
+								</tr>
+							</thead>
+							<tbody class="service-review-content mgb20">
+								<c:choose>
+									<c:when test="${prodReviewsList == null}">
+										<tr>
+											<td>
+												<p>
+													<b><span>등록된 글이 없습니다.</span></b>
+												</p>
+											</td>
+										</tr>
+									</c:when>
+									<c:when test="${prodReviewsList != null}">
+										<c:forEach var="review" items="${prodReviewsList}">
+										<c:if test="${review.product_num eq vo.product_num }">
+											<c:set var="i" value="${i + 1}"/>
+											<tr>
+												<td class="review-no">${i}</td>
+												<td class="review-tit-td"><a href="#">${review.review_title}</a></td>
+												<td class="review-nm">${review.user_id}</td>
+												<td class="review-date"><fmt:formatDate value="${review.review_date}" pattern="yyyy-MM-dd"/></td>
+											</tr>
+										</c:if>
+										</c:forEach>
+									</c:when>
+								</c:choose>
+							</tbody>
+						</table>
 					</div>
-
 				</div>
 				<!-- 리뷰 끝 -->
 
 				<!-- Q&A 시작 -->
 				<div id="detail-qna-box">
 					<div class="detail-qna-header">
-						Q&amp;A (${countQna})
+						Q&amp;A
 						<c:if test="${sessionScope.principal != null}">
 							<a
 								href="<%=request.getContextPath()%>/qna?cmd=qnawrite&prodNo=${prodDto.prodId}"
 								class="detail-qna-header-a" id="detail-qna-write">문의하기</a>
 						</c:if>
 						<a class="detail-qna-header-a"
-							href="<%=request.getContextPath()%>/qna?cmd=qnaAll&prodNo=${prodDto.prodId}">전체보기</a>
+							href="${contextPath}/qna.do">전체보기</a>
 					</div>
 					<br>
 					<div class="service-qna">
@@ -278,9 +296,9 @@
 									<c:when test="${prodQnasList != null}">
 										<c:forEach var="qna" items="${prodQnasList}">
 										<c:if test="${qna.product_num eq vo.product_num }">
-											<c:set var="i" value="${i + 1}"/>
+											<c:set var="j" value="${j + 1}"/>
 											<tr>
-												<td class="qna-no">${i}</td>
+												<td class="qna-no">${j}</td>
 												<c:choose>
 													<c:when test="${qna.qna_lock eq 0}">
 														<td class="qna-tit-td"><i class="fas fa-lock-open"></i><a
@@ -292,7 +310,7 @@
 													</c:when>
 												</c:choose>
 												<td class="qna-nm">${qna.user_id}</td>
-												<td class="qna-date"><fmt:formatDate value="${qna.qna_date}" pattern="yyyy.MM.dd"/></td>
+												<td class="qna-date"><fmt:formatDate value="${qna.qna_date}" pattern="yyyy-MM-dd"/></td>
 											</tr>
 											</c:if>
 										</c:forEach>
@@ -302,57 +320,10 @@
 						</table>
 						<br>
 						<div class="qna-write">
-							<button type="button" onclick="location.href='${contextPath}/qnaWrite.do'" class="qna-btn">문의하기</button>
+							<button type="button" onclick="location.href='${contextPath}/prodQnaWrite${vo.product_num}.do'" class="qna-btn">문의하기</button>
 						</div>
-						<ul id="pagingul"></ul>
 					</div>
 				</div>
-				<!-- 
-				<div id="detail-qna-box">
-					<div class="detail-qna-header">
-						Q&amp;A (${countQna})
-						<c:if test="${sessionScope.principal != null}">
-							<a
-								href="<%=request.getContextPath()%>/qna?cmd=qnawrite&prodNo=${prodDto.prodId}"
-								class="detail-qna-header-a" id="detail-qna-write">문의하기</a>
-						</c:if>
-						<a class="detail-qna-header-a"
-							href="<%=request.getContextPath()%>/qna?cmd=qnaAll&prodNo=${prodDto.prodId}">전체보기</a>
-					</div>
-					<div class="detail-qna-body">
-						<c:if test="${qnaList != null}">
-							<c:forEach var="qna" items="${qnaList}">
-								<div class="detail-qna-item">
-									<span class="detail-qna-item-number"><%=qnaNo%></span> <a
-										href="<%=request.getContextPath()%>/qna?cmd=openQnaDetail&qnaId=${qna.id}"
-										target="_blank"> <c:choose>
-											<c:when test="${empty qna.password}">
-												<span class="detail-qna-item-detail">${qna.detail}</span>
-											</c:when>
-											<c:otherwise>
-												<span class="detail-qna-item-detail">비밀글입니다.</span>
-											</c:otherwise>
-										</c:choose>
-									</a>
-									<c:choose>
-										<c:when test="${empty qna.password}">
-											<span class="detail-qna-item-writerName">
-												${fn:substring(qna.name, 0, fn:length(qna.name)-1)}* </span>
-										</c:when>
-										<c:otherwise>
-											<span class="detail-qna-item-writerName"> </span>
-										</c:otherwise>
-									</c:choose>
-									<span class="detail-qna-item-createDate"> <fmt:formatDate
-											value="${qna.createDate}" type="date" />
-									</span>
-								</div>
-								<%qnaNo += 1;%>
-							</c:forEach>
-						</c:if>
-					</div>
-				</div>
-				 -->
 				<!-- Q&A 끝 -->
 
 				<!-- 주문정보 시작 -->
@@ -387,170 +358,144 @@
 
 			</div>
 			<!-- 아래 박스 전체 끝 -->
-
+			
+			<!-- 수량 변경 폼 -->
+			<form action="${contextPath}/addCart.do" method="post" class="cart_form">
+				<input type="hidden" name="product_num" class="cart_product_num">
+				<input type="hidden" name="product_name" class="cart_product_name">
+				<input type="hidden" name="product_thumbnail" class="cart_product_thumbnail">
+				<input type="hidden" name="product_price" class="cart_product_price">
+				<input type="hidden" name="product_color" class="cart_product_color">
+				<input type="hidden" name="product_size" class="cart_product_size">
+				<input type="hidden" name="product_count" class="cart_product_count">
+				<input type="hidden" name="user_id" value="${memberInfo.user_id}">
+			</form>	
+			
 		</div>
+		<!-- </form> -->
 	</section>
-</body>
-
+	
 <script>
-	function color_option(){
-		String[] colorArray = ${vo.product_color}.split(",");
-		
-		//List<String> colorList = new ArrayList<>();
-		for (int i = 0; i < colorArray.length; i++) {
-			//colorList.add(colorArray[i]);
-			var option = $("<option>"+colorArray[i]+"</option>");
-	        $('#color_select').append(option);
-		}
-		
-		/*var option = $("<option>"+changeItem[count]+"</option>");
-        $('#select2').append(option);
-		
-		var myParent = document.body; 
-
-		//Create and append select list 
-		var selectList = document.createElement("select"); 
-
-		selectList.id = "ex_select"; 
-		myParent.appendChild(selectList); 
-
-		//Create and append the options 
-		for (var i = 0; i < colorArray.length; i++) { 
-			var option = document.createElement("option");
-			option.value = colorArray[i];
-			option.text = colorArray[i];
-			selectList.appendChild(option); 
-		}*/
+	function count(type){
+		  const countElement = document.getElementById('quantity-input');
+		  const totalElement = document.getElementById('total-products-price');
+		  let number = countElement.value;
+		  let total = countElement.innerText;
+		  
+		  if(parseInt(number) > 1){
+			  if(type === 'plus') {				  
+			      number = parseInt(number) + 1;
+			  } else if(type === 'minus')  {
+			      number = parseInt(number) - 1;
+			  }
+		  } else if(parseInt(number) == 1){
+			  if(type === 'plus') {
+				  number = parseInt(number) + 1;
+			  }
+		  }
+		  
+		  countElement.value = number;
+		  
+		  var var_total = parseInt(number) * ${vo.product_price};
+		  totalElement.innerText = var_total.toLocaleString() + "원";
 	}
 	
-	function size_option(){
+	/* 장바구니 이동 버튼 */
+	$(".cart-btn-yes").on("click", function(){
+		let productNum = $(this).data("num");
+		let productName = $(this).data("name");
+		let productThumbnail = $(this).data("thumbnail");
+		let productPrice = $(this).data("price");
+		let productColor = $("#color_select option:selected").val();
+		let productSize = $("#size_select option:selected").val();
+		let productCnt = $(this).parents(".products-detail-box").find("#quantity-input").val();
 		
-	}	
-	
-	
-	
-	
-	/*-------------------------------------------------------------------------------------------------------------------------------*/
-
-	let totalData = ${qna_num}; //총 데이터 수
-	let dataPerPage = 5; //한 페이지에 나타낼 글 수
-	let pageCount = 10; //페이징에 나타낼 페이지 수
-	let globalCurrentPage = 1; //현재 페이지
-	
-	 /*
-	 $.ajax({ // ajax로 데이터 가져오기
-		method: "GET",
-		url: "https://url/data?" + data,
-		dataType: "json",
-		success: function (d) {
-		   //totalData 구하기
-		   totalData = d.data.length;
-	 });
-	 */
-	 
-	 //글 목록 표시 호출 (테이블 생성)
-	 displayData(1, dataPerPage);
-	 
-	 //페이징 표시 호출
-	 paging(totalData, dataPerPage, pageCount, 1);
+		$(".cart_product_num").val(productNum);
+		$(".cart_product_name").val(productName);
+		$(".cart_product_thumbnail").val(productThumbnail);
+		$(".cart_product_price").val(productPrice);
+		$(".cart_product_color").val(productColor);
+		$(".cart_product_size").val(productSize);
+		$(".cart_product_count").val(productCnt);
+		
+		var color = $("#color_select option:selected").val();
+		var size = $("#size_select option:selected").val();
+		
+		if(color=="선택" || size=="선택") {
+		    alert("옵션을 선택해주세요.");
+		    location.reload();
+		} else{
+			var result1 = confirm("장바구니에 담으시겠습니까?");	
+			
+			if(result1 == true){
+				$(".cart_form").submit();
+			} else{
+				location.reload();
+			}
+		}		
 	});
 	
-	function paging(totalData, dataPerPage, pageCount, currentPage) {
-		  console.log("currentPage : " + currentPage);
-
-		  totalPage = Math.ceil(totalData / dataPerPage); //총 페이지 수
-		  
-		  if(totalPage<pageCount){
-		    pageCount=totalPage;
-		  }
-		  
-		  let pageGroup = Math.ceil(currentPage / pageCount); // 페이지 그룹
-		  let last = pageGroup * pageCount; //화면에 보여질 마지막 페이지 번호
-		  
-		  if (last > totalPage) {
-		    last = totalPage;
-		  }
-
-		  let first = last - (pageCount - 1); //화면에 보여질 첫번째 페이지 번호
-		  let next = last + 1;
-		  let prev = first - 1;
-
-		  let pageHtml = "";
-
-		  if (prev > 0) {
-		    pageHtml += "<li><a href='#' id='prev'> 이전 </a></li>";
-		  }
-
-		 //페이징 번호 표시 
-		  for (var i = first; i <= last; i++) {
-		    if (currentPage == i) {
-		      pageHtml +=
-		        "<li class='on'><a href='#' id='" + i + "'>" + i + "</a></li>";
-		    } else {
-		      pageHtml += "<li><a href='#' id='" + i + "'>" + i + "</a></li>";
-		    }
-		  }
-
-		  if (last < totalPage) {
-		    pageHtml += "<li><a href='#' id='next'> 다음 </a></li>";
-		  }
-
-		  $("#pagingul").html(pageHtml);
-		  let displayCount = "";
-		  displayCount = "현재 1 - " + totalPage + " 페이지 / " + totalData + "건";
-		  $("#displayCount").text(displayCount);
-
-
-		  //페이징 번호 클릭 이벤트 
-		  $("#pagingul li a").click(function () {
-		    let $id = $(this).attr("id");
-		    selectedPage = $(this).text();
-
-		    if ($id == "next") selectedPage = next;
-		    if ($id == "prev") selectedPage = prev;
-		    
-		    //전역변수에 선택한 페이지 번호를 담는다...
-		    globalCurrentPage = selectedPage;
-		    //페이징 표시 재호출
-		    paging(totalData, dataPerPage, pageCount, selectedPage);
-		    //글 목록 표시 재호출
-		    displayData(selectedPage, dataPerPage);
-		  });
+	/*function goCart(){
+		var color = $("#color_select option:selected").val();
+		var size = $("#size_select option:selected").val();
+		
+		if(color=="선택" || size=="선택") {
+		    alert("옵션을 선택해주세요.");
+		    location.reload();
+		} else{
+			var result1 = confirm("장바구니에 담으시겠습니까?");	
+			
+			if(result1 == true){
+				//alert("확인");
+				$(".cart-btn").on("click", function(){
+					let productNum = $(this).data("num");
+					let productName = $(this).data("name");
+					let productThumbnail = $(this).data("thumbnail");
+					let productPrice = $(this).data("price");
+					let productColor = $("#color_select option:selected").val();
+					let productSize = $("#size_select option:selected").val();
+					let productCnt = $(this).parents(".products-detail-box").find("#quantity-input").val();
+					
+					$(".cart_product_num").val(productNum);
+					$(".cart_product_name").val(productName);
+					$(".cart_product_thumbnail").val(productThumbnail);
+					$(".cart_product_price").val(productPrice);
+					$(".cart_product_color").val(productColor);
+					$(".cart_product_size").val(productSize);
+					$(".cart_product_count").val(productCnt);
+					
+					$(".cart_form").submit();			
+				});
+				
+				var result2 = confirm("장바구니에 이동하시겠습니까?");
+				
+				if(result2 == true){
+					location.href = "${contextPath}/cart${memberInfo.user_id}.do";
+				} else{
+					location.reload();
+				}
+			} else{
+				alert("취소다");
+				location.reload();
+			}	
 		}
+	}*/
 	
-	//현재 페이지(currentPage)와 페이지당 글 개수(dataPerPage) 반영
-	function displayData(currentPage, dataPerPage) {
-
-	  let chartHtml = "";
-
-	//Number로 변환하지 않으면 아래에서 +를 할 경우 스트링 결합이 되어버림.. 
-	  currentPage = Number(currentPage);
-	  dataPerPage = Number(dataPerPage);
-	  
-	  for (
-	    var i = (currentPage - 1) * dataPerPage;
-	    i < (currentPage - 1) * dataPerPage + dataPerPage;
-	    i++
-	  ) {
-	    chartHtml +=
-	      "<tr><td>" +
-	      dataList[i].d1 +
-	      "</td><td>" +
-	      dataList[i].d2 +
-	      "</td><td>" +
-	      dataList[i].d3 +
-	      "</td></tr>";
-	  }
-	  $("#dataTableBody").html(chartHtml);
+	function goLogin(){
+		var result = confirm("로그인 후 이용 가능합니다.");	
+		
+		if(result){
+			location.href = "${contextPath}/login.do";
+		} else{
+			location.reload();
+		}	
 	}
 	
-	$("#dataPerPage").change(function () {
-	    dataPerPage = $("#dataPerPage").val();
-	    //전역 변수에 담긴 globalCurrent 값을 이용하여 페이지 이동없이 글 표시개수 변경 
-	    paging(totalData, dataPerPage, pageCount, globalCurrentPage);
-	    displayData(globalCurrentPage, dataPerPage);
-	 });
-	
+	/*var msg = '${msg}';
+	var url = '${url}';
+	alert(msg);
+	document.location.href = url;*/
 </script>
 
 <script type="text/javascript" src="resources/js/product.js"></script>
+</body>

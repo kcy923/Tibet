@@ -7,11 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.myspring.tibet.board.service.BoardService;
 import com.myspring.tibet.board.dao.BoardDAO;
 import com.myspring.tibet.board.vo.NoticeVO;
 import com.myspring.tibet.board.vo.QnaVO;
-import com.myspring.tibet.product.vo.ProductVO;
+import com.myspring.tibet.board.vo.ReviewVO;
 
 @Service("boardService")
 @Transactional(propagation = Propagation.REQUIRED)
@@ -35,5 +34,16 @@ public class BoardServiceImpl implements BoardService {
 	public List<QnaVO> listProdQnas(String product_num) throws Exception{
 		List<QnaVO> prodQnasList = boardDAO.selectProdQnasList(product_num);
 		return prodQnasList;
+	}
+	
+	@Override
+	public List<ReviewVO> listProdReviews(String product_num) throws Exception {
+		List<ReviewVO> prodReviewsList = boardDAO.selectProdReviewsList(product_num);
+		return prodReviewsList;
+	}
+	
+	@Override
+	public void insertQnaWritePage(QnaVO qnaVO) throws Exception{
+		boardDAO.insertQnaWritePage(qnaVO);
 	}
 }

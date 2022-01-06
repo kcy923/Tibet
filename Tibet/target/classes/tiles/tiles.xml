@@ -34,8 +34,15 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/service/qna.jsp" />
 	</definition>
+
+	<definition name="/prodQnaWrite" extends="baseLayout">
+		<put-attribute name="title" value="상품 Q&amp;A 작성" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/service/productQnaWrite.jsp" />
+	</definition>
+	
 	<definition name="/qnaWrite" extends="baseLayout">
-		<put-attribute name="title" value="Q&amp;A 작성" />
+		<put-attribute name="title" value="상품 Q&amp;A 작성" />
 		<put-attribute name="body"
 			value="/WEB-INF/views/service/qnaWrite.jsp" />
 	</definition>

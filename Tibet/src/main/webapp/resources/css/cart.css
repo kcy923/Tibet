@@ -43,10 +43,13 @@ section {
 }
 
 
+.cart-table{
+	height: auto;
+	width: 100%;
+	border-collapse: collapse;
+}
 
-
-.cart-table-title-row {
-	display: flex;
+.cart-table-head {
 	height: 60px;
 	justify-content: center;
 	width: 100%;
@@ -58,59 +61,113 @@ section {
 	background-color: #f9f9f9;
 }
 
-
-.cart-table-title-prodInfo {
-	width: 60%;
-	height: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+.cart-table-head tr th{
+	text-align: center;
+    vertical-align: middle;
 }
 
-
-.cart-table-title-price {
-	width: 20%;
-	height: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+.cart-table-body tr{
+	height: 120px;
+	border-bottom: 1px solid #777;
 }
 
-.cart-img-row{
-	display: flex;
-	height: 130px;
-	justify-content: center;
-	width: 100%;
-	align-items: center;
-	font-size: 14px;
-	font-weight: bold;
-	color: #111;
-	line-height: 1.2;
-	border-bottom: 1px solid rgb(238, 238, 238);
+.cart-table-body tr td{
+	text-align: center;
+    vertical-align: middle;  
 }
 
-.cart-img-product {
-	width: 62%;
-	height: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+.cart-check {
+	width: 5%;
 }
 
-
-.cart-img-price {
-	width: 20%;
-	height: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+.cart-img {
+	width: 10%;
 }
 
+.cart-info {
+	width: 25%;
+}
 
+.cart-price {
+	width: 15%;
+}
 
+.cart-count {
+	width: 10%;
+}
 
+.cart-point {
+	width: 15%;
+}
 
+.cart-total {
+	width: 15%;
+}
 
+.cart-delete{
+	width: 5%;
+}
+
+.td-cart-check{
+	width: 5%;
+}
+
+.td-cart-img{
+	width: 10%;
+}
+
+.td-cart-info{
+	width: 25%;
+}
+
+.product-option{
+	color: #A9A9A9;
+}
+
+.td-cart-price{
+	width: 15%;
+}
+
+.td-cart-count{
+	width: 10%;
+}
+
+.td-cart-count input{
+	width: 50px;
+    height: 30px;
+    font-size: 15px;
+    text-align: center;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {  
+   opacity: 1;
+}
+
+#change-btn{
+	width: 40px;
+    height: 25px;
+    background-color: #FFFFFF;
+    border-style: solid;
+    border-width: 1px 1px 1px 1px;
+    border-color: #b8b8b8;
+}
+
+.td-cart-point{
+	width: 15%;
+}
+
+.td-cart-total{
+	width: 15%;
+}
+
+.td-cart-delete{
+	width: 5%;
+}
+
+.td-cart-delete i{
+	cursor: pointer;
+}
 
 
 .cart-middle-content {

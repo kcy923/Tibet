@@ -87,36 +87,30 @@
 			<form action="${contextPath}/resultID.do" name="checks" class="form-signin" method="POST">
 				<div class="info-rect">
 					<div class="control-box">
-						<input type="text" name="name" id="name" class="form-control"
+						<input type="text" name="user_name" id="user_name" class="form-control"
 							placeholder="이름" required>
 					</div>
 					<div>
-						<input type="email" name="email" id="email" class="form-control"
+						<input type="email" name="user_email" id="user_email" class="form-control"
 							placeholder="이메일" required>
 					</div>
 
 				</div>
-				<button id="correction-btn" class="correction-btn" type="submit" onclick="check()">확인</button>
+				<input id="correction-btn" class="correction-btn" type="submit" value="확인" onclick="check()"/>
 			</form>
 		</div>
 	</section>
 	<script>
 	function check() {
-        if (document.getElementById("name").value == "") {
-
+        if (document.getElementById("user_name").value == "") {
+        	alert("이름을 입력해주세요.");
             return false;
-  		}
-        else if (document.getElementById("member_id").value == "") {
-
+  		} else if (document.getElementById("user_email").value == "") {
+        	alert("이메일을 입력해주세요.");
             return false;
-        }
-        else if (document.getElementById("email").value == "") {
-
-            return false;
-        }
-        }
-        else
-  		 document.checks.submit();
+        } else
+        	form.submit();
+	}
 	
 	</script>
 </body>
