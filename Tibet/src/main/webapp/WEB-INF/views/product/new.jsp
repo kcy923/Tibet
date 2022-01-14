@@ -129,6 +129,7 @@ section .SelectMenu {
 
 .items {
 	width: 20%;
+	height: 410px;
 	/* border: solid 1px blue; */
 	margin: 50px 2.5%;
 	float: left;
@@ -160,6 +161,19 @@ section .SelectMenu {
 
 .items .b span {
 	color: #a26f59;
+}
+
+.items .c {
+   font-weight: bold;
+   color: black;
+   margin-top: 5px;
+   text-decoration: line-through;
+   
+}
+.items .d {
+   color: #ff5100;
+   font-weight: bold;
+   margin-top: 5px;
 }
 
 .clear {
@@ -203,10 +217,17 @@ section .SelectMenu {
 				<c:forEach var="list" items="${list}">
 					<li>
 						<ul class="items">
-							<li><a href="${contextPath}/productdetail${list.product_num}">
-							<img src="resources/${list.product_thumbnail}"></a></li>
-							<li class="a"><a href="${contextPath}/productdetail${list.product_num}">${list.product_name}</a></li>
-							<li class="b"><fmt:formatNumber value="${list.product_price}" pattern="###,###,###원"/></li>
+							<li><a
+								href="${contextPath}/productDetail${list.product_num}.do"> <img
+									src="resources/${list.product_thumbnail}"></a></li>
+							<li class="a"><a href="${contextPath}/productDetail${list.product_num}.do">${list.product_name}</a></li>
+							<c:if test="${list.product_sale eq 0}">
+								<li class="b"><fmt:formatNumber value="${list.product_price}" pattern="###,###,###원" /></li>
+							</c:if>
+							<c:if test="${list.product_sale ne 0}">
+								<li class="c"><fmt:formatNumber value="${list.product_price}" pattern="###,###,###원" /></li>
+								<li class="d"><fmt:formatNumber value="${list.product_price - list.product_sale}" pattern="###,###,###원" /></li>
+							</c:if>
 						</ul>
 					</li>
 				</c:forEach>

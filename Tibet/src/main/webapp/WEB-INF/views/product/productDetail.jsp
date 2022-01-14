@@ -17,7 +17,6 @@
     	//session.getAttribute("memberInfo");
     %>
 	<section>
-	<!-- <form name="productForm" action="${contextPath}/cart${memberInfo.user_id}.do" method="post"> -->
 		<!-- 전체 박스 시작 -->
 		<div class="products-detail">
 			<!-- 상단 박스 시작 -->
@@ -43,11 +42,18 @@
 							<span class="products-box-detail-allPrice-title">상품 금액</span> 
 						</div>
 						<div>
-							<span id="products-price"><fmt:formatNumber value="${vo.product_price}" pattern="###,###,###원"/></span>
+							<c:if test="${vo.product_sale eq 0}">
+								<span id="products-price"><fmt:formatNumber value="${vo.product_price}" pattern="###,###,###원"/></span>
+							</c:if>
+							<c:if test="${vo.product_sale ne 0}">
+								<span id="products-sale-span"><fmt:formatNumber value="${vo.product_price}" pattern="###,###,###원"/></span>
+								<div class="product-sale-div"><fmt:formatNumber value="${vo.product_price - vo.product_sale}" pattern="###,###,###원"/></div>
+							</c:if>
 						</div>
 					</div>
 					<div class="products-reserves border-btm-e1e1e1">
 						<!-- 판매량 -->
+						<span>적립금</span>
 						<span class="products-box-detail-soldCount-figure"><fmt:formatNumber value="${vo.product_price * 0.05}" pattern="###,###,###원"/></span>
 					</div>
 					<div class="products-box-detail-postInfo border-btm-e1e1e1">
@@ -59,7 +65,7 @@
 							class="products-box-detail-realInfo-content">The Tibet 내 모든
 							상품은 100% 정품입니다.</span> <span
 							class="products-box-detail-realInfo-popover"
-							onclick="realInfoBox();"> ∨ </span>
+							onclick="realInfoBox();"><i class="fas fa-sort-down"></i></span>
 						<div id="realInfo-box">
 							&lt;The Tibet 정품인증&gt;<br /> The Tibet에서 판매되는 모든 브랜드 상품은 정식제조, <br />
 							정식수입원을 통해 유통되는 100% 정품임을 보증합니다.
@@ -97,10 +103,10 @@
 					</div>
 					<div class="count">
 						<span>수량</span>
-						<input type='button' id='plus-btn' onclick='count("plus")' value='+' /> 
+						<input type='button' id='minus-btn' onclick='count("minus")' value='-' />
 						<!-- <div id='quantity-input'>1</div> -->
 						<input type="text" id="quantity-input" value="1">
-						<input type='button' id='minus-btn' onclick='count("minus")' value='-' />
+						<input type='button' id='plus-btn' onclick='count("plus")' value='+' /> 
 					</div>
 					<div class="total">
 						<div>
@@ -114,21 +120,18 @@
 					
 					<!-- 버튼 시작 -->
 					<div id="products-btn">
-						<c:choose>
-							<c:when test="${sessionScope.principal != null}">
-								<button type="button" class="buy-btn"
-									onclick="location.href='<%=request.getContextPath()%>/user?cmd=directBuy&prodId=${prodDto.prodId}&userId=${sessionScope.principal.id}';">바로
-									구매</button>
-							</c:when>
-							<c:otherwise>
-								<button type="button" class="buy-btn" onclick="needLogin();">바로
-									구매</button>
-							</c:otherwise>
-						</c:choose>
+						<c:if test="${isLogOn eq true}">
+							<button type="button" class="buy-btn-yes" data-num="${vo.product_num}" data-name="${vo.product_name}" data-thumbnail="${vo.product_thumbnail}" data-price="${vo.product_price}" data-sale="${vo.product_sale}"
+									onclick="goOrder()">바로구매
+							</button>
+						</c:if>
+						<c:if test="${isLogOn eq false || isLogOn eq null}">
+							<button type="button" class="buy-btn-no" onclick="goLogin()">바로구매</button>
+						</c:if>
 						<!-- 장바구니 버튼 시작 -->
 						<c:if test="${isLogOn eq true}">
-							<button type="button" class="cart-btn-yes" data-num="${vo.product_num}" data-name="${vo.product_name}" data-thumbnail="${vo.product_thumbnail}" data-price="${vo.product_price}" 
-									onclick="goCart()"> <!-- goCart('${contextPath}/cart${memberInfo.user_id}.do') -->
+							<button type="button" class="cart-btn-yes" data-num="${vo.product_num}" data-name="${vo.product_name}" data-thumbnail="${vo.product_thumbnail}" data-price="${vo.product_price}" data-sale="${vo.product_sale}" 
+									onclick="goCart()">
 								<i class="fas fa-shopping-cart">&nbsp;장바구니</i>
 							</button>
 						</c:if>
@@ -137,31 +140,6 @@
 								<i class="fas fa-shopping-cart">&nbsp;장바구니</i>
 							</button>
 						</c:if>
-						<!-- 
-						<c:choose>
-							<c:when test="${sessionScope.principal != null}">
-								<c:choose>
-									<c:when test="${isCart eq true }">
-										<button type="button" class="cart-btn"
-											onclick="rmvCart(${sessionScope.principal.id}, ${prodDto.prodId});">
-											<i class="fas fa-shopping-cart">&nbsp;장바구니</i>
-										</button>
-									</c:when>
-									<c:otherwise>
-										<button type="button" class="cart-btn"
-											onclick="addCart(${sessionScope.principal.id}, ${prodDto.prodId});">
-											<i class="fas fa-shopping-cart">&nbsp;장바구니</i>
-										</button>
-									</c:otherwise>
-								</c:choose>
-							</c:when>
-							<c:otherwise>
-								<button type="button" class="cart-btn" onclick="needLogin();">
-									<i class="fas fa-shopping-cart">&nbsp;장바구니</i>
-								</button>
-							</c:otherwise>
-						</c:choose>
-						 -->
 						<!-- 장바구니 버튼 끝 -->
 					</div>
 					<!-- 버튼 끝 -->
@@ -330,7 +308,7 @@
 				<div id="detail-purchaseInfo-box">
 					<div class="detail-purchaseInfo-header">
 						주문정보 <span class="products-box-detail-realInfo-popover"
-							onclick="addressInfoBox();"> ∨ </span>
+							onclick="addressInfoBox();"><i class="fas fa-sort-down"></i></span>
 					</div>
 					<div id="addressInfo-box">
 						<b class="bld">[ 배송 정보 ]</b><br />
@@ -359,23 +337,36 @@
 			</div>
 			<!-- 아래 박스 전체 끝 -->
 			
-			<!-- 수량 변경 폼 -->
+			<!-- 장바구니 이동 폼 -->
 			<form action="${contextPath}/addCart.do" method="post" class="cart_form">
 				<input type="hidden" name="product_num" class="cart_product_num">
 				<input type="hidden" name="product_name" class="cart_product_name">
 				<input type="hidden" name="product_thumbnail" class="cart_product_thumbnail">
 				<input type="hidden" name="product_price" class="cart_product_price">
+				<input type="hidden" name="product_sale" class="cart_product_sale">
 				<input type="hidden" name="product_color" class="cart_product_color">
 				<input type="hidden" name="product_size" class="cart_product_size">
 				<input type="hidden" name="product_count" class="cart_product_count">
 				<input type="hidden" name="user_id" value="${memberInfo.user_id}">
-			</form>	
+			</form>
 			
+			<!-- 바로구매 이동 폼 -->
+			<form action="${contextPath}/nowBuy.do" method="post" class="order_form">
+				<input type="hidden" name="product_num" class="cart_product_num">
+				<input type="hidden" name="product_name" class="cart_product_name">
+				<input type="hidden" name="product_thumbnail" class="cart_product_thumbnail">
+				<input type="hidden" name="product_price" class="cart_product_price">
+				<input type="hidden" name="product_sale" class="cart_product_sale">
+				<input type="hidden" name="product_color" class="cart_product_color">
+				<input type="hidden" name="product_size" class="cart_product_size">
+				<input type="hidden" name="product_count" class="cart_product_count">
+				<input type="hidden" name="user_id" value="${memberInfo.user_id}">
+			</form>
 		</div>
-		<!-- </form> -->
 	</section>
 	
 <script>
+	/* 수량 조절 */
 	function count(type){
 		  const countElement = document.getElementById('quantity-input');
 		  const totalElement = document.getElementById('total-products-price');
@@ -400,12 +391,13 @@
 		  totalElement.innerText = var_total.toLocaleString() + "원";
 	}
 	
-	/* 장바구니 이동 버튼 */
-	$(".cart-btn-yes").on("click", function(){
+	/* 바로구매 이동 버튼 */
+	$(".buy-btn-yes").on("click", function(){
 		let productNum = $(this).data("num");
 		let productName = $(this).data("name");
 		let productThumbnail = $(this).data("thumbnail");
 		let productPrice = $(this).data("price");
+		let productSale = $(this).data("sale");
 		let productColor = $("#color_select option:selected").val();
 		let productSize = $("#size_select option:selected").val();
 		let productCnt = $(this).parents(".products-detail-box").find("#quantity-input").val();
@@ -414,6 +406,46 @@
 		$(".cart_product_name").val(productName);
 		$(".cart_product_thumbnail").val(productThumbnail);
 		$(".cart_product_price").val(productPrice);
+		$(".cart_product_sale").val(productSale);
+		$(".cart_product_color").val(productColor);
+		$(".cart_product_size").val(productSize);
+		$(".cart_product_count").val(productCnt);
+		
+		var color = $("#color_select option:selected").val();
+		var size = $("#size_select option:selected").val();
+		
+		if(color=="선택" || size=="선택") {
+		    alert("옵션을 선택해주세요.");
+		    location.reload();
+		} else{
+			/*var result1 = confirm("바로구매로 이동하시겠습니까?");	
+			
+			if(result1 == true){
+				$(".order_form").submit();
+			} else{
+				location.reload();
+			}*/
+			
+			$(".order_form").submit();
+		}		
+	});
+	
+	/* 장바구니 이동 버튼 */
+	$(".cart-btn-yes").on("click", function(){
+		let productNum = $(this).data("num");
+		let productName = $(this).data("name");
+		let productThumbnail = $(this).data("thumbnail");
+		let productPrice = $(this).data("price");
+		let productSale = $(this).data("sale");
+		let productColor = $("#color_select option:selected").val();
+		let productSize = $("#size_select option:selected").val();
+		let productCnt = $(this).parents(".products-detail-box").find("#quantity-input").val();
+		
+		$(".cart_product_num").val(productNum);
+		$(".cart_product_name").val(productName);
+		$(".cart_product_thumbnail").val(productThumbnail);
+		$(".cart_product_price").val(productPrice);
+		$(".cart_product_sale").val(productSale);
 		$(".cart_product_color").val(productColor);
 		$(".cart_product_size").val(productSize);
 		$(".cart_product_count").val(productCnt);
@@ -435,52 +467,7 @@
 		}		
 	});
 	
-	/*function goCart(){
-		var color = $("#color_select option:selected").val();
-		var size = $("#size_select option:selected").val();
-		
-		if(color=="선택" || size=="선택") {
-		    alert("옵션을 선택해주세요.");
-		    location.reload();
-		} else{
-			var result1 = confirm("장바구니에 담으시겠습니까?");	
-			
-			if(result1 == true){
-				//alert("확인");
-				$(".cart-btn").on("click", function(){
-					let productNum = $(this).data("num");
-					let productName = $(this).data("name");
-					let productThumbnail = $(this).data("thumbnail");
-					let productPrice = $(this).data("price");
-					let productColor = $("#color_select option:selected").val();
-					let productSize = $("#size_select option:selected").val();
-					let productCnt = $(this).parents(".products-detail-box").find("#quantity-input").val();
-					
-					$(".cart_product_num").val(productNum);
-					$(".cart_product_name").val(productName);
-					$(".cart_product_thumbnail").val(productThumbnail);
-					$(".cart_product_price").val(productPrice);
-					$(".cart_product_color").val(productColor);
-					$(".cart_product_size").val(productSize);
-					$(".cart_product_count").val(productCnt);
-					
-					$(".cart_form").submit();			
-				});
-				
-				var result2 = confirm("장바구니에 이동하시겠습니까?");
-				
-				if(result2 == true){
-					location.href = "${contextPath}/cart${memberInfo.user_id}.do";
-				} else{
-					location.reload();
-				}
-			} else{
-				alert("취소다");
-				location.reload();
-			}	
-		}
-	}*/
-	
+	/* 로그인 이동 버튼 */  
 	function goLogin(){
 		var result = confirm("로그인 후 이용 가능합니다.");	
 		
@@ -490,11 +477,6 @@
 			location.reload();
 		}	
 	}
-	
-	/*var msg = '${msg}';
-	var url = '${url}';
-	alert(msg);
-	document.location.href = url;*/
 </script>
 
 <script type="text/javascript" src="resources/js/product.js"></script>

@@ -9,6 +9,7 @@
 		<typeAlias type="com.myspring.tibet.board.vo.ReviewVO"  alias="reviewVO" />
 		<typeAlias type="com.myspring.tibet.member.vo.MemberVO"  alias="memberVO" />
 		<typeAlias type="com.myspring.tibet.product.vo.ProductVO" alias="productVO" />
+		<typeAlias type="com.myspring.tibet.cart.vo.CartVO" alias="cartVO" />
 		<typeAlias type="com.myspring.tibet.order.vo.OrderVO" alias="orderVO" />
 	</typeAliases>
 </configuration>

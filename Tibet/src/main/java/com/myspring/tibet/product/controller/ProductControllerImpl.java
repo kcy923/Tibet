@@ -51,7 +51,7 @@ public class ProductControllerImpl implements ProductController{
 	}
 	
 	@Override
-	@RequestMapping("/productdetail{product_num}")
+	@RequestMapping("/productDetail{product_num}.do")
 	public ModelAndView detail(@PathVariable("product_num") String product_num, ModelAndView mav) throws Exception{
 		mav.setViewName("/productDetail");
 		mav.addObject("vo", productService.productDetail(product_num));

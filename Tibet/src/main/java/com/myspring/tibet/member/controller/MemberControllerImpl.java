@@ -47,13 +47,13 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 			
 			mav.setViewName("redirect:/main.do");
 
-			/*String action = (String) session.getAttribute("action"); // 주문도중에 로그인시 주문창으로
-
-			if (action != null && action.equals("/order.do")) { // 오더 컨트롤러 만들고 수정해야됨
-				mav.setViewName("forward:" + action);
-			} else {
-				mav.setViewName("redirect:/main.do");
-			}*/
+//			String action = (String) session.getAttribute("action"); // 주문도중에 로그인시 주문창으로
+//
+//			if (action != null && action.equals("/order.do")) { // 오더 컨트롤러 만들고 수정해야됨
+//				mav.setViewName("forward:" + action);
+//			} else {
+//				mav.setViewName("redirect:/main.do");
+//			}
 
 		} else {
 			String message = "아이디 또는 비밀번호가 틀렸습니다. 다시 로그인 해주세요.";

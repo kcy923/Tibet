@@ -21,6 +21,7 @@ public class MemberVO {
 	private Date user_joinDate;
 	private int user_point;
 	private int user_mailSend;
+	private int coupon_num;
 	
 	public String getUser_id() {
 		return user_id;
@@ -105,6 +106,12 @@ public class MemberVO {
 	}
 	public void setUser_mailSend(int user_mailSend) {
 		this.user_mailSend = user_mailSend;
+	}
+	public int getCoupon_num() {
+		return coupon_num;
+	}
+	public void setCoupon_num(int coupon_num) {
+		this.coupon_num = coupon_num;
 	}
 }
 

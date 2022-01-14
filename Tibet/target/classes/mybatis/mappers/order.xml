@@ -4,25 +4,12 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mappers.order">
-
-	<select id="cartList" resultType="com.myspring.tibet.order.vo.OrderVO">
-		select * from cart where user_id=#{user_id}
-	</select>
 	
-	<insert id="addCart" parameterType="com.myspring.tibet.order.vo.OrderVO">
-		insert into cart value(#{product_num}, #{product_name}, #{product_thumbnail},  #{product_price}, #{product_color}, #{product_size}, #{product_count}, #{user_id})
-	</insert>
-	
-	<update id="modifyCnt" parameterType="com.myspring.tibet.order.vo.OrderVO">
-		update cart set product_count=#{product_count} where user_id=#{user_id} and product_num=#{product_num} and product_color=#{product_color} and product_size=#{product_size}
-	</update>
-	
-	<delete id="deleteCart" parameterType="com.myspring.tibet.order.vo.OrderVO">
-		delete from cart where product_num=#{product_num} and product_color=#{product_color} and product_size=#{product_size}
-	</delete>
-	
-	<select id="checkCart" resultType="int">
-		select count(*) from cart where user_id=#{user_id} and product_num=#{product_num} and product_color=#{product_color} and product_size=#{product_size} and user_id=#{user_id}
+	<select id="selectNowBuy" parameterType="com.myspring.tibet.order.vo.OrderVO">
+		select o.*, c.product_name, p.product_sale, p.product_color, p.product_size, p.product_thumbnail, p.product_count
+		    from tibetdb.product as p
+		    join tibetdb.order as o
+		    on o.product_num = p.product_num
 	</select>
 	
 </mapper>

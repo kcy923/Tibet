@@ -83,6 +83,18 @@
 	font-weight: bold;
 }
 
+#products-sale-span {
+	font-size: 30px;
+	font-weight: bold;
+	text-decoration: line-through;
+}
+
+.product-sale-div {
+	font-size: 30px;
+    font-weight: bold;
+    color: #ff5100;
+}
+
 .border-btm-e1e1e1 {
 	padding: 7px 0px;
 	border-bottom: 1px solid #E1E1E1;
@@ -214,7 +226,6 @@
 }
 
 #plus-btn{
-	margin-left: 30px;
 	height: 35px;
 	width: 35px;
 	background: none;
@@ -232,6 +243,7 @@
 }
 
 #minus-btn{
+	margin-left: 30px;
 	height: 35px;
 	width: 40px;
 	background: none;
@@ -282,7 +294,7 @@
 	justify-content: space-between;
 }
 
-.buy-btn {
+.buy-btn-no, .buy-btn-yes {
 	width: 45%;
 	height: 60px;
 	padding: 16px 4px;
@@ -300,20 +312,7 @@
 	cursor: pointer;
 }
 
-.cart-btn-yes {
-	width: 45%;
-	height: 60px;
-	font-size: 17px;
-	font-weight: 500;
-	padding: 16px 4px;
-	background-color: white;
-	border: 1px solid #E3E5E8;
-	border-radius: 6px;
-	vertical-align: middle;
-	cursor: pointer;
-}
-
-.cart-btn-no {
+.cart-btn-yes, .cart-btn-no {
 	width: 45%;
 	height: 60px;
 	font-size: 17px;

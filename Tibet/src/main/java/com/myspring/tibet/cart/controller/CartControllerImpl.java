@@ -1,4 +1,4 @@
-package com.myspring.tibet.order.controller;
+package com.myspring.tibet.cart.controller;
 
 import java.util.Map;
 
@@ -18,35 +18,25 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.myspring.tibet.cart.service.CartService;
 import com.myspring.tibet.cart.vo.CartVO;
-import com.myspring.tibet.order.service.OrderService;
-import com.myspring.tibet.order.vo.OrderVO;
 
-@Controller("orderController")
-public class OrderControllerImpl implements OrderController {
+@Controller("cartController")
+public class CartControllerImpl implements CartController {
 	@Autowired
 	private CartService cartService;
-	
-//	@Override
-//	@RequestMapping(value="/order{product_num}.do", method = RequestMethod.GET)
-//	public ModelAndView nowBuyList(@RequestParam Map<String, String> nowBuyMap, ModelAndView mav) throws Exception {
-//		mav.setViewName("/nowBuy");
-//		mav.addObject("nowBuyList", cartService.cartNowBuyList(nowBuyMap));
-//		return mav;
-//	}
-	
-	/* 바로구매 */
+
 	@Override
-	@RequestMapping(value="/nowBuy{user_id}.do", method = RequestMethod.GET)
-	public ModelAndView nowBuyList(@PathVariable("user_id") String user_id, ModelAndView mav) throws Exception {
-//		user_id = cartVO.getUser_id();
-		mav.setViewName("/nowBuy");
-		mav.addObject("nowBuyList", cartService.cartNowBuyList(user_id));
+	@RequestMapping(value="/cart{user_id}.do", method = RequestMethod.GET)
+	public ModelAndView cartList(@PathVariable("user_id") String user_id, ModelAndView mav)
+			throws Exception {
+		mav.setViewName("/cart");
+		mav.addObject("cartsList", cartService.cartList(user_id));
 		return mav;
 	}
 	
+	/* 장바구니 추가 */
 	@Override
-	@RequestMapping(value="/nowBuy.do", method = RequestMethod.POST)
-	public ResponseEntity nowBuy(CartVO cartVO, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value="/addCart.do", method = RequestMethod.POST)
+	public ResponseEntity addCart(CartVO cartVO, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		response.setContentType("text/html; charset=UTF-8");
 		request.setCharacterEncoding("utf-8");
 		String message = null;
@@ -61,21 +51,17 @@ public class OrderControllerImpl implements OrderController {
 				cartService.addCart(cartVO);
 				
 				message  = "<script>";
-			    message += " location.href='" +request.getContextPath() + "/nowBuy" + cartVO.getUser_id() + ".do';";
+			    message += " location.href='" +request.getContextPath() + "/cart" + cartVO.getUser_id() + ".do';";
 			    message += " </script>";
 			} else {
 				message  = "<script>";
-			    message += " var result=confirm('동일상품이 장바구니에 있습니다. 장바구니로 이동하시겠습니까?');";
-			    message += " if(result == true){";
-			    message += " location.href='" +request.getContextPath() + "/cart" + cartVO.getUser_id() + ".do';";
-			    message += " } else{";
+			    message +=" alert('이미 담긴 상품입니다.');";
 			    message += " location.href='" +request.getContextPath() + "/productDetail" + cartVO.getProduct_num() + ".do';";
-			    message += " }";
 			    message += " </script>";
 			}    
 		}catch(Exception e) {
 			message  = "<script>";
-		    message += " alert('작업 중 오류가 발생했습니다. 다시 시도해 주세요.');";
+		    message +=" alert('작업 중 오류가 발생했습니다. 다시 시도해 주세요.');";
 		    message += " location.href='" +request.getContextPath() + "/productDetail" + cartVO.getProduct_num() + ".do';";
 		    message += " </script>";
 			e.printStackTrace();
@@ -84,4 +70,19 @@ public class OrderControllerImpl implements OrderController {
 		return resEntity;
 	}
 	
+	/* 장바구니 수량 수정 */
+	@Override
+	@RequestMapping(value="/updateCart.do", method = RequestMethod.POST)
+	public String updateCart(CartVO cartVO) throws Exception {
+		cartService.modifyCount(cartVO);		
+		return "redirect:/cart" + cartVO.getUser_id() + ".do";		
+	}
+	
+	/* 장바구니 삭제 */
+	@Override
+	@RequestMapping(value="/deleteCart.do", method = RequestMethod.POST)
+	public String deleteCart(CartVO cartVO) throws Exception {
+		cartService.deleteCart(cartVO);		
+		return "redirect:/cart" + cartVO.getUser_id() + ".do";	
+	}
 }
