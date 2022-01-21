@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <!DOCTYPE html>
@@ -38,42 +39,76 @@
 						</tr>
 					</thead>
 					<tbody class="order-product-table-body">
-						<c:forEach var="nowBuy" items="${nowBuyList}">
+						<c:forEach var="buy" items="${buyList}">
+							<c:set var="i" value="${i + 1}"/>
 							<tr id="tr">
-								<td class="td-order-product-img"><a href="#"><img src="resources/${nowBuy.product_thumbnail}" style="height:100px;"/></a></td> 
+								<td class="td-order-product-img"><a href="#"><img src="resources/${buy.product_thumbnail}" style="height:100px;"/></a></td> 
 								<td class="td-order-product-info">
-									<div>${nowBuy.product_name}</div>
-									<div class="product-option">[${nowBuy.product_color}, ${nowBuy.product_size}]</div>
+									<div>${buy.product_name}</div>
+									<div class="product-option">[${buy.product_color}, ${buy.product_size}]</div>
 								</td>
-								<c:if test="${nowBuy.product_sale eq 0}">
-									<td class="td-order-product-price"><fmt:formatNumber value="${nowBuy.product_price}" pattern="###,###,###원"/></td>
+								<c:if test="${buy.product_sale eq 0}">
+									<td class="td-order-product-price"><fmt:formatNumber value="${buy.product_price}" pattern="###,###,###원"/></td>
 								</c:if>
-								<c:if test="${nowBuy.product_sale ne 0}">
+								<c:if test="${buy.product_sale ne 0}">
 									<td class="td-order-product-price">
-										<div class="td-order-price-div"><fmt:formatNumber value="${nowBuy.product_price}" pattern="###,###,###원"/></div>
-										<div class="td-order-sale-div"><fmt:formatNumber value="${nowBuy.product_price - nowBuy.product_sale}" pattern="###,###,###원"/></div>
+										<div class="td-order-price-div"><fmt:formatNumber value="${buy.product_price}" pattern="###,###,###원"/></div>
+										<div class="td-order-sale-div"><fmt:formatNumber value="${buy.product_price - buy.product_sale}" pattern="###,###,###원"/></div>
 									</td>
 								</c:if>
 								<td class="td-order-product-count">
-									<div class="table_text_align_center quantity_div">${nowBuy.product_count}</div>
+									<div class="table_text_align_center quantity_div">${buy.product_count}</div>
 								</td>
-								<td class="td-order-product-point"><fmt:formatNumber value="${nowBuy.product_price * 0.05 * nowBuy.product_count}" pattern="###,###,###원"/></td>
-								<td class="td-order-product-total"><fmt:formatNumber value="${(nowBuy.product_price - nowBuy.product_sale) * nowBuy.product_count}" pattern="###,###,###원"/></td>
-							</tr>
+								<td class="td-order-product-point"><fmt:formatNumber value="${buy.product_price * 0.05 * buy.product_count}" pattern="###,###,###원"/></td>
+								<td class="td-order-product-total"><fmt:formatNumber value="${(buy.product_price - buy.product_sale) * buy.product_count}" pattern="###,###,###원"/></td>
+								<td><input type="hidden" id="hidden-price${i}" value="${buy.product_price * buy.product_count}" /></td>
+								<td><input type="hidden" id="hidden-discount${i}" value="${buy.product_sale * buy.product_count}" /></td>
+								<td class="hidden-value-td">
+								<!--<form action="${contextPath}/addOrderList.do" method="post" class="order_form${i}">-->
+									<input type="hidden" name="order_name" class="add_order_name">
+									<input type="hidden" name="order_tel" class="add_order_tel">
+									<input type="hidden" name="order_phone" class="add_order_phone">
+									<input type="hidden" name="order_email" class="add_order_email">
+									<input type="hidden" name="receiver_name" class="add_receiver_name">
+									<input type="hidden" name="receiver_zip" class="add_receiver_zip">
+									<input type="hidden" name="receiver_addr1" class="add_receiver_addr1">
+									<input type="hidden" name="receiver_addr2" class="add_receiver_addr2">
+									<input type="hidden" name="receiver_tel" class="add_receiver_tel">
+									<input type="hidden" name="receiver_phone" class="add_receiver_phone">
+									<input type="hidden" name="receiver_msg" class="add_receiver_msg">
+									<input type="hidden" name="order_state" class="add_order_state" value="결제완료">
+									<input type="hidden" name="order_pay" class="add_order_pay">
+									<input type="hidden" name="product_num" class="add_product_num${i}" value="${buy.product_num}">
+									<input type="hidden" name="product_name" class="add_product_name${i}" value="${buy.product_name}">
+									<input type="hidden" name="product_thumbnail" class="add_product_thumbnail${i}" value="${buy.product_thumbnail}">
+									<input type="hidden" name="product_price" class="add_product_price${i}" value="${buy.product_price}">
+									<input type="hidden" name="product_sale" class="add_product_sale${i}" value="${buy.product_sale}">
+									<input type="hidden" name="product_color" class="add_product_color${i}" value="${buy.product_color}">
+									<input type="hidden" name="product_size" class="add_product_size${i}" value="${buy.product_size}">
+									<input type="hidden" name="product_count" class="add_product_count${i}" value="${buy.product_count}">
+									<input type="hidden" name="user_id" class="add_user_id" value="${memberInfo.user_id}">
+									<input type="hidden" name="index${i}" value="${i}">
+								<!--</form>-->
+								</td>
+							</tr>							
 						</c:forEach>
 					</tbody>
-				</table>			
+				</table>		
 				<div class="order-middle-priceAll">
 					<div>
-						<div class="f15-555">상품&nbsp;<div id="middle-price">0</div>원</div>
+						<div class="f15-555">상품구매금액&nbsp;<div id="middle-price">0</div>원</div>
 					</div>
 					<span>+</span>
 					<div>
 						<div class="f15-555">배송비&nbsp;<div id="middle-delivery">2,500</div>원</div>
 					</div>
+					<span>-</span>
+					<div>
+						<div class="f15-555">상품할인금액&nbsp;<div id="middle-discount">0</div>원</div>
+					</div>
 					<span>=</span>
 					<div>
-						<div class="order-middle-totalPrice pdl20 f25-bd-purple">합계&nbsp;<div class="f25-bd-purple">0</div>원</div>
+						<div class="order-middle-totalPrice pdl20 f25-bd-purple">합계&nbsp;<div class="f25-bd-purple" id="middle-total">0</div>원</div>
 					</div>
 				</div>
 			</div>
@@ -86,7 +121,7 @@
 					<div class="left-section-delivery-info left-section-box">
 						<div class="order-person">
 							<label>주문하시는 분 *</label>
-							<input type="text" id="input-person"/>
+							<input type="text" id="input-order-person"/>
 						</div>
 						<div class="order-address">
 							<label>주소 *</label>
@@ -102,15 +137,15 @@
 						</div>
 						<div class="order-call">
 							<label>일반전화</label>
-							<input type="text" id="input-call" placeholder=" '-'없이 번호만 입력해주세요. "/>
+							<input type="text" id="input-order-call" placeholder=" '-'없이 번호만 입력해주세요. "/>
 						</div>
 						<div class="order-phone">
 							<label>휴대전화 *</label>
-							<input type="text" id="input-phone" placeholder=" '-'없이 번호만 입력해주세요. "/>
+							<input type="text" id="input-order-phone" placeholder=" '-'없이 번호만 입력해주세요. "/>
 						</div>
 						<div class="order-email">
 							<label>이메일 *</label>
-							<input type="text" id="input-email"/>
+							<input type="text" id="input-order-email"/>
 							<p>- 이메일을 통해 주문처리과정을 보내드립니다.</p>
 							<p>- 이메일 주소란에는 반드시 수신가능한 이메일주소를 입력해 주세요.</p>
 						</div>
@@ -122,12 +157,12 @@
 					<div class="left-section-delivery-info left-section-box">
 						<div class="delivery-checkbox">
 							<label>배송지 선택</label>
-							<span><input type="checkbox" name="delivery-checkbox-input" onclick="checkDelivery(this)" checked="checked"/> 주문자 정보와 동일</span>&nbsp;&nbsp;&nbsp;
-							<span><input type="checkbox" name="delivery-checkbox-input" onclick="checkDelivery(this)"/> 새로운 배송지</span>
+							<span><input type="checkbox" id="delivery-same" name="delivery-checkbox-input" onclick="checkDelivery(this); checkInfo();" checked="checked"/> 주문자 정보와 동일</span>&nbsp;&nbsp;&nbsp;
+							<span><input type="checkbox" id="delivery-not-same" name="delivery-checkbox-input" onclick="checkDelivery(this); checkInfo();"/> 새로운 배송지</span>
 						</div>
 						<div class="delivery-person">
 							<label>받으시는 분 *</label>
-							<input type="text" id="input-person"/>
+							<input type="text" id="input-delivery-person"/>
 						</div>
 						<div class="delivery-address">
 							<label>주소 *</label>
@@ -144,15 +179,15 @@
 						</div>
 						<div class="delivery-call">
 							<label>일반전화</label>
-							<input type="text" id="input-call" placeholder=" '-'없이 번호만 입력해주세요. "/>
+							<input type="text" id="input-delivery-call" placeholder=" '-'없이 번호만 입력해주세요. "/>
 						</div>
 						<div class="delivery-phone">
 							<label>휴대전화 *</label>
-							<input type="text" id="input-phone" placeholder=" '-'없이 번호만 입력해주세요. "/>
+							<input type="text" id="input-delivery-phone" placeholder=" '-'없이 번호만 입력해주세요. "/>
 						</div>
 						<div class="delivery-msg">
 							<label>배송메시지</label>
-							<textarea></textarea>
+							<textarea id="delivery-msg-textarea"></textarea>
 						</div>
 					</div>
 				</div>
@@ -191,7 +226,9 @@
 						<div class="point-div">
 							<label>적립금</label>
 							<input type="text" id="input-use-point"/>
-							<div id="usable-point">[ 사용 가능한 적립금 : 2000원 ]</div>
+							<div class="member-point-div">
+								<div>[ 사용 가능한 적립금 :&nbsp;</div><div id="usable-point">0</div><div>원 ]</div>
+							</div>
 						</div>
 						<div class="coupon-div">
 							<label>쿠폰</label>
@@ -202,14 +239,15 @@
 						</div>
 					</div>
 				</div>
+				<input type="hidden" id="hidden-point" value="${memberInfo.user_point}" />
 			
 				<div class="pay-div">
 					<h3 class="f20-bd-333">결제 수단</h3>
 					<div class="pay-section-box">
 						<div class="pay-checkbox">
-							<span><input type="checkbox" id="pay-card" name="pay-checkbox-input" value="1" onclick="checkPay(this); setDisplay();" checked="checked"/> 카드 결제</span>&nbsp;&nbsp;&nbsp;
-							<span><input type="checkbox" id="pay-tongjang" name="pay-checkbox-input" value="2" onclick="checkPay(this); setDisplay();"/> 무통장 입금</span>&nbsp;&nbsp;&nbsp;
-							<span><input type="checkbox" id="pay-phone" name="pay-checkbox-input" value="3" onclick="checkPay(this); setDisplay();"/> 휴대폰 결제</span>
+							<span><input type="checkbox" id="pay-card" name="pay-checkbox-input" value="카드결제" onclick="checkPay(this); setDisplay();" checked="checked"/> 카드 결제</span>&nbsp;&nbsp;&nbsp;
+							<span><input type="checkbox" id="pay-tongjang" name="pay-checkbox-input" value="무통장입금" onclick="checkPay(this); setDisplay();"/> 무통장 입금</span>&nbsp;&nbsp;&nbsp;
+							<span><input type="checkbox" id="pay-phone" name="pay-checkbox-input" value="휴대폰결제" onclick="checkPay(this); setDisplay();"/> 휴대폰 결제</span>
 						</div>
 						<div id="card-div">
 							<i class="fas fa-exclamation-circle"></i> 최소 결제 가능 금액은 결제금액에서 배송비를 제외한 금액입니다.<br><br>
@@ -270,12 +308,18 @@
 					</div>
 				</div>
 			</div>
-			
-			
-			
+
 			<div class="total-price-btn-div">
-				<button class="total-price-btn">결제하기</button>
+				<button type="button" id="total-price-btn" onclick="goOrder();">결제하기</button>
 			</div>
+			
+			<!-- 주문 폼 -->
+			<form action="${contextPath}/addOrderList.do" method="post" class="order_form">
+			
+			</form>
+			
+			<!-- <form action="${contextPath}/addOrderList.do" method="post" class="test_form">
+			</form> -->
 		</div>
 	</section>
 	
@@ -317,14 +361,7 @@
 		    element.checked = true;
 		}
 		
-		
 		/* 체크마다 다른 div 띄우기 */
-		window.onload = function() {
-			$('#card-div').show();
-			$('#tongjang-div').hide();
-			$('#phone-div').hide();
-		};
-		
 		function setDisplay(){
 			if($('input:checkbox[id=pay-card]').is(':checked')){
 				$('#card-div').show(),
@@ -457,16 +494,205 @@
 		}
 		
 		
-		/* 상품 총합계 */
-		function itemSum(){
+		/* 자동 실행 */
+		window.onload = function(){
+			/* 기본 체크박스 설정 */
+			$('#card-div').show();
+			$('#tongjang-div').hide();
+			$('#phone-div').hide();
+			
+			
+			/* 상품 총합계 */
 			const table = document.getElementById('order-product-table');
 			const tbodyRow = table.tBodies[0].rows.length;
-			var sum = 0;
 			
-			for(var i=0; i<tbodyRow; i++){
+			// 상품구매금액
+			var priceSum = 0;
+			for(var i=1; i<tbodyRow+1; i++){
+				var price = parseInt(document.getElementById("hidden-price"+i).value);
+				priceSum += price;
+			}
+			
+			$("#middle-price").text(priceSum.toLocaleString());
+			
+			// 상품할인금액
+			var discountSum = 0;
+			for(var j=1; j<tbodyRow+1; j++){
+				var discount = parseInt(document.getElementById("hidden-discount"+j).value);
+				discountSum += discount;
+			}
+			
+			$("#middle-discount").text(discountSum.toLocaleString());
+			
+			// 배송비
+			var delivery = 2500;
+			if((priceSum-discountSum) >= 100000){
+				delivery = 0;
+				$("#middle-delivery").text(delivery.toLocaleString());
+			} else{
+				$("#middle-delivery").text(delivery.toLocaleString());
+			}
+					
+			// 합계
+			var total = 0;
+			total = priceSum - discountSum + delivery;
+			$("#middle-total").text(total.toLocaleString());
+			
+			// 총 주문 금액(상품구매금액+배송비)
+			bottom_total = priceSum + delivery;
+			document.getElementById('total-order-td').innerText = bottom_total.toLocaleString() + "원";
+			
+			// 총 할인 + 부가결제 금액
+			document.getElementById('total-discount-td').innerText = "- " + discountSum.toLocaleString() + "원";
+			
+			// 총 결제예정 금액
+			document.getElementById('total-price-td').innerText = "= " + total.toLocaleString() + "원";
+			
+			
+			/* 회원 정보 불러오기 */
+			// 주문 정보
+			$('#input-order-person').val('${memberInfo.user_name}');
+			$('#input-order-zipcode').val('${memberInfo.user_zip}');
+			$('#input-order-address1').val('${memberInfo.user_addr1}');
+			$('#input-order-address2').val('${memberInfo.user_addr2}');
+			$('#input-order-phone').val('${memberInfo.user_phone}');
+			$('#input-order-email').val('${memberInfo.user_email}');
 				
+			// 배송 정보
+			$('#input-delivery-person').val('${memberInfo.user_name}');
+			$('#input-delivery-zipcode').val('${memberInfo.user_zip}');
+			$('#input-delivery-address1').val('${memberInfo.user_addr1}');
+			$('#input-delivery-address2').val('${memberInfo.user_addr2}');
+			$('#input-delivery-phone').val('${memberInfo.user_phone}');
+			
+			// 적립금&쿠폰
+			var point = document.getElementById("hidden-point").value;
+			$("#usable-point").text(point.toLocaleString());
+			
+			console.log("test1");
+		}	
+		
+		function checkInfo(){
+			if($('input:checkbox[id=delivery-same]').is(':checked')){
+				$('#input-delivery-person').val('${memberInfo.user_name}');
+				$('#input-delivery-zipcode').val('${memberInfo.user_zip}');
+				$('#input-delivery-address1').val('${memberInfo.user_addr1}');
+				$('#input-delivery-address2').val('${memberInfo.user_addr2}');
+				$('#input-delivery-phone').val('${memberInfo.user_phone}');
+			} else if($('input:checkbox[id=delivery-not-same]').is(':checked')){
+				$('#input-delivery-person').val('');
+				$('#input-delivery-zipcode').val('');
+				$('#input-delivery-address1').val('');
+				$('#input-delivery-address2').val('');
+				$('#input-delivery-phone').val('');
 			}
 		}
+		
+		/* 주문 버튼 */
+		function goOrder(){
+			let form_contents ='';
+			let orderNumber = 0;
+			
+			let orderName = $("#input-order-person").val();
+			let orderTel = $("#input-order-call").val();
+			let orderPhone = $("#input-order-phone").val();
+			let orderEmail = $("#input-order-email").val();
+			let receiverName = $("#input-delivery-person").val();
+			let receiverZip = $("#input-delivery-zipcode").val();
+			let receiverAddr1 = $("#input-delivery-address1").val();
+			let receiverAddr2 = $("#input-delivery-address2").val();
+			let receiverTel = $("#input-delivery-call").val();
+			let receiverPhone = $("#input-delivery-phone").val();
+			let receiverMsg = $("#delivery-msg-textarea").val();
+			let orderState = $(".add_order_state").val();
+			let orderPay = document.getElementsByName('pay-checkbox-input').value;
+			let userId = $(".add_user_id").val();
+			
+			const table = document.getElementById('order-product-table');
+			const tbodyRow = table.tBodies[0].rows.length;
+			
+			for(var i=0; i<tbodyRow; i++){
+				let productNum = $(".add_product_num"+(i+1)).val();
+				let productName = $(".add_product_name"+(i+1)).val();
+				let productThumbnail = $(".add_product_thumbnail"+(i+1)).val();
+				let productPrice = $(".add_product_price"+(i+1)).val();
+				let productSale = $(".add_product_sale"+(i+1)).val();
+				let productColor = $(".add_product_color"+(i+1)).val();
+				let productSize = $(".add_product_size"+(i+1)).val();
+				let productCount = $(".add_product_count"+(i+1)).val();
+				
+				let orderName_input = "<input name='orders[" +i + "].order_name' type='hidden' value='" + orderName + "'>";
+				form_contents += orderName_input;
+				let orderTel_input = "<input name='orders[" + i + "].order_tel' type='hidden' value='" + orderTel + "'>";
+				form_contents += orderTel_input;
+				let orderPhone_input = "<input name='orders[" + i + "].order_phone' type='hidden' value='" + orderPhone + "'>";
+				form_contents += orderPhone_input;
+				let orderEmail_input = "<input name='orders[" + i + "].order_email' type='hidden' value='" + orderEmail + "'>";
+				form_contents += orderEmail_input;
+				let receiverName_input = "<input name='orders[" + i + "].receiver_name' type='hidden' value='" + receiverName + "'>";
+				form_contents += receiverName_input;
+				let receiverZip_input = "<input name='orders[" + i + "].receiver_zip' type='hidden' value='" + receiverZip + "'>";
+				form_contents += receiverZip_input;
+				let receiverAddr1_input = "<input name='orders[" + i + "].receiver_addr1' type='hidden' value='" + receiverAddr1 + "'>";
+				form_contents += receiverAddr1_input;
+				let receiverAddr2_input = "<input name='orders[" + i + "].receiver_addr2' type='hidden' value='" + receiverAddr2 + "'>";
+				form_contents += receiverAddr2_input;
+				let receiverTel_input = "<input name='orders[" + i + "].receiver_tel' type='hidden' value='" + receiverTel + "'>";
+				form_contents += receiverTel_input;
+				let receiverPhone_input = "<input name='orders[" + i + "].receiver_phone' type='hidden' value='" + receiverPhone + "'>";
+				form_contents += receiverPhone_input;
+				let receiverMsg_input = "<input name='orders[" + i + "].receiver_msg' type='hidden' value='" + receiverMsg + "'>";
+				form_contents += receiverMsg_input;
+				let orderState_input = "<input name='orders[" + i + "].order_state' type='hidden' value='" + orderState + "'>";
+				form_contents += orderState_input;
+				let orderPay_input = "<input name='orders[" + i + "].order_pay' type='hidden' value='" + orderPay + "'>";
+				form_contents += orderPay_input;
+				let productNum_input = "<input name='orders[" + i + "].product_num' type='hidden' value='" + productNum + "'>";
+				form_contents += productNum_input;
+				let productName_input = "<input name='orders[" + i + "].product_name' type='hidden' value='" + productName + "'>";
+				form_contents += productName_input;
+				let productThumbnail_input = "<input name='orders[" + i + "].product_thumbnail' type='hidden' value='" + productThumbnail + "'>";
+				form_contents += productThumbnail_input;
+				let productPrice_input = "<input name='orders[" + i + "].product_price' type='hidden' value='" + productPrice + "'>";
+				form_contents += productPrice_input;
+				let productSale_input = "<input name='orders[" + i + "].product_sale' type='hidden' value='" + productSale + "'>";
+				form_contents += productSale_input;
+				let productColor_input = "<input name='orders[" + i + "].product_color' type='hidden' value='" + productColor + "'>";
+				form_contents += productColor_input;
+				let productSize_input = "<input name='orders[" + i + "].product_size' type='hidden' value='" + productSize + "'>";
+				form_contents += productSize_input;
+				let productCount_input = "<input name='orders[" + i + "].product_count' type='hidden' value='" + productCount + "'>";
+				form_contents += productCount_input;
+				let userId_input = "<input name='orders[" + i + "].user_id' type='hidden' value='" + userId + "'>";
+				form_contents += userId_input;			
+			}
+			
+			$(".order_form").html(form_contents);
+			$(".order_form").submit();
+			
+			/*const table = document.getElementById('order-product-table');
+			const tbodyRow = table.tBodies[0].rows.length;
+			
+			for(var i=1; i<tbodyRow + 1; i++){
+				$(".order_form" + i).submit();
+				console.log("test"+i);
+			}*/
+			
+			
+		}
+		
+		/*$("#total-price-btn").on("click", function(){
+			let form_contents = '';
+			let orderNumber = 0;
+			
+			console.log(orderNumber);
+			
+			
+			//$(".order_form").html(form_contents);
+			$(".order_form").submit();
+			
+			//$(".test_form").submit();
+		});*/
 	</script>
 </body>
 </html>

@@ -121,8 +121,8 @@
 					<!-- 버튼 시작 -->
 					<div id="products-btn">
 						<c:if test="${isLogOn eq true}">
-							<button type="button" class="buy-btn-yes" data-num="${vo.product_num}" data-name="${vo.product_name}" data-thumbnail="${vo.product_thumbnail}" data-price="${vo.product_price}" data-sale="${vo.product_sale}"
-									onclick="goOrder()">바로구매
+							<button type="button" class="buy-btn-yes" data-num="${vo.product_num}" data-name="${vo.product_name}" data-thumbnail="${vo.product_thumbnail}" data-price="${vo.product_price}" data-sale="${vo.product_sale}">
+								바로구매
 							</button>
 						</c:if>
 						<c:if test="${isLogOn eq false || isLogOn eq null}">

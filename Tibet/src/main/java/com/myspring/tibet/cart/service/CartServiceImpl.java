@@ -1,7 +1,6 @@
 package com.myspring.tibet.cart.service;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -20,14 +19,15 @@ public class CartServiceImpl implements CartService {
 		return cartDao.cartList(user_id);
 	}
 	
-//	@Override
-//	public List<CartVO> cartNowBuyList(Map nowBuyMap) throws Exception {
-//		return cartDao.cartNowBuyList(nowBuyMap);
-//	}
-	
 	@Override
 	public List<CartVO> cartNowBuyList(String user_id) throws Exception {
 		return cartDao.cartNowBuyList(user_id);
+	}
+	
+	@Override
+	public List<CartVO> cartOrderList(Integer[] cart_num) throws Exception {
+		System.out.println("service = " + cart_num);
+		return cartDao.cartOrderList(cart_num);
 	}
 	
 	@Override

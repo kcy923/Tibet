@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component("cartVO")
 public class CartVO {
+	private Integer cart_num;
 	private String product_num;
 	private String product_name;
 	private String product_thumbnail;
@@ -17,6 +18,12 @@ public class CartVO {
 	private String user_id;
 	private Date cart_date;
 	
+	public Integer getCart_num() {
+		return cart_num;
+	}
+	public void setCart_num(Integer cart_num) {
+		this.cart_num = cart_num;
+	}
 	public String getProduct_num() {
 		return product_num;
 	}

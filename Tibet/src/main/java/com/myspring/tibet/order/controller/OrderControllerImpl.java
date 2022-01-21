@@ -1,6 +1,7 @@
 package com.myspring.tibet.order.controller;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,28 +20,26 @@ import org.springframework.web.servlet.ModelAndView;
 import com.myspring.tibet.cart.service.CartService;
 import com.myspring.tibet.cart.vo.CartVO;
 import com.myspring.tibet.order.service.OrderService;
+import com.myspring.tibet.order.vo.OrderPageVO;
 import com.myspring.tibet.order.vo.OrderVO;
 
 @Controller("orderController")
 public class OrderControllerImpl implements OrderController {
 	@Autowired
 	private CartService cartService;
-	
-//	@Override
-//	@RequestMapping(value="/order{product_num}.do", method = RequestMethod.GET)
-//	public ModelAndView nowBuyList(@RequestParam Map<String, String> nowBuyMap, ModelAndView mav) throws Exception {
-//		mav.setViewName("/nowBuy");
-//		mav.addObject("nowBuyList", cartService.cartNowBuyList(nowBuyMap));
-//		return mav;
-//	}
+	@Autowired
+	private CartVO cartVO;
+	@Autowired
+	private OrderService orderService;
+//	@Autowired
+//	private OrderPageVO orderPage;
 	
 	/* 바로구매 */
 	@Override
 	@RequestMapping(value="/nowBuy{user_id}.do", method = RequestMethod.GET)
 	public ModelAndView nowBuyList(@PathVariable("user_id") String user_id, ModelAndView mav) throws Exception {
-//		user_id = cartVO.getUser_id();
 		mav.setViewName("/nowBuy");
-		mav.addObject("nowBuyList", cartService.cartNowBuyList(user_id));
+		mav.addObject("buyList", cartService.cartNowBuyList(user_id));
 		return mav;
 	}
 	
@@ -83,5 +82,54 @@ public class OrderControllerImpl implements OrderController {
 		resEntity = new ResponseEntity(message, responseHeaders, HttpStatus.OK);
 		return resEntity;
 	}
-	
+
+	@Override
+	@RequestMapping(value="/order{user_id}.do", method = RequestMethod.GET)
+	public ModelAndView order(@PathVariable("user_id") String user_id, @RequestParam(value="hiddenValue") Integer[] cart_num,
+			HttpServletRequest request, ModelAndView mav) throws Exception {
+		System.out.println("controller = " + cart_num);
+		mav.setViewName("/order");
+		mav.addObject("buyList", cartService.cartOrderList(cart_num));
+		return mav;
+	}
+
+	@Override
+	@RequestMapping(value="/addOrderList.do", method = RequestMethod.POST)
+	public ResponseEntity addOrderList(ArrayList<OrderVO> addList, OrderVO orderVO, OrderPageVO orderPage, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		response.setContentType("text/html; charset=UTF-8");
+		request.setCharacterEncoding("utf-8");
+		String message = null;
+		ResponseEntity resEntity = null;
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
+		
+		System.out.println("orderVO : " + orderVO.getProduct_num());
+		System.out.println("ArrayList : " + addList);
+		System.out.println("orders : " + orderPage.getOrders());
+		
+		try {
+			//orderService.addOrderList(addList);
+				
+			message  = "<script>";
+			message += " location.href='" + request.getContextPath() + "/orderResult.do';";
+			message += " </script>";
+		}catch(Exception e) {
+			message  = "<script>";
+		    message += " alert('작업 중 오류가 발생했습니다. 다시 시도해 주세요.');";
+		    message += " location.href='" +request.getContextPath() + "/order" + cartVO.getProduct_num() + ".do';";
+		    message += " </script>";
+			e.printStackTrace();
+		}
+
+		resEntity = new ResponseEntity(message, responseHeaders, HttpStatus.OK);
+		return resEntity;
+	}
+
+	@Override
+	@RequestMapping(value="/orderResult.do", method = RequestMethod.GET)
+	public ModelAndView resultOrder(CartVO cartVO, ModelAndView mav) throws Exception {
+		mav.setViewName("/orderResult");
+		return mav;
+	}
 }

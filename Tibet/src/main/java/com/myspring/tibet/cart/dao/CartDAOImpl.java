@@ -1,7 +1,6 @@
 package com.myspring.tibet.cart.dao;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -22,20 +21,15 @@ public class CartDAOImpl implements CartDAO {
 		return sqlSession.selectList(namespace + ".cartList", user_id);
 	}
 	
-//	@Override
-//	public List<CartVO> cartNowBuyList(Map nowBuyMap) throws Exception {
-//		return sqlSession.selectList(namespace + ".cartNowBuyList", nowBuyMap);
-//	}
-	
-//	@Override
-//	public CartVO cartNowBuyList(String user_id) throws Exception {
-//		CartVO cartVO = (CartVO)sqlSession.selectOne(namespace + ".cartNowBuyList", user_id);
-//		return cartVO;
-//	}
-	
 	@Override
 	public List<CartVO> cartNowBuyList(String user_id) throws Exception {
 		return sqlSession.selectList(namespace + ".cartNowBuyList", user_id);
+	}
+	
+	@Override
+	public List<CartVO> cartOrderList(Integer[] cart_num) throws Exception {
+		System.out.println("dao = " + cart_num);
+		return sqlSession.selectList(namespace + ".cartOrderList", cart_num);
 	}
 	
 	@Override

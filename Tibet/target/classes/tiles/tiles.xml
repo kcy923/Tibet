@@ -262,6 +262,12 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/order/order.jsp" />
 	</definition>
+	
+	<definition name="/orderResult" extends="baseLayout">
+		<put-attribute name="title" value="주문완료" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/order/orderResult.jsp" />
+	</definition>
 
 	<definition name="/orderList" extends="baseLayout">
 		<put-attribute name="title" value="주문내역" />

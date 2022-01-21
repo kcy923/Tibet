@@ -11,5 +11,6 @@
 		<typeAlias type="com.myspring.tibet.product.vo.ProductVO" alias="productVO" />
 		<typeAlias type="com.myspring.tibet.cart.vo.CartVO" alias="cartVO" />
 		<typeAlias type="com.myspring.tibet.order.vo.OrderVO" alias="orderVO" />
+		<typeAlias type="com.myspring.tibet.order.vo.OrderPageVO" alias="orderPageVO" />
 	</typeAliases>
 </configuration>

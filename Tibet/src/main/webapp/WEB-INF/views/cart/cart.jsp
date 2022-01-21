@@ -17,10 +17,9 @@
 <body>
 	<section>		
 		<div class="frame">
-		<form>
 			<div class="favor-head border-btm-black mgb20">장바구니</div>
-			 
-			<div>
+			<form action="${contextPath}/order${memberInfo.user_id}.do" method="get" id="order_form">
+			<div>							<!-- ${memberInfo.user_id} -->
 				<table id="cart-table">
 					<thead class="cart-table-head">
 						<tr>
@@ -40,7 +39,10 @@
 								<c:forEach var="cart" items="${cartsList}">
 									<c:set var="i" value="${i + 1}"/>
 									<tr id="tr">
-										<td class="td-cart-check"><input type="checkbox" onClick="itemSum(this.form);" name="cartChk" value="${cart.product_price * cart.product_count}"/></td>
+										<td class="td-cart-check">
+											<input type="checkbox" onClick="itemSum(this.form);" name="cartChk" value="${cart.product_price * cart.product_count}"/>
+											<input type="checkbox" onClick="itemSum(this.form);" name="cart_num" value="${cart.cart_num}" />
+										</td>
 										<td class="td-cart-img"><a href="#"><img src="resources/${cart.product_thumbnail}" style="height:100px;"/></a></td> 
 										<td class="td-cart-info">
 											<div>${cart.product_name}</div>
@@ -68,6 +70,7 @@
 										<td class="td-cart-delete">
 											<div><i class="fas fa-times" data-num="${cart.product_num}" data-color="${cart.product_color}" data-size="${cart.product_size}" id="delete-btn${i}"></i></div>
 										</td>
+										<td><input type=hidden id="hidden-discount${i}" value="${cart.product_sale * cart.product_count}" /></td>
 									</tr>
 								</c:forEach>
 							</c:when>
@@ -80,7 +83,7 @@
 							</c:otherwise>
 						</c:choose>
 					</tbody>
-				</table>			
+				</table>
 			</div>
 
 			<div class="cart-under-box">
@@ -106,13 +109,15 @@
 			</div>
 
 			<div class="cart-go-to-check-box">
-				<button class="cart-go-to-check-btn mgb100">
-					<a href="${contextPath}/order.do" class="f18-bd-fff">주문하기</a>
+				<!-- <button class="cart-go-to-check-btn mgb100" data-thumbnail="">
+					주문하기
+				</button> -->
+				<button type="submit" class="cart-go-to-check-btn mgb100" onclick="fnGetdata();">
+					<p class="f18-bd-fff">주문하기</p>
 				</button>
+				<input type="hidden" name="hiddenValue" id="hiddenValue" value=""/>
 			</div>
 			</form>
-			
-			<div id='result'></div>
 			
 			<!-- 수량 변경 폼 -->
 			<form action="${contextPath}/updateCart.do" method="post" class="quantity_update_form">
@@ -134,6 +139,9 @@
 	</section>
 	
 	<script>		
+		/* 전체 체크박스 항목 갯수와 선택된 체크박스 항목 갯수 비교 */
+		// https://hianna.tistory.com/433
+		
 		/* 전체선택 */
 		function selectAll(selectAll)  {
 	    	const checkboxes = document.getElementsByName('cartChk');
@@ -180,42 +188,58 @@
 	    });
 		
 		/* 선택한 상품 총합계 */
-		function itemSum(frm){
-		   var sum = 0;
+		function itemSum(frm){			  
+		   var priceSum = 0;
 		   var count = frm.cartChk.length;
 		   
 		   for(var i=1; i < count; i++ ){
-		       if( frm.cartChk[i].checked == true ){
-			    sum += parseInt(frm.cartChk[i].value);
+		       if( frm.cartChk[i].checked == false ){
+		    	   frm.cart_num[i-1].checked = false;
 		       }
 		   }
 		   
-		   $("#middle-price").text(sum.toLocaleString());
-		   document.getElementById('total-product-td').innerText = sum.toLocaleString() + "원";
+		   for(var i=1; i < count; i++ ){
+		       if( frm.cartChk[i].checked == true ){
+		    	   frm.cart_num[i-1].checked = true;
+		    	   priceSum += parseInt(frm.cartChk[i].value);
+		       }
+		   }
+		   
+		   document.getElementById('total-product-td').innerText = priceSum.toLocaleString() + "원";
+		   
+		   var discountSum = 0;
+		   for(var j=1; j<count; j++){
+			   if( frm.cartChk[j].checked == true ){
+				   var discount = parseInt(document.getElementById("hidden-discount"+j).value);
+			   	   discountSum += discount;
+			   }
+		   }
+		   
+		   document.getElementById('total-discount-td').innerText = discountSum.toLocaleString() + "원";
 		   
 		   var delivery = 2500;
-		   if(sum >= 100000){
+		   if((priceSum-discountSum) >= 100000){
 			   delivery = 0;
-			   $("#middle-delivery").text(delivery.toLocaleString());
 			   document.getElementById('total-delivery-td').innerText = "+ " + delivery.toLocaleString() + "원";
 		   } else{
-			   $("#middle-delivery").text(delivery.toLocaleString());
 			   document.getElementById('total-delivery-td').innerText = "+ " + delivery.toLocaleString() + "원";
 		   }
 		   
 		   var total = 0;
-		   total = sum + delivery;
+		   total = priceSum - discountSum + delivery;
 		   document.getElementById('total-price-td').innerText = "= " + total.toLocaleString() + "원";
 		}
 		
-		
-		
-		const table = document.getElementById('cart-table');
-		const totalRowCnt = table.rows.length;
-		result.innerText = '전체 행 개수: ' + totalRowCnt + '\n';
-
-		const tbody = table.tBodies[0].rows.length;
-		result.innerText += 'Tbody 행 개수 : ' + tbody;
+		/* cart_num 배열 */
+		function fnGetdata(){
+	        var obj = $("[name=cart_num]");
+	        var chkArray = new Array(); // 배열 선언
+	 
+	        $('input:checkbox[name=cart_num]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
+	            chkArray.push(this.value);
+	        });
+	        $('#hiddenValue').val(chkArray);	        
+	    }
 	</script>
 </body>
 </html>

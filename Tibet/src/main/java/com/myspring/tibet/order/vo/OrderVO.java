@@ -21,8 +21,16 @@ public class OrderVO {
 	private String receiver_msg;
 	private String order_state;
 	private String order_pay;
-	private String user_id;
 	private String product_num;
+	private String product_name;
+	private String product_thumbnail;
+	private String product_price;
+	private String product_sale;
+	private String product_color;
+	private String product_size;
+	private String product_count;
+	private String user_id;
+	
 	
 	public int getOrder_num() {
 		return order_num;
@@ -114,16 +122,71 @@ public class OrderVO {
 	public void setOrder_pay(String order_pay) {
 		this.order_pay = order_pay;
 	}
+	public String getProduct_num() {
+		return product_num;
+	}
+	public void setProduct_num(String product_num) {
+		this.product_num = product_num;
+	}
+	public String getProduct_name() {
+		return product_name;
+	}
+	public void setProduct_name(String product_name) {
+		this.product_name = product_name;
+	}
+	public String getProduct_thumbnail() {
+		return product_thumbnail;
+	}
+	public void setProduct_thumbnail(String product_thumbnail) {
+		this.product_thumbnail = product_thumbnail;
+	}
+	public String getProduct_price() {
+		return product_price;
+	}
+	public void setProduct_price(String product_price) {
+		this.product_price = product_price;
+	}
+	public String getProduct_sale() {
+		return product_sale;
+	}
+	public void setProduct_sale(String product_sale) {
+		this.product_sale = product_sale;
+	}
+	public String getProduct_color() {
+		return product_color;
+	}
+	public void setProduct_color(String product_color) {
+		this.product_color = product_color;
+	}
+	public String getProduct_size() {
+		return product_size;
+	}
+	public void setProduct_size(String product_size) {
+		this.product_size = product_size;
+	}
+	public String getProduct_count() {
+		return product_count;
+	}
+	public void setProduct_count(String product_count) {
+		this.product_count = product_count;
+	}
 	public String getUser_id() {
 		return user_id;
 	}
 	public void setUser_id(String user_id) {
 		this.user_id = user_id;
 	}
-	public String getProduct_num() {
-		return product_num;
-	}
-	public void setProduct_num(String product_num) {
-		this.product_num = product_num;
+	
+	@Override
+	public String toString() {
+		return "OrderVO [order_num=" + order_num + ", order_date=" + order_date + ", order_name=" + order_name
+				+ ", order_tel=" + order_tel + ", order_phone=" + order_phone + ", order_email=" + order_email
+				+ ", receiver_name=" + receiver_name + ", receiver_zip=" + receiver_zip + ", receiver_addr1="
+				+ receiver_addr1 + ", receiver_addr2=" + receiver_addr2 + ", receiver_tel=" + receiver_tel
+				+ ", receiver_phone=" + receiver_phone + ", receiver_msg=" + receiver_msg + ", order_state="
+				+ order_state + ", order_pay=" + order_pay + ", product_num=" + product_num + ", product_name="
+				+ product_name + ", product_thumbnail=" + product_thumbnail + ", product_price=" + product_price
+				+ ", product_sale=" + product_sale + ", product_color=" + product_color + ", product_size="
+				+ product_size + ", product_count=" + product_count + ", user_id=" + user_id + "]";
 	}
 }

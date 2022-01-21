@@ -9,12 +9,17 @@
 		select * from cart where user_id=#{user_id}
 	</select>
 	
-	<!-- <select id="cartNowBuyList" resultType="com.myspring.tibet.cart.vo.CartVO" parameterType="java.util.Map">
-		select * from cart where user_id=#{user_id} and product_num=#{product_num}
-	</select> -->
-	
 	<select id="cartNowBuyList" resultType="com.myspring.tibet.cart.vo.CartVO" parameterType="String">
-		select * from cart where user_id=#{user_id} order by cart_date desc limit 1;
+		select * from cart where user_id=#{user_id} order by cart_date desc limit 1
+	</select>
+	
+	<select id="cartOrderList" resultType="com.myspring.tibet.cart.vo.CartVO" parameterType="java.util.ArrayList">
+		SELECT * FROM cart
+	    WHERE cart_num IN (
+	        <foreach collection="array" item="item" index="index" separator=",">
+	            ${item}
+	        </foreach>
+	    )
 	</select>
 	
 	<insert id="addCart" parameterType="com.myspring.tibet.cart.vo.CartVO">
