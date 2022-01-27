@@ -80,18 +80,18 @@ request.setCharacterEncoding("UTF-8");
 										<c:choose>						
 											<c:when test="${bList.qna_lock eq 0}">
 												<c:if test="${isLogOn eq true}">
-													<td class="qna-tit-td"><a href="${contextPath}/qnaDetail${bList.qna_num}.do"><i class="fas fa-lock-open"></i>&nbsp;&nbsp;${bList.qna_title}</a></td>
+													<td class="qna-tit-td"><a href="${contextPath}/qnaDetail${bList.qna_num}.do"><i class="fas fa-lock-open"></i>&nbsp;&nbsp;${bList.qna_title}&nbsp;&nbsp; <c:if test="${bList.qna_comment_num ne null}"><i class="far fa-comment-dots"></i></c:if></a></td>
 												</c:if>
 												<c:if test="${isLogOn eq false || isLogOn eq null}">
-													<td class="qna-tit-td"><a onclick="needLogin()"><i class="fas fa-lock-open"></i>&nbsp;&nbsp;${bList.qna_title}</a></td>
+													<td class="qna-tit-td"><a onclick="needLogin()"><i class="fas fa-lock-open"></i>&nbsp;&nbsp;${bList.qna_title}&nbsp;&nbsp;<c:if test="${bList.qna_comment_num ne null}"><i class="far fa-comment-dots"></i></c:if></a></td>
 												</c:if>
 											</c:when>
 											<c:otherwise>
 												<c:if test="${isLogOn eq true}">
-												<td class="qna-tit-td"><a style="cursor:pointer;" onclick="passWord(${bList.qna_pw},'${contextPath}/qnaDetail${bList.qna_num}.do')" ><i class="fas fa-lock"></i>&nbsp;&nbsp;비밀글입니다.</a></td>
+												<td class="qna-tit-td"><a style="cursor:pointer;" onclick="passWord(${bList.qna_pw},'${contextPath}/qnaDetail${bList.qna_num}.do')" ><i class="fas fa-lock"></i>&nbsp;&nbsp;비밀글입니다.&nbsp;&nbsp;<c:if test="${bList.qna_comment_num ne null}"><i class="far fa-comment-dots"></i></c:if></a></td>
 												</c:if>
 												<c:if test="${isLogOn eq false || isLogOn eq null}">
-												<td class="qna-tit-td"><a style="cursor:pointer;" onclick="needLogin()" ><i class="fas fa-lock"></i>&nbsp;&nbsp;비밀글입니다.</a></td>
+												<td class="qna-tit-td"><a style="cursor:pointer;" onclick="needLogin()" ><i class="fas fa-lock"></i>&nbsp;&nbsp;비밀글입니다.&nbsp;&nbsp;<c:if test="${bList.qna_comment_num ne null}"><i class="far fa-comment-dots"></i></c:if></a></td>
 												</c:if>
 											</c:otherwise>
 										</c:choose>

@@ -13,6 +13,8 @@
 			alias="noticeVO" />
 		<typeAlias type="com.myspring.tibet.board.vo.QnaVO"
 			alias="qnaVO" />
+		<typeAlias type="com.myspring.tibet.board.vo.QnaCommentVO"
+			alias="qnacommentVO" />
 		<typeAlias type="com.myspring.tibet.board.vo.ReviewVO"
 			alias="reviewVO" />
 		<typeAlias type="com.myspring.tibet.product.vo.ProductVO"
@@ -27,7 +29,6 @@
 			alias="pageMaker" />
 		<typeAlias type="com.myspring.tibet.product.vo.MainCateVO"
 			alias="mainCateVO" />
-
 	</typeAliases>
 </configuration>
 

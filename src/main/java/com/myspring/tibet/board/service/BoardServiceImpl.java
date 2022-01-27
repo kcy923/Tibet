@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.myspring.tibet.board.dao.BoardDAO;
 import com.myspring.tibet.board.vo.NoticeVO;
+import com.myspring.tibet.board.vo.QnaCommentVO;
 import com.myspring.tibet.board.vo.QnaVO;
 import com.myspring.tibet.board.vo.ReviewVO;
 import com.myspring.tibet.utils.Criteria;
@@ -56,6 +57,11 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public QnaVO qnaDetail(Integer qna_num) throws Exception {
 		return boardDAO.qnaDetail(qna_num);
+	}
+	
+	@Override
+	public QnaCommentVO qnaDetailComment(Integer qna_num) throws Exception {
+		return boardDAO.qnaDetailComment(qna_num);
 	}
 	
 	@Override

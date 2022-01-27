@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.dao.DataAccessException;
 
 import com.myspring.tibet.board.vo.NoticeVO;
+import com.myspring.tibet.board.vo.QnaCommentVO;
 import com.myspring.tibet.board.vo.QnaVO;
 import com.myspring.tibet.board.vo.ReviewVO;
 import com.myspring.tibet.utils.Criteria;
@@ -24,4 +25,5 @@ public interface BoardDAO {
 	public List<QnaVO> selectProdQnasList(String product_num) throws DataAccessException;
 	public List<ReviewVO> selectProdReviewsList(String product_num) throws DataAccessException;
 	public int modifyQna(QnaVO qnaVO);
+	public QnaCommentVO qnaDetailComment(Integer qna_num);
 }

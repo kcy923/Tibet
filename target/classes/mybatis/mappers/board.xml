@@ -78,8 +78,8 @@
 
 <select id="selectAllQnasList" resultType="hashmap" parameterType="hashmap">
     <![CDATA[
-     	SELECT cast(@num:=@num+1 AS signed integer) AS num,qna_num,qna_title,qna_img1,qna_img2,qna_img3,qna_lock,qna_content,user_id,qna_pw,qna_date
-		FROM (SELECT @num:=(#{pageStart}/#{perPageNum})*(${perPageNum})) AS n, qna
+     	SELECT cast(@num:=@num+1 AS signed integer) AS num,q.qna_num,qna_title,qna_img1,qna_img2,qna_img3,qna_lock,qna_content,q.user_id,qna_pw,qna_date,c.qna_comment_num
+		FROM (SELECT @num:=(#{pageStart}/#{perPageNum})*(${perPageNum})) AS n, qna q LEFT OUTER JOIN tibetdb.qna_comment c ON q.qna_num=c.qna_num
 		ORDER BY qna_date DESC
 		LIMIT #{pageStart}, #{perPageNum}
     ]]>
@@ -97,10 +97,13 @@
             count(*)
         FROM
             qna
-    ]]>
+    ]]>	
 </select>
 <select id="qnaDetail" resultType="com.myspring.tibet.board.vo.QnaVO">
 			select qna_num,qna_pw,qna_title, qna_content, cast(qna_date AS DATE) as qna_date, qna_img1,qna_img2,qna_img3, user_id from tibetdb.qna where qna_num=#{qna_num}
+</select>
+<select id="qnaDetailComment" resultType="com.myspring.tibet.board.vo.QnaCommentVO">
+			select * from tibetdb.qna_comment where qna_num=#{qna_num}
 </select>
 <update id="modifyQna" parameterType="com.myspring.tibet.board.vo.QnaVO">
 	<![CDATA[

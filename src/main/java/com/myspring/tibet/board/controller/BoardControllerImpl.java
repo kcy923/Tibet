@@ -12,7 +12,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,9 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.myspring.tibet.board.service.BoardService;
-import com.myspring.tibet.board.vo.NoticeVO;
 import com.myspring.tibet.board.vo.QnaVO;
-import com.myspring.tibet.member.vo.MemberVO;
 import com.myspring.tibet.product.service.ProductService;
 import com.myspring.tibet.utils.Criteria;
 import com.myspring.tibet.utils.PageMaker;
@@ -112,6 +109,7 @@ public class BoardControllerImpl implements BoardController {
 	public ModelAndView qnaDetail(@PathVariable("qna_num") Integer qna_num, ModelAndView mav) throws Exception {
 		mav.setViewName("/qnaDetail");
 		mav.addObject("qna", boardService.qnaDetail(qna_num));
+		mav.addObject("comment", boardService.qnaDetailComment(qna_num));
 		return mav;
 	}
 

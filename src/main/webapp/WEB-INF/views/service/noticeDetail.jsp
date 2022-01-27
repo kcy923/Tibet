@@ -49,12 +49,36 @@ request.setCharacterEncoding("UTF-8");
                 ${notice.notice_content}
             </div>
             <p><br></p>
-            <div class="enter-table-file">
-                <img alt="#" src="resources/${notice.notice_img1}">
-                <img alt="#" src="resources/${notice.notice_img2}">
-                <img alt="#" src="resources/${notice.notice_img3}">
-            </div>
-        </div>
+				<div class="enter-table-file">
+					<c:choose>
+						<c:when
+							test="${notice.notice_img1 eq null || notice.notice_img1 eq ''}"></c:when>
+						<c:otherwise>
+							<div>
+								<img alt="#" src="resources/img/${notice.notice_img1}">
+							</div>
+						</c:otherwise>
+					</c:choose>
+					<c:choose>
+						<c:when
+							test="${notice.notice_img2 eq null || notice.notice_img2 eq ''}"></c:when>
+						<c:otherwise>
+							<div>
+								<img alt="#" src="resources/img/${notice.notice_img1}">
+							</div>
+						</c:otherwise>
+					</c:choose>
+					<c:choose>
+						<c:when
+							test="${notice.notice_img3 eq null || notice.notice_img3 eq ''}"></c:when>
+						<c:otherwise>
+							<div>
+								<img alt="#" src="resources/img/${notice.notice_img3}">
+							</div>
+						</c:otherwise>
+					</c:choose>
+				</div>
+			</div>
 
         <div class="box-btn">
             <div class="box-btn-text">

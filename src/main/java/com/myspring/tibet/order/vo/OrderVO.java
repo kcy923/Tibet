@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component("orderVO")
 public class OrderVO {
-	private int order_num;
+	private String order_num;
 	private Date order_date;
 	private String order_name;
 	private String order_tel;
@@ -158,10 +158,10 @@ public class OrderVO {
 	public void setProduct_num(String product_num) {
 		this.product_num = product_num;
 	}
-	public int getOrder_num() {
+	public String getOrder_num() {
 		return order_num;
 	}
-	public void setOrder_num(int order_num) {
+	public void setOrder_num(String order_num) {
 		this.order_num = order_num;
 	}
 	public Date getOrder_date() {

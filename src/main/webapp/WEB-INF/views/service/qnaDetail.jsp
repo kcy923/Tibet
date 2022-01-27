@@ -16,7 +16,7 @@ request.setCharacterEncoding("UTF-8");
 <title>공지사항</title>
 <link rel="stylesheet" href="resources/css/reset.css">
 <link rel="stylesheet" href="resources/css/style.css">
-<link rel="stylesheet" href="resources/css/noticeDetail.css">
+<link rel="stylesheet" href="resources/css/qnaDetail.css">
 <link rel="stylesheet" href="resources/fontawesome/css/all.css">
 <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
 </head>
@@ -53,19 +53,46 @@ request.setCharacterEncoding("UTF-8");
 				<div class="enter-table-content">${qna.qna_content}</div>
 				<div class="enter-table-file">
 					<c:choose>
-						<c:when test="${qna.qna_img1 eq null}"></c:when>
+						<c:when test="${qna.qna_img1 eq null || qna.qna_img1 eq ''}"></c:when>
 						<c:otherwise>
-							<img alt="#" src="resources/img/${qna.qna_img1}">
-							<c:if test="${qna.qna_img2 ne null}">
-							<img alt="#" src="resources/img/${qna.qna_img2}">
-							</c:if>
-							<c:if test="${qna.qna_img3 ne null}">
-							<img alt="#" src="resources/img/${qna.qna_img3}">
-							</c:if>
-							
+							<div>
+								<img alt="#" src="resources/img/${qna.qna_img1}">
+							</div>
+
+						</c:otherwise>
+					</c:choose>
+					<c:choose>
+						<c:when test="${qna.qna_img2 eq null || qna.qna_img2 eq ''}"></c:when>
+						<c:otherwise>
+							<div>
+								<img alt="#" src="resources/img/${qna.qna_img2}">
+							</div>
+						</c:otherwise>
+					</c:choose>
+					<c:choose>
+						<c:when test="${qna.qna_img3 eq null || qna.qna_img3 eq ''}"></c:when>
+						<c:otherwise>
+							<div>
+								<img alt="#" src="resources/img/${qna.qna_img3}">
+							</div>
 						</c:otherwise>
 					</c:choose>
 				</div>
+				<c:choose>
+					<c:when test="${comment.qna_num eq qna.qna_num}">
+						<div class="enter-table-comment">
+							<div class="comment-title">
+								<div class="comment-title-title">
+									<i class="fab fa-replyd"></i>${comment.user_id}
+								</div>
+								<div class="comment-title-date"><fmt:formatDate value="${comment.qna_comment_date}" pattern="yyyy-MM-dd HH:mm:ss" /></div>
+							</div>
+							<div>
+								${comment.qna_comment_content}
+							</div>
+						</div>
+					</c:when>
+				</c:choose>
 			</div>
 				<!-- 본인일때 수정삭제 -->
 			<div class="box-btn">

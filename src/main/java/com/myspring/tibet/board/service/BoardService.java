@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.myspring.tibet.board.vo.NoticeVO;
+import com.myspring.tibet.board.vo.QnaCommentVO;
 import com.myspring.tibet.board.vo.QnaVO;
 import com.myspring.tibet.board.vo.ReviewVO;
 import com.myspring.tibet.utils.Criteria;
@@ -21,4 +22,5 @@ public interface BoardService {
 	public List<QnaVO> listProdQnas(String product_num) throws Exception;
 	public List<ReviewVO> listProdReviews(String product_num) throws Exception;
 	public int modifyQna(QnaVO qnaVO);
+	public QnaCommentVO qnaDetailComment(Integer qna_num) throws Exception;
 }

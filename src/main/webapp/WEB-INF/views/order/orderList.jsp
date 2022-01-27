@@ -118,11 +118,11 @@ session.getAttribute("memberInfo");
 			<br><br>
 			<div>
 	            <label class="info-label">상품정보</label>
-	            	<input type="text" class="info-input">
+	            	<input type="text" class="info-input" value="" readonly>
             </div>
             <div>
 	            <label class="writer-label">작성자</label>
-	            	<input type="text" class="writer-input">
+	            	<input type="text" class="writer-input" value="${memberInfo.user_id}" readonly>
 	            <label class="size-label">평소사이즈</label>
 	            	<input type="text" class="size-input">
             </div>
@@ -142,8 +142,8 @@ session.getAttribute("memberInfo");
             </div>
             <br><br>
             <div class="review-write">
-            	<button type="submit" class="review-write-btn">
-      				<a href="${contextPath}/orderList.do" class="font-FFF">작성하기</a>
+            	<button type="submit" class="review-write-btn" onclick="${contextPath}/orderList.do">
+      				<p class="font-FFF">작성하기</p>
             	</button>
             </div>
             <a class="modal_close_btn"><i class="fas fa-times"></i></a>

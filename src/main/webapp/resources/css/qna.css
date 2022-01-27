@@ -161,7 +161,7 @@ table{
 	width: 40%;
 }
 
-.qna-tit-td:hover{
+.qna-tit-td a:hover{
 	text-decoration: underline;
 }
 

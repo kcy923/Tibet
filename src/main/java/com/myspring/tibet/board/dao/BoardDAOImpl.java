@@ -13,6 +13,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.myspring.tibet.board.vo.NoticeVO;
+import com.myspring.tibet.board.vo.QnaCommentVO;
 import com.myspring.tibet.board.vo.QnaVO;
 import com.myspring.tibet.board.vo.ReviewVO;
 import com.myspring.tibet.product.vo.ProductVO;
@@ -78,6 +79,11 @@ public class BoardDAOImpl implements BoardDAO {
 	@Override
 	public QnaVO qnaDetail(Integer qna_num) {
 		return sqlSession.selectOne("mapper.board.qnaDetail",qna_num);
+	}
+	
+	@Override
+	public QnaCommentVO qnaDetailComment(Integer qna_num) {
+		return sqlSession.selectOne("mapper.board.qnaDetailComment",qna_num);
 	}
 	
 	@Override
