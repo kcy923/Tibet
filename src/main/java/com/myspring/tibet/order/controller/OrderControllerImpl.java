@@ -1,8 +1,5 @@
 package com.myspring.tibet.order.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.myspring.tibet.cart.service.CartService;
 import com.myspring.tibet.cart.vo.CartVO;
+import com.myspring.tibet.member.service.MemberService;
 import com.myspring.tibet.order.service.OrderService;
 import com.myspring.tibet.order.vo.OrderPageVO;
 import com.myspring.tibet.order.vo.OrderVO;
@@ -31,6 +29,10 @@ public class OrderControllerImpl implements OrderController {
 	private CartVO cartVO;
 	@Autowired
 	private OrderService orderService;
+	@Autowired
+	private OrderVO orderVO;
+	@Autowired
+	private MemberService memberService;
 	
 	/* 바로구매 */
 	@Override
@@ -94,7 +96,9 @@ public class OrderControllerImpl implements OrderController {
 
 	@Override
 	@RequestMapping(value="/addOrderList.do", method = RequestMethod.POST)
-	public ResponseEntity addOrderList(OrderVO orderVO, OrderPageVO orderPage, HttpServletRequest request, HttpServletResponse response)
+	public ResponseEntity addOrderList(OrderVO orderVO, OrderPageVO orderPage,
+			HttpServletRequest request, HttpServletResponse response,
+			@RequestParam("update_user_id") String user_id, @RequestParam("update_point") Integer update_point)
 			throws Exception {
 		response.setContentType("text/html; charset=UTF-8");
 		request.setCharacterEncoding("utf-8");
@@ -106,8 +110,12 @@ public class OrderControllerImpl implements OrderController {
 		System.out.println("orders : " + orderPage.getOrders());
 		System.out.println("orderVO : " + orderVO.toString());
 		
+		System.out.println("유저 : " + user_id);
+		System.out.println("포인트 : " + update_point);
+		
 		try {
 			orderService.addOrderList(orderPage.getOrders());
+			//memberService.updatePoint(orderVO);
 				
 			message  = "<script>";
 			message += " location.href='" + request.getContextPath() + "/orderResult.do';";

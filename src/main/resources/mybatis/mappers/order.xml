@@ -6,11 +6,11 @@
 <mapper namespace="mappers.order">
 	
 	<insert id="addOrder" parameterType="com.myspring.tibet.order.vo.OrderVO">
-		insert into tibetdb.order(order_name, order_tel, order_phone, order_email, 
+		insert into tibetdb.order(order_num, order_name, order_tel, order_phone, order_email, 
 			receiver_name, receiver_zip, receiver_addr1, receiver_addr2, receiver_tel, receiver_phone, receiver_msg, 
 			order_state, order_pay, product_num, product_name, product_thumbnail, product_price, product_sale, product_color, product_size, product_count, user_id) 
 		values
-			(#{order_name}, #{order_tel}, #{order_phone}, #{order_email}, 
+			(#{order_num}, #{order_name}, #{order_tel}, #{order_phone}, #{order_email}, 
 			#{receiver_name}, #{receiver_zip}, #{receiver_addr1}, #{receiver_addr2}, #{receiver_tel}, #{receiver_phone}, #{receiver_msg}, 
 			#{order_state}, #{order_pay}, #{product_num}, #{product_name}, #{product_thumbnail}, #{product_price}, #{product_sale}, 
 			#{product_color}, #{product_size}, #{product_count}, #{user_id})

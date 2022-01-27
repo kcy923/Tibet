@@ -111,7 +111,7 @@
 				</div>
 			</div>
 			<p class="order-middle-content">[상품의 옵션 및 수량 변경은 상품상세 또는 장바구니에서 가능합니다.]</p>
-
+			
 			<div class="checkout-info-wrp">
 				<!-- 하단좌측박스 시작 -->
 				<div class="checkout-wrp-left">
@@ -160,7 +160,7 @@
 						</div>
 						<div class="delivery-person">
 							<label>받으시는 분 *</label>
-							<input type="text" id="input-delivery-person"/>
+							<input type="text" id="input-delivery-person" name="input-delivery-person"/>
 						</div>
 						<div class="delivery-address">
 							<label>주소 *</label>
@@ -223,7 +223,7 @@
 					<div class="discount-section-box">
 						<div class="point-div">
 							<label>적립금</label>
-							<input type="text" id="input-use-point"/>
+							<input type="text" id="input-use-point" value="0"/>
 							<div class="member-point-div">
 								<div>[ 사용 가능한 적립금 :&nbsp;</div><div id="usable-point">0</div><div>원 ]</div>
 							</div>
@@ -306,24 +306,25 @@
 					</div>
 				</div>
 			</div>
+			
+			<!-- DB 주문번호 불러옴 -->
+			<c:forEach var="list" items="${orderNumList}">
+				<input type="hidden" id="get-num" value="${list.order_num}">
+			</c:forEach>
+			
+			<!-- 주문번호 생성 -->
+			<input type="hidden" id="generate-num">
 
 			<div class="total-price-btn-div">
 				<button type="button" id="total-price-btn" onclick="goOrder();">결제하기</button>
 			</div>
 			
 			<!-- 주문 폼 -->
-			<form action="${contextPath}/addOrderList.do" method="post" class="order_form">			
+			<form action="${contextPath}/addOrderList.do" method="post" class="order_form">
+				<input type="hidden" id="update_user_id" name="update_user_id" value="${memberInfo.user_id}"/>
+				<input type="hidden" id="update_point" name="update_point"/>		
 			</form>
 			
-			<div id="test-div1"></div>
-			<div id="test-div2"></div>
-			<c:forEach var="list" items="${orderNumList}">
-				<c:set var="j" value="${j + 1}"/>
-				<!-- <input id="test-input${j}" value="${list.order_num}" style="width: 100%;"> -->
-				<!-- <c:out value="${j}"/> -->
-    			<c:out value="${list.order_num}"/>
- 			</c:forEach>
-			<!-- <input id="test-input" value="${orderNumList}" style="width: 100%;"> -->
 		</div>
 	</section>
 	
@@ -364,6 +365,7 @@
 		    
 		    element.checked = true;
 		}
+		
 		
 		/* 체크마다 다른 div 띄우기 */
 		function setDisplay(){
@@ -578,6 +580,7 @@
 			var point = document.getElementById("hidden-point").value;
 			$("#usable-point").text(point.toLocaleString());
 			
+			// 주문번호 생성
 			generateOrderNum();
 		}	
 		
@@ -597,42 +600,35 @@
 			}
 		}
 		
+		
 		/* 주문번호 생성 */
 		function generateOrderNum() {
 			// 날짜
 			var today = new Date().toISOString().substring(0,10).replace(/-/g, '');
-			document.getElementById('test-div1').innerText = today;
-
-			// 랜덤번호
-			/*var text = "";
-		    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-		    for( var i=0; i<4; i++ )
-		        text += possible.charAt(Math.floor(Math.random() * possible.length));
-		    //document.getElementById('test-div2').innerText = text;*/
-		    
+			
 		    // 랜덤번호
 		    let str = '';
-		    let j = 1;
 			for (let i = 0; i < 6; i++) {
 				str += Math.floor(Math.random() * 10);
 			}
 			
-			/*while (j <= $('input[id^=test-input]').length) {
+			for (j=1; j <= $('input[id=get-num]').length; j++) {
 				if (str == $('#test-input'+j).val()) {
 					for (let i = 0; i < 6; i++) {
 						str += Math.floor(Math.random() * 10);
 					}
 				}
-			}*/
+			}
 			
-			document.getElementById('test-div2').innerText = str;
+			$('#generate-num').val(today + "-" + str);
 		}
+		
 		
 		/* 주문 버튼 */
 		function goOrder(){
 			let form_contents = '';
 			
+			let orderNum = $("#generate-num").val();
 			let orderName = $("#input-order-person").val();
 			let orderTel = $("#input-order-call").val();
 			let orderPhone = $("#input-order-phone").val();
@@ -661,6 +657,8 @@
 				let productSize = $(".add_product_size"+(i+1)).val();
 				let productCount = $(".add_product_count"+(i+1)).val();
 
+				let orderNum_input = "<input name='orders[" +i + "].order_num' type='hidden' value='" + orderNum + "'>";
+				form_contents += orderNum_input;
 				let orderName_input = "<input name='orders[" +i + "].order_name' type='hidden' value='" + orderName + "'>";
 				form_contents += orderName_input;
 				let orderTel_input = "<input name='orders[" + i + "].order_tel' type='hidden' value='" + orderTel + "'>";
@@ -707,6 +705,66 @@
 				form_contents += userId_input;
 			}
 			
+			
+			/* 빈칸 확인 경고창 */
+			// 배송 정보 확인
+			if($("#input-delivery-person").val() == "") {
+				alert("받으시는 분 성함을 입력해주세요.");
+				$("#input-delivery-person").focus();
+				return false;
+			} else if($("#input-delivery-zipcode").val() == "") {
+				alert("우편번호를 입력해주세요.");
+				$("#input-delivery-zipcode").focus();
+				return false;
+			} else if($("#input-delivery-address1").val() == "") {
+				alert("기본주소를 입력해주세요.");
+				$("#input-delivery-address1").focus();
+				return false;
+			} else if($("#input-delivery-phone").val() == "") {
+				alert("휴대폰 번호를 입력해주세요.");
+				$("#input-delivery-phone").focus();
+				return false;
+			}
+			
+			// 결제 수단 확인
+			if($("input:checkbox[id=pay-tongjang]").is(":checked") == true) {
+				if($("#tongjang-person-input").val() == "") {
+					alert("입금자명을 입력해주세요.");
+					$("#tongjang-person-input").focus();
+					return false;
+				} else if($("#bank_select option:selected").val() != 1) {
+					alert("입금 은행을 선택해주세요.");
+					$("#bank_select").focus();
+					return false;
+				} else if($("input:checkbox[id=pay-tongjang-receipt]").is(":checked") == true && $("input:checkbox[id=receipt-phone]").is(":checked") == true) {
+					if($("#tongjang-phoneNum-input").val() == "") {
+						alert("휴대폰 번호를 입력해주세요.");
+						$("#tongjang-phoneNum-input").focus();
+						return false;
+					}
+				} else if($("input:checkbox[id=pay-tongjang-receipt]").is(":checked") == true && $("input:checkbox[id=receipt-code]").is(":checked") == true) {
+					if($("#tongjang-code-input").val() == "") {
+						alert("사업자 번호를 입력해주세요.");
+						$("#tongjang-code-input").focus();
+						return false;
+					}
+				}
+			}
+			
+			
+			/* 적립금 계산 */
+			/*var total_price = document.getElementById('middle-price').value;
+			var user_point = document.getElementById('usable-point').value;*/
+			
+			var total_price = parseInt($("#middle-price").text());
+			var user_point = parseInt($("#usable-point").text());
+			var minus_point = $("#input-use-point").val();
+			var plus_point = total_price * 0.05;
+			var update_point = user_point + plus_point - minus_point;
+			$("#update_point").val(update_point); 
+			
+			
+			/* Form Submit */
 			$(".order_form").html(form_contents);
 			$(".order_form").submit();			
 		}

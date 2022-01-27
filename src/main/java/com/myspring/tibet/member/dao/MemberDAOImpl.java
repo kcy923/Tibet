@@ -1,5 +1,6 @@
 package com.myspring.tibet.member.dao;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -41,5 +42,10 @@ public class MemberDAOImpl implements MemberDAO{
 	public MemberVO findPW(MemberVO memberVO) throws DataAccessException {
 		MemberVO member = sqlSession.selectOne("mapper.member.findPW", memberVO);
 		return member;
+	}
+
+	@Override
+	public int updatePoint(HashMap<String, Object> map) throws DataAccessException {
+		return sqlSession.update("mapper.member.updatePoint", map);
 	}
 }

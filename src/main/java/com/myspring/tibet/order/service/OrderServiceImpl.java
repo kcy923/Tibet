@@ -1,6 +1,5 @@
 package com.myspring.tibet.order.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -8,7 +7,6 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.myspring.tibet.order.dao.OrderDAO;
-import com.myspring.tibet.order.vo.OrderPageVO;
 import com.myspring.tibet.order.vo.OrderVO;
 
 @Service("orderService")

@@ -217,7 +217,6 @@ request.setCharacterEncoding("UTF-8");
 			</div>
 		</div>
 		<div class="cor-button">
-			<!-- <button type="submit" class="correction-btn" onclick="inputCheck()">회원가입</button> -->
 			<input type="button" class="correction-btn" value="회원가입" onclick="inputCheck()">
 		</div>
 		</form>

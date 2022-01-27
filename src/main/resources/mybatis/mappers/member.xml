@@ -54,7 +54,7 @@
       ]]>      
    </select>
    
-<!--  회원가입 중복검사 -->
+	<!--  회원가입 중복검사 -->
    <select id="selectOverlappedID" parameterType="String"
       resultType="String">
      select case count(*) when 1 then 'true' when 0 then 'false' end
@@ -62,13 +62,17 @@
       where user_id = #{id}
    </select>
 
-<!-- 회원가입 -->   
-<insert id="insertNewMember" parameterType="memberVO">
-  <![CDATA[
+	<!-- 회원가입 -->   
+	<insert id="insertNewMember" parameterType="memberVO">
+  	<![CDATA[
        insert into user(user_id, user_pw, user_name, user_birth, user_email, user_phone, user_gender, user_zip, user_addr1, user_addr2, user_mailSend)
       values(#{user_id}, #{user_pw}, #{user_name}, #{user_birth}, #{user_email}, #{user_phone}, #{user_gender}, #{user_zip}, #{user_addr1}, #{user_addr2}, #{user_mailSend})                                    
-   ]]>
-   
-
-</insert>
+   	]]>
+	</insert>
+	
+	<!-- 적립금 추가 -->
+	<update id="updatePoint" parameterType="HashMap">
+		update tibetdb.user set user_point=user_point+#{user_point} where user_id=#{user_id}
+	</update>
+	
 </mapper>

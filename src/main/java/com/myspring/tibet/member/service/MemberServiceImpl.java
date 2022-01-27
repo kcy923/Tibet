@@ -1,5 +1,6 @@
 package com.myspring.tibet.member.service;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,5 +41,10 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public MemberVO findPW(MemberVO memberVO) throws Exception {
 		return memberDAO.findPW(memberVO);
+	}
+
+	@Override
+	public int updatePoint(HashMap<String, Object> map) throws Exception {
+		return memberDAO.updatePoint(map);
 	}
 }
