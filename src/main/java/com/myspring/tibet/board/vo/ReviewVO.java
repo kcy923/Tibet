@@ -12,12 +12,13 @@ public class ReviewVO {
 	private String review_img2;
 	private String review_img3;
 	private String review_content;
-	private String review_usesize;
-	private int review_height;
-	private int review_weight;
+	private String review_option;
+	private	float review_height;
+	private float review_weight;
 	private Date review_date;
 	private String user_id;
 	private String product_num;
+	private String order_num;
 	
 	public int getReview_num() {
 		return review_num;
@@ -56,22 +57,16 @@ public class ReviewVO {
 	public void setReview_content(String review_content) {
 		this.review_content = review_content;
 	}
-	public String getReview_usesize() {
-		return review_usesize;
-	}
-	public void setReview_usesize(String review_usesize) {
-		this.review_usesize = review_usesize;
-	}
-	public int getReview_height() {
+	public float getReview_height() {
 		return review_height;
 	}
-	public void setReview_height(int review_height) {
+	public void setReview_height(float review_height) {
 		this.review_height = review_height;
 	}
-	public int getReview_weight() {
+	public float getReview_weight() {
 		return review_weight;
 	}
-	public void setReview_weight(int review_weight) {
+	public void setReview_weight(float review_weight) {
 		this.review_weight = review_weight;
 	}
 	public Date getReview_date() {
@@ -91,5 +86,17 @@ public class ReviewVO {
 	}
 	public void setProduct_num(String product_num) {
 		this.product_num = product_num;
+	}
+	public String getReview_option() {
+		return review_option;
+	}
+	public void setReview_option(String review_option) {
+		this.review_option = review_option;
+	}
+	public String getOrder_num() {
+		return order_num;
+	}
+	public void setOrder_num(String order_num) {
+		this.order_num = order_num;
 	}
 }

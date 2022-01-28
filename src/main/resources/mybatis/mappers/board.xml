@@ -36,13 +36,14 @@
     <result property="review_img2" column="review_img2" />
     <result property="review_img3" column="review_img3" />
     <result property="review_content" column="review_content" />
-    <result property="review_usesize" column="review_usesize" />
+    <result property="review_option" column="review_option" />
     <result property="review_height" column="review_height" />
     <result property="review_weight" column="review_weight" />
     <result property="review_date" column="review_date" />
     <result property="user_id" column="user_id" />
     <result property="product_num" column="product_num" />
 </resultMap>
+
 
 <select id="selectProdQnasList" resultMap="qnaResult">
     <![CDATA[

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -88,4 +89,5 @@ public class BoardServiceImpl implements BoardService {
 		List<ReviewVO> prodReviewsList = boardDAO.selectProdReviewsList(product_num);
 		return prodReviewsList;
 	}
+
 }

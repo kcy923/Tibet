@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.myspring.tibet.board.vo.ReviewVO;
 import com.myspring.tibet.order.dao.OrderDAO;
 import com.myspring.tibet.order.vo.OrderVO;
 
@@ -35,4 +36,10 @@ public class OrderServiceImpl implements OrderService{
 	public List<OrderVO> selectDateCancelList(HashMap<String, String> dateMap) throws DataAccessException {
 		return orderDao.selectDateCancelList(dateMap);
 	}
+	
+	@Override
+	public void insertReviewWrite(ReviewVO reviewVO) throws Exception{
+		orderDao.reviewWrite(reviewVO);
+	}
+
 }

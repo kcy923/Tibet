@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
 
+import com.myspring.tibet.board.vo.ReviewVO;
 import com.myspring.tibet.order.vo.OrderVO;
 
 public interface OrderService {
@@ -17,5 +18,7 @@ public interface OrderService {
 	public List<OrderVO> selectDateOrderList(HashMap<String, String> dateMap) throws DataAccessException;
 
 	public List<OrderVO> selectDateCancelList(HashMap<String, String> dateMap) throws DataAccessException;
+
+	public void insertReviewWrite(ReviewVO reviewVO) throws Exception;
 
 }

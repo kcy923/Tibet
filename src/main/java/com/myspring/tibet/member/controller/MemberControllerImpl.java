@@ -163,7 +163,6 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 					session.invalidate();
 					return "redirect:/main.do";
 				}
-
 				return "redirect:/memModifyForm.do";
 
 	}

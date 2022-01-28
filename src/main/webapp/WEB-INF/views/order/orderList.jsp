@@ -75,6 +75,7 @@ session.getAttribute("memberInfo");
 				<div class="orderList-tablebox">
 					<table class="div-orderList">
 						<tr class="orderList-table">
+							<th class="orderNum-th">주문번호</th>
 							<th class="orderDate-th">주문일자</th>
 							<th class="orderImage-th">이미지</th>
 							<th class="orderInfo-th">상품정보</th>
@@ -86,9 +87,10 @@ session.getAttribute("memberInfo");
 						<c:forEach var="list" items="${list}">
 						<input type="hidden" name="user_id" value="${memberInfo.user_id}">
 						<tr class="orderList-tr">
+							<td class="orderNum">${list.order_num}</td>
 							<td class="orderDate"><fmt:formatDate value="${list.order_date}" pattern="yyyy-MM-dd" /></td>
 							<td class="orderImage"><a href="" class="orderImage-a"><img src="resources/${list.product_thumbnail}"></a></td>
-							<td class="orderInfo"><a href="" class="orderInfo-a">${list.product_name}</a></td>
+							<td class="orderInfo"><a href="" class="orderInfo-a">${list.product_name}</a><br><p>[ ${list.product_color} / ${list.product_size} ]</p></td>
 							<td class="orderCount">${list.product_count}</td>
 							<td class="orderCash"><fmt:formatNumber
 										value="${(list.product_price - list.product_sale) * list.product_count}"
@@ -99,8 +101,10 @@ session.getAttribute("memberInfo");
 							<c:choose>
 								<c:when test="${list.order_state =='배송완료'}">
 									<td class="orderState">${list.order_state}<br>우체국택배<br>[123456789]<br>
-<button type="button" id="review-btn">리뷰쓰기</button>
+<button type="button" id="review-btn" data-order_num="${list.order_num}"data-product_num="${list.product_num}" data-product_name="${list.product_name}" data-product_option="[ ${list.product_color} / ${list.product_size} ]">리뷰쓰기</button>
 <button type="button" id="cancel-btn">취소/교환/반품</button>
+							<input type="hidden" value="${list.order_num}" name="order_num" id="order_num" />
+							<input type="hidden" value="${list.product_num}" name="product_num" id="product_num" />
 </td>
 								</c:when>
 								<c:otherwise>
@@ -116,36 +120,55 @@ session.getAttribute("memberInfo");
 		<div id="review-modal">
 			<div class="div-title">Review</div>
 			<br><br>
+			<form action="${contextPath}/reviewWrt.do" method="POST">
 			<div>
 	            <label class="info-label">상품정보</label>
-	            	<input type="text" class="info-input" value="" readonly>
+	            	<input type="hidden" id="review_product_num" name="product_num">
+	            	<input type="hidden" id="review_order_num" name="order_num">
+	            	
+	            	<input type="text" class="info-input" id="review_product_name" name="product_name" value='' readonly>
             </div>
             <div>
 	            <label class="writer-label">작성자</label>
-	            	<input type="text" class="writer-input" value="${memberInfo.user_id}" readonly>
-	            <label class="size-label">평소사이즈</label>
-	            	<input type="text" class="size-input">
+	            	<input type="text" class="writer-input" name="user_id" value="${memberInfo.user_id}" readonly>
+	            <label class="size-label">상품옵션</label>
+	            	<input type="text" class="size-input" id="review_product_option" name="review_option" readonly>
             </div>
             <div>
 	            <label class="height-label">키</label>
-	            	<input type="text" class="height-input">
+	            	<input type="text" class="height-input" name="review_height" onKeyup="this.value=this.value.replace(/[^0-9.]/g,'');" placeholder="숫자,소수점만 입력가능"/>
+	            	<label id="user_height">cm</label>
 	            <label class="weight-label">몸무게</label>
-	            	<input type="text" class="weight-input">
+	            	<input type="text" class="weight-input" name="review_weight" onKeyup="this.value=this.value.replace(/[^0-9.]/g,'');" placeholder="숫자,소수점만 입력가능"/>
+	            	<label id="user_weight">kg</label>
+            </div>
+            <div class="div-reviewtitle">
+            	<label class="title-label">리뷰제목</label>
+	            	<input type="text" class="title-input" id="review_title" name="review_title" value='' >
             </div>
             <div class="div-content">
 	            <label class="content-label">내용</label>
-	            	<textarea class="content-input"></textarea>
+	            	<textarea class="content-input" name="review_content"></textarea>
             </div>
             <div>
             	<label>이미지첨부&nbsp;&nbsp;</label>
-            		<input type="file">
+            		<input type="file" name="review_img1">
+            </div>
+            <div>
+            	<label>이미지첨부&nbsp;&nbsp;</label>
+            		<input type="file" name="review_img2">
+            </div>
+            <div>
+            	<label>이미지첨부&nbsp;&nbsp;</label>
+            		<input type="file" name="review_img3">
             </div>
             <br><br>
             <div class="review-write">
-            	<button type="submit" class="review-write-btn" onclick="${contextPath}/orderList.do">
+            	<button type="submit" class="review-write-btn">
       				<p class="font-FFF">작성하기</p>
             	</button>
             </div>
+            </form>
             <a class="modal_close_btn"><i class="fas fa-times"></i></a>
         </div>
         
@@ -235,6 +258,20 @@ session.getAttribute("memberInfo");
 	<script>
 
 		
+	$(document).on("click", "#review-btn", function () {
+		var product_name = $(this).data('product_name'); 
+		$("#review_product_name").val(product_name);
+		var product_option = $(this).data('product_option');
+		$("#review_product_option").val(product_option);
+		var product_num = $(this).data('product_num');
+		$("#review_order_num").val(order_num);
+		var order_num = $(this).data('order_num');
+		$("#review_order_num").val(order_num);
+		
+		// As pointed out in comments, 
+		// it is superfluous to have to manually call the modal. 
+		// $('#addBookDialog').modal('show'); 
+		});
 
 		function modal(id) {
 			var zIndex = 9999;

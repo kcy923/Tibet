@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
+import com.myspring.tibet.board.vo.ReviewVO;
 import com.myspring.tibet.order.vo.OrderVO;
 
 @Repository("orderDAO")
@@ -35,4 +36,10 @@ public class OrderDAOImpl implements OrderDAO {
 		System.out.println("DAO : " + dateMap);
 		return sqlSession.selectList("mapper.order.selectDateCancelList", dateMap);
 	}
+	
+	@Override
+	public void reviewWrite(ReviewVO reviewVO) throws DataAccessException {
+		sqlSession.insert("mapper.order.reviewWrite",reviewVO);
+	}
+	
 }

@@ -73,7 +73,7 @@
 	display: inline;
 }
 
-.info-input, label {
+.info-input, .title-input label {
     margin: .4rem 0;
 }
 
@@ -143,38 +143,43 @@
 	height: 160px;
 }
 
+.orderNum-th, .orderNum {
+	width:14%;
+	vertical-align: middle;
+}
+
 .orderDate-th, .orderDate{
-	width: 14%;
-	vertical-align: middle;
-}
-
-.orderImage-th, .orderImage{
-	width: 17%;
-	vertical-align: middle;
-}
-
-.orderInfo-th, .orderInfo{
-	width: 22%;
-	vertical-align: middle;
-}
-
-.orderCount-th, .orderCount{
-	width: 11%;
-	vertical-align: middle;
-}
-
-.orderCash-th, .orderCash{
-	width: 15%;
-	vertical-align: middle;
-}
-
-.orderPoint-th, .orderPoint{
 	width: 12%;
 	vertical-align: middle;
 }
 
-.orderState-th, .orderState{
+.orderImage-th, .orderImage{
 	width: 15%;
+	vertical-align: middle;
+}
+
+.orderInfo-th, .orderInfo{
+	width: 20%;
+	vertical-align: middle;
+}
+
+.orderCount-th, .orderCount{
+	width: 9%;
+	vertical-align: middle;
+}
+
+.orderCash-th, .orderCash{
+	width: 13%;
+	vertical-align: middle;
+}
+
+.orderPoint-th, .orderPoint{
+	width: 10%;
+	vertical-align: middle;
+}
+
+.orderState-th, .orderState{
+	width: 13%;
 	white-space: pre;
 	vertical-align: middle;
 }
@@ -218,7 +223,7 @@
 }
 
 .info-label, .writer-label, .size-label,
-.height-label, .weight-label, .cancel-select{
+.height-label, .weight-label, .title-label, .cancel-select{
 	height: 25px;
 	width: 90px;
 	display: inline-block;
@@ -232,21 +237,26 @@
 	line-height: 200px;
 }
 
-.info-input, .content-input{
+.info-input, .content-input, .title-input{
 	width: 470px;
 }
 
-.writer-input, .height-input{
+.writer-input{
 	margin-right: 3%;
 }
-
-.writer-input, .size-input,
-.height-input, .weight-input{
+#user_height{
+	margin-right: 3.5%;
+}
+.writer-input, .size-input{
 	width: 170px;
+}
+.height-input, .weight-input{
+	width: 140px;
+	text-align:end;
 }
 
 .info-input, .writer-input, .size-input,
-.height-input, .weight-input{
+.height-input, .weight-input, .title-input{
 	height: 20px;
 	padding-left: 5px;
 }

@@ -7,14 +7,21 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.myspring.tibet.board.service.BoardService;
+import com.myspring.tibet.board.vo.ReviewVO;
 import com.myspring.tibet.order.service.OrderService;
 import com.myspring.tibet.order.vo.OrderVO;
 
@@ -22,7 +29,8 @@ import com.myspring.tibet.order.vo.OrderVO;
 public class OrderControllerImpl implements OrderController {
 	@Autowired
 	private OrderService orderService;
-
+	@Autowired
+	private BoardService boardService;
 	/*
 	 * @Override
 	 * 
@@ -97,6 +105,8 @@ public class OrderControllerImpl implements OrderController {
 
 		String dateFrom = request.getParameter("dateFrom");
 		String dateTo = request.getParameter("dateTo");
+		String order_num = request.getParameter("order_num");
+		String product_num = request.getParameter("product_num");
 		Calendar cal = Calendar.getInstance();
 		if (dateFrom != null || dateTo != null) {
 			dateFrom = dateFrom.trim();
@@ -139,7 +149,41 @@ public class OrderControllerImpl implements OrderController {
 			dateMap.put("user_id", user_id);
 			mav.addObject("list", orderService.selectDateOrderList(dateMap));
 		}
+		
+		HashMap<String, String> reviewMap = new HashMap<String, String>();
+		reviewMap.put("order_num", order_num);
+		reviewMap.put("product_num", product_num);
+		
 		mav.setViewName("/orderList");
 		return mav;
 	}
+	
+	@Override
+	@RequestMapping(value = "/reviewWrt.do", method = RequestMethod.POST)
+	public ResponseEntity insertReviewWrite(@ModelAttribute("reviewVO") ReviewVO reviewVO, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		response.setContentType("text/html; charset=UTF-8");
+		request.setCharacterEncoding("utf-8");
+		String message = null;
+		ResponseEntity resEntity = null;
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
+		try {
+			orderService.insertReviewWrite(reviewVO);
+			message = "<script>";
+			message += " alert('리뷰 작성이 완료되었습니다. 메인 화면으로 돌아갑니다.');";
+			message += " location.href='" + request.getContextPath() + "/main.do';";
+			message += " </script>";
+
+		} catch (Exception e) {
+			message = "<script>";
+			message += " alert('작업 중 오류가 발생했습니다. 다시 시도해 주세요.');";
+			message += " location.href='" + request.getContextPath() + "/orderList{user_id}.do';";
+			message += " </script>";
+			e.printStackTrace();
+		}
+		resEntity = new ResponseEntity(message, responseHeaders, HttpStatus.OK);
+		return resEntity;
+	}
+	
 }
