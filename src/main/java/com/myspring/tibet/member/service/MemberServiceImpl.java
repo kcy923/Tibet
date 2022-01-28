@@ -44,7 +44,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int updatePoint(HashMap<String, Object> map) throws Exception {
+	public int updatePoint(Map<String, Object> map) throws Exception {
 		return memberDAO.updatePoint(map);
 	}
 }

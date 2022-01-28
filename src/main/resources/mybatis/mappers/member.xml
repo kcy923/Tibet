@@ -70,9 +70,9 @@
    	]]>
 	</insert>
 	
-	<!-- 적립금 추가 -->
-	<update id="updatePoint" parameterType="HashMap">
-		update tibetdb.user set user_point=user_point+#{user_point} where user_id=#{user_id}
+	<!-- 적립금 update -->
+	<update id="updatePoint" parameterType="map">
+		update tibetdb.user set user_point=#{user_point} where user_id=#{user_id}
 	</update>
 	
 </mapper>

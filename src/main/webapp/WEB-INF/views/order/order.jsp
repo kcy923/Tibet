@@ -321,8 +321,6 @@
 			
 			<!-- 주문 폼 -->
 			<form action="${contextPath}/addOrderList.do" method="post" class="order_form">
-				<input type="hidden" id="update_user_id" name="update_user_id" value="${memberInfo.user_id}"/>
-				<input type="hidden" id="update_point" name="update_point"/>		
 			</form>
 			
 		</div>
@@ -626,8 +624,22 @@
 		
 		/* 주문 버튼 */
 		function goOrder(){
-			let form_contents = '';
+			const table = document.getElementById('order-product-table');
+			const tbodyRow = table.tBodies[0].rows.length;
 			
+			/* 적립금 계산 */
+			var priceSum = 0;
+			for(var i=1; i<tbodyRow+1; i++){
+				var price = parseInt(document.getElementById("hidden-price"+i).value);
+				priceSum += price;
+			}
+			var user_point = parseInt(document.getElementById("hidden-point").value);
+			var minus_point = $("#input-use-point").val();
+			var plus_point = priceSum * 0.05;
+			var update_point_var = user_point + plus_point - minus_point;
+			
+			/* form 생성 */	
+			let form_contents = '';		
 			let orderNum = $("#generate-num").val();
 			let orderName = $("#input-order-person").val();
 			let orderTel = $("#input-order-call").val();
@@ -641,11 +653,10 @@
 			let receiverPhone = $("#input-delivery-phone").val();
 			let receiverMsg = $("#delivery-msg-textarea").val();
 			let orderState = $(".add_order_state").val();
-			let orderPay = document.getElementsByName('pay-checkbox-input').value;
+			let orderPay = $('input:checkbox[name="pay-checkbox-input"]').val();
 			let userId = $(".add_user_id").val();
 			
-			const table = document.getElementById('order-product-table');
-			const tbodyRow = table.tBodies[0].rows.length;
+			console.log(orderPay);
 			
 			for(var i=0; i<tbodyRow; i++){
 				let productNum = $(".add_product_num"+(i+1)).val();
@@ -704,7 +715,11 @@
 				let userId_input = "<input name='orders[" + i + "].user_id' type='hidden' value='" + userId + "'>";
 				form_contents += userId_input;
 			}
-			
+			let update_user_id_input = "<input type='hidden' id='update_user_id' name='update_user_id' value='${memberInfo.user_id}'>";
+			form_contents += update_user_id_input;
+			let update_point_input = "<input type='hidden' id='update_point' name='update_point'>";		
+			form_contents += update_point_input;			
+						
 			
 			/* 빈칸 확인 경고창 */
 			// 배송 정보 확인
@@ -752,20 +767,9 @@
 			}
 			
 			
-			/* 적립금 계산 */
-			/*var total_price = document.getElementById('middle-price').value;
-			var user_point = document.getElementById('usable-point').value;*/
-			
-			var total_price = parseInt($("#middle-price").text());
-			var user_point = parseInt($("#usable-point").text());
-			var minus_point = $("#input-use-point").val();
-			var plus_point = total_price * 0.05;
-			var update_point = user_point + plus_point - minus_point;
-			$("#update_point").val(update_point); 
-			
-			
 			/* Form Submit */
-			$(".order_form").html(form_contents);
+			$(".order_form").html(form_contents);		
+			$("#update_point").val(update_point_var);			
 			$(".order_form").submit();			
 		}
 	</script>

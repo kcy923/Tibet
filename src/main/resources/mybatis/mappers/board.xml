@@ -29,7 +29,7 @@
     <result property="review_title" column="review_title" />
     <result property="review_img" column="review_img" />
     <result property="review_content" column="review_content" />
-    <result property="review_usesize" column="review_usesize" />
+    <result property="review_option" column="review_option" />
     <result property="review_height" column="review_height" />
     <result property="review_weight" column="review_weight" />
     <result property="review_date" column="review_date" />

@@ -1,13 +1,18 @@
 package com.myspring.tibet.order.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.myspring.tibet.cart.service.CartService;
 import com.myspring.tibet.cart.vo.CartVO;
 import com.myspring.tibet.member.service.MemberService;
+import com.myspring.tibet.member.vo.MemberVO;
 import com.myspring.tibet.order.service.OrderService;
 import com.myspring.tibet.order.vo.OrderPageVO;
 import com.myspring.tibet.order.vo.OrderVO;
@@ -33,6 +39,9 @@ public class OrderControllerImpl implements OrderController {
 	private OrderVO orderVO;
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private MemberVO memberVO;
+	
 	
 	/* 바로구매 */
 	@Override
@@ -97,8 +106,7 @@ public class OrderControllerImpl implements OrderController {
 	@Override
 	@RequestMapping(value="/addOrderList.do", method = RequestMethod.POST)
 	public ResponseEntity addOrderList(OrderVO orderVO, OrderPageVO orderPage,
-			HttpServletRequest request, HttpServletResponse response,
-			@RequestParam("update_user_id") String user_id, @RequestParam("update_point") Integer update_point)
+			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		response.setContentType("text/html; charset=UTF-8");
 		request.setCharacterEncoding("utf-8");
@@ -110,12 +118,22 @@ public class OrderControllerImpl implements OrderController {
 		System.out.println("orders : " + orderPage.getOrders());
 		System.out.println("orderVO : " + orderVO.toString());
 		
-		System.out.println("유저 : " + user_id);
+		String update_user_id = request.getParameter("update_user_id");
+		int update_point = Integer.parseInt(request.getParameter("update_point"));
+		System.out.println("유저 : " + update_user_id);
 		System.out.println("포인트 : " + update_point);
+		
+		Map<String, Object> update = new HashMap<String, Object>();
+		update.put("user_id", update_user_id);
+		update.put("user_point", update_point);
+		
+//		memberVO = memberService.login(loginMap);
+//		HttpSession session = request.getSession();
+//		session.setAttribute("memberInfo", memberVO);
 		
 		try {
 			orderService.addOrderList(orderPage.getOrders());
-			//memberService.updatePoint(orderVO);
+			memberService.updatePoint(update);
 				
 			message  = "<script>";
 			message += " location.href='" + request.getContextPath() + "/orderResult.do';";

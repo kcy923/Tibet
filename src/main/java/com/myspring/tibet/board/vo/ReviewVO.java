@@ -10,10 +10,11 @@ public class ReviewVO {
 	private String review_title;
 	private String review_img;
 	private String review_content;
-	private String review_usesize;
+	private String review_option;
 	private int review_height;
 	private int review_weight;
 	private Date review_date;
+	private String order_num;
 	private String user_id;
 	private String product_num;
 	
@@ -41,11 +42,11 @@ public class ReviewVO {
 	public void setReview_content(String review_content) {
 		this.review_content = review_content;
 	}
-	public String getReview_usesize() {
-		return review_usesize;
+	public String getReview_option() {
+		return review_option;
 	}
-	public void setReview_usesize(String review_usesize) {
-		this.review_usesize = review_usesize;
+	public void setReview_option(String review_option) {
+		this.review_option = review_option;
 	}
 	public int getReview_height() {
 		return review_height;
@@ -64,6 +65,12 @@ public class ReviewVO {
 	}
 	public void setReview_date(Date review_date) {
 		this.review_date = review_date;
+	}
+	public String getOrder_num() {
+		return order_num;
+	}
+	public void setOrder_num(String order_num) {
+		this.order_num = order_num;
 	}
 	public String getUser_id() {
 		return user_id;

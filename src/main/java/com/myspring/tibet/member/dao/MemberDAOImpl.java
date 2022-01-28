@@ -45,7 +45,7 @@ public class MemberDAOImpl implements MemberDAO{
 	}
 
 	@Override
-	public int updatePoint(HashMap<String, Object> map) throws DataAccessException {
+	public int updatePoint(Map<String, Object> map) throws DataAccessException {
 		return sqlSession.update("mapper.member.updatePoint", map);
 	}
 }

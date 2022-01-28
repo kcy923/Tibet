@@ -13,5 +13,5 @@ public interface MemberService {
 	public String overlapped(String id) throws Exception;
 	public MemberVO findID(MemberVO memberVO) throws Exception;
 	public MemberVO findPW(MemberVO memberVO) throws Exception;
-	public int updatePoint(HashMap<String, Object> map) throws Exception;
+	public int updatePoint(Map<String, Object> update) throws Exception;
 }
