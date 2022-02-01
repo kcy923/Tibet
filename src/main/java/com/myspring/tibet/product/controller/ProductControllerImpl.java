@@ -18,6 +18,15 @@ public class ProductControllerImpl implements ProductController{
 	@Autowired
 	private BoardService boardService;
 	
+	// Çö¼º
+//	@Override
+//	@RequestMapping(value="/productlistName{main_category_num}.do" ,method = RequestMethod.GET)
+//	public ModelAndView productlistName(@PathVariable("main_category_num") int main_category_num,ModelAndView mav) throws Exception {
+//		mav.setViewName("/productListName");
+//		mav.addObject("main_cate", productService.productListName(main_category_num));
+//		return mav;
+//	}
+	
 	@Override
 	@RequestMapping(value="/productlistName.do" ,method = RequestMethod.GET)
 	public ModelAndView productlistName(ModelAndView mav) throws Exception {
@@ -58,5 +67,11 @@ public class ProductControllerImpl implements ProductController{
 		mav.addObject("prodQnasList", boardService.listProdQnas(product_num));
 		mav.addObject("prodReviewsList", boardService.listProdReviews(product_num));
 		return mav;
+	}
+	
+	@Override
+	public ModelAndView mainCate(ModelAndView mav) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -1,6 +1,7 @@
 package com.myspring.tibet.board.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,8 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.myspring.tibet.board.dao.BoardDAO;
 import com.myspring.tibet.board.vo.NoticeVO;
+import com.myspring.tibet.board.vo.QnaCommentVO;
 import com.myspring.tibet.board.vo.QnaVO;
 import com.myspring.tibet.board.vo.ReviewVO;
+import com.myspring.tibet.utils.Criteria;
+
 
 @Service("boardService")
 @Transactional(propagation = Propagation.REQUIRED)
@@ -19,15 +23,56 @@ public class BoardServiceImpl implements BoardService {
 	BoardDAO boardDAO;
 	
 	@Override
-	public List<NoticeVO> listNotices() throws Exception{
-		List<NoticeVO> noticesList = boardDAO.selectAllNoticesList();
-		return noticesList;
+	public void insertQnaWritePage(QnaVO qnaVO) throws Exception{
+		boardDAO.insertQnaWritePage(qnaVO);
 	}
 	
 	@Override
-	public List<QnaVO> listQnas() throws Exception{
-		List<QnaVO> qnasList = boardDAO.selectAllQnasList();
-		return qnasList;
+	public List<Map<String, Object>> selectQnaList(Criteria cri) {
+	    return boardDAO.selectQnaList(cri);
+	}
+	
+	@Override
+	public int countQnaListTotal() {
+	    return boardDAO.countQnaList();
+	}
+
+	@Override
+	public List<Map<String, Object>> selectNoticeList(Criteria cri) {
+	    return boardDAO.selectNoticeList(cri);
+	}
+	
+	@Override
+	public int countNoticeListTotal() {
+	    return boardDAO.countNoticeList();
+	}
+	
+	@Override
+	public NoticeVO noticeDetail(Integer notice_num) throws Exception {
+		return boardDAO.noticeDetail(notice_num);
+	}
+
+	@Override
+	public QnaVO qnaDetail(Integer qna_num) throws Exception {
+		return boardDAO.qnaDetail(qna_num);
+	}
+	
+	@Override
+	public QnaCommentVO qnaDetailComment(Integer qna_num) throws Exception {
+		return boardDAO.qnaDetailComment(qna_num);
+	}
+	
+	@Override
+	public int modifyQna(QnaVO qnaVO) {
+		System.out.println("서비스는?"+ qnaVO.getQna_num());
+		System.out.println("서비스는?"+ qnaVO.getUser_id());
+		System.out.println("서비스는?"+ qnaVO.getQna_pw());
+		return boardDAO.modifyQna(qnaVO);
+	}
+	
+	@Override
+	public boolean deleteQna(Integer qna_num) throws Exception {
+		return boardDAO.deleteQna(qna_num);
 	}
 	
 	@Override
@@ -40,10 +85,5 @@ public class BoardServiceImpl implements BoardService {
 	public List<ReviewVO> listProdReviews(String product_num) throws Exception {
 		List<ReviewVO> prodReviewsList = boardDAO.selectProdReviewsList(product_num);
 		return prodReviewsList;
-	}
-	
-	@Override
-	public void insertQnaWritePage(QnaVO qnaVO) throws Exception{
-		boardDAO.insertQnaWritePage(qnaVO);
 	}
 }

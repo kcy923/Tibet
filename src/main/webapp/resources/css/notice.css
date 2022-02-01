@@ -142,26 +142,11 @@ table{
     text-decoration: underline;
 }
 
-.notice .paging{
-    margin-top: 10px;
-    font-size: 0px;
-    text-align: center;
-    color: rgb(150 150 150);
+.btn-group {
+	display: flex;
+    justify-content: center;
+    margin-top : 30px;
 }
-
-.notice .paging a{
-    display: inline-block;
-    margin-left: 5px;
-    padding: 5px 7px;
-    font-size: 14px;
-    font-weight: 400;
-}
-
-.notice .paging a:hover{
-    text-decoration: underline;
-}
-
-.notice .paging .num-on{
-    color: black;
-    font-weight: 700;
+.btn-group li {
+	margin : 0 1vw;
 }

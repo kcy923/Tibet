@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%
 request.setCharacterEncoding("UTF-8");
 %>
@@ -43,36 +44,40 @@ request.setCharacterEncoding("UTF-8");
 					</thead>
 					<tbody class="service-notice-content mgb20">
 						<c:choose>
-							<c:when test="${noticesList == null}">
-								<tr>
-									<td>
-										<p>
-											<b><span>등록된 글이 없습니다.</span></b>
-										</p>
-									</td>
-								</tr>
-							</c:when>
-							<c:when test="${noticesList != null}">
-								<c:forEach var="notice" items="${noticesList}" varStatus="notice_num">
-									<c:set var="i" value="${i + 1}"/>
+							<c:when test="${fn:length(list) > 0 }">
+								<c:forEach items="${list }" var="nList">
 									<tr>
-										<td class="not-no">${i}</td>
-										<td class="not-tit-td"><a href="#">${notice.notice_title}</a></td>   <!-- 공지사항 내용 페이지 만들어야 됨 -->
-										<td class="not-nm">${notice.user_id}</td>
-										<td class="not-date"><fmt:formatDate value="${notice.notice_date}" pattern="yyyy-MM-dd"/></td>
+										<td scope="row">${nList.num}</td>
+										<td class="notice-tit-td"><a href="${contextPath}/noticeDetail${nList.notice_num}.do">${nList.notice_title}</a></td>
+										<td class="notice-tit-td">${nList.user_id }</td>
+										<td class="notice-tit-td">${nList.notice_date}</td>
 									</tr>
 								</c:forEach>
 							</c:when>
+							<c:otherwise>
+								<tr>
+									<td colspan="5">조회된 결과가 없습니다.</td>
+								</tr>
+							</c:otherwise>
 						</c:choose>
 					</tbody>
 				</table>
 			</div>
-
-			<div class="paging">
-				<a href="#" class="bt"><<</a> <a href="#" class="bt"><</a> <a
-					href="#" class="num-on">1</a> <a href="#" class="num">2</a> <a
-					href="#" class="bt">></a> <a href="#" class="bt">>></a>
-			</div>
+			<ul class="btn-group pagination">
+				<c:if test="${pageMaker.prev }">
+					<li><a href='<c:url value="/notice.do?page=${pageMaker.startPage-1 }"/>'>
+						<i class="fas fa-chevron-left"></i></a>
+					</li>
+				</c:if>
+				<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
+					<li><a href='<c:url value="/notice.do?page=${pageNum }"/>'>${pageNum }</a></li>
+				</c:forEach>
+				<c:if test="${pageMaker.next && pageMaker.endPage >0 }">
+					<li><a href='<c:url value="/notice.do?page=${pageMaker.endPage+1 }"/>'>
+						<i class="fas fa-chevron-right"></i></a>
+					</li>
+				</c:if>
+			</ul>
 		</div>
 	</section>
 </body>

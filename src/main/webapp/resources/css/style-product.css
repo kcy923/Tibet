@@ -3,7 +3,6 @@
 .products-detail {
 	max-width: 1200px;
 	height: auto;
-	
 	margin: 0 auto;
 }
 
@@ -449,7 +448,6 @@
 	height: 30px;
 }
 
-
 .mgb10{
     margin-top: 10px;
     margin-bottom: 0px;
@@ -606,8 +604,6 @@
 	margin: 4px 2px;
 	cursor: pointer;
 }
-
-
 
 .detail-qna-header-a {
 	float: right;

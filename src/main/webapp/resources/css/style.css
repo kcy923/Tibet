@@ -57,11 +57,6 @@ header .gnb .sub {
 	display: none;
 }
 
-header .gnb .hamburger {
-	font-size: 2rem;
-	cursor: pointer;
-}
-
 header .gnb li a {
 	display: block;
 	padding: 10px 20px;
@@ -339,3 +334,114 @@ footer dl {
 	color: #000;
 	border-bottom: 1px solid #000;
 }
+
+.font-FFF {
+	color: #FFF;
+}
+
+/* 헤더메뉴 */
+input[id="menuicon"] {
+    display: none;
+}
+
+input[id="menuicon"] + label{
+    display: block;
+    width: 40px;
+    height: 30px;
+    position: relative;
+    cursor: pointer;
+}
+
+input[id="menuicon"] + label span{
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    border-radius: 30px;
+    background: black;
+    transition: all .2s;
+}
+
+input[id="menuicon"] + label span:nth-child(1){
+    top: 0;
+}
+
+input[id="menuicon"] + label span:nth-child(2){
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+input[id="menuicon"] + label span:nth-child(3){
+    bottom: 0;
+}
+
+input[id="menuicon"]:checked + label span:nth-child(1){
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+}
+
+input[id="menuicon"]:checked + label span:nth-child(2){
+    opacity: 0;
+}
+
+input[id="menuicon"]:checked + label span:nth-child(3){
+    top: 50%;
+    transform: translateY(-50%) rotate(-45deg);
+}
+
+.nav-table{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
+    color: rgb(17, 17, 17);
+    line-height: 1.2;
+    background: rgb(255, 255, 255);
+    height: 60px;
+    list-style: none;
+    width: 100%;
+    text-align: center;
+    border-top: 1px solid rgb(228, 228, 228);
+}
+
+.nav-table-menu{
+    width: 5%;
+}
+
+.nav-table01{
+    background: rgb(255, 255, 255);
+    position: absolute;
+    width: 100%;
+    height: 130px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    font-size: 13px;
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
+    line-height: 2;
+}
+
+.nav-table01 ul li{
+    list-style: none;
+    text-align: center;
+}
+
+#submenu10-0 {
+	width:2vw;
+}
+.nav-table01 #submenu10-1{
+    width: 5%;
+    top: -300px;
+}
+
+.nav-table02{
+    display: none;
+}
+
+.nav-table01{
+    border-bottom: 1px solid rgb(228, 228, 228);
+}
+/* 헤더 메뉴 끝 */

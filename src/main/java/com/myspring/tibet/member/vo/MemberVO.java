@@ -4,7 +4,6 @@ import java.util.Date;
 
 import org.springframework.stereotype.Component;
 
-
 @Component("memberVO")
 public class MemberVO {
 	private String user_id;
@@ -22,6 +21,9 @@ public class MemberVO {
 	private int user_point;
 	private int user_mailSend;
 	private int coupon_num;
+	private int adminck;
+	private String googleid;
+	private String naverid;
 	
 	public String getUser_id() {
 		return user_id;
@@ -112,6 +114,24 @@ public class MemberVO {
 	}
 	public void setCoupon_num(int coupon_num) {
 		this.coupon_num = coupon_num;
+	}
+	public int getAdminck() {
+		return adminck;
+	}
+	public void setAdminck(int adminck) {
+		this.adminck = adminck;
+	}
+	public String getGoogleid() {
+		return googleid;
+	}
+	public void setGoogleid(String googleid) {
+		this.googleid = googleid;
+	}
+	public String getNaverid() {
+		return naverid;
+	}
+	public void setNaverid(String naverid) {
+		this.naverid = naverid;
 	}
 }
 

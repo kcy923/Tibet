@@ -9,7 +9,9 @@
     <result property="notice_title" column="notice_title" />
     <result property="notice_content" column="notice_content" />
     <result property="notice_date" column="notice_date" />
-    <result property="notice_img" column="notice_img" />
+    <result property="notice_img1" column="notice_img1" />
+    <result property="notice_img2" column="notice_img2" />
+    <result property="notice_img3" column="notice_img3" />
     <result property="user_id" column="user_id" />
 </resultMap>
 
@@ -19,7 +21,9 @@
     <result property="qna_content" column="qna_content" />
     <result property="qna_date" column="qna_date" />
     <result property="qna_lock" column="qna_lock" />
-    <result property="qna_img" column="qna_img" />
+    <result property="qna_img1" column="qna_img1" />
+    <result property="qna_img2" column="qna_img2" />
+    <result property="qna_img3" column="qna_img3" />
     <result property="user_id" column="user_id" />
     <result property="product_num" column="product_num" />
 </resultMap>
@@ -27,7 +31,9 @@
 <resultMap id="reviewResult" type="reviewVO">
     <result property="review_num" column="review_num" />
     <result property="review_title" column="review_title" />
-    <result property="review_img" column="review_img" />
+    <result property="review_img1" column="review_img1" />
+    <result property="review_img2" column="review_img2" />
+    <result property="review_img3" column="review_img3" />
     <result property="review_content" column="review_content" />
     <result property="review_option" column="review_option" />
     <result property="review_height" column="review_height" />
@@ -38,15 +44,34 @@
 </resultMap>
 
 
-<select id="selectAllNoticesList" resultMap="noticeResult">
+<select id="selectAllNoticesList" resultType="hashmap" parameterType="hashmap">
     <![CDATA[
-     	select * from notice order by notice_date desc 		
+     	SELECT cast(@num:=@num+1 AS signed integer) AS num,notice_num,notice_title,notice_content,user_id,cast(notice_date AS DATE) as notice_date
+		FROM (SELECT @num:=(#{pageStart}/#{perPageNum})*(${perPageNum})) AS n, notice
+		ORDER BY notice_date DESC
+		LIMIT #{pageStart}, #{perPageNum}
     ]]>
 </select>
 
-<select id="selectAllQnasList" resultMap="qnaResult">
+<select id="countNoticeList" resultType="Integer">
     <![CDATA[
-     	select * from qna order by qna_date desc 		
+        SELECT
+            count(*)
+        FROM
+            notice
+    ]]>
+</select>
+
+<select id="noticeDetail" resultType="com.myspring.tibet.board.vo.NoticeVO">
+			select notice_num,notice_title, notice_content, cast(notice_date AS DATE) as notice_date, notice_img1,notice_img2,notice_img3, user_id from notice where notice_num=#{notice_num}
+</select>
+
+<select id="selectAllQnasList" resultType="hashmap" parameterType="hashmap">
+    <![CDATA[
+     	SELECT cast(@num:=@num+1 AS signed integer) AS num,q.qna_num,qna_title,qna_img1,qna_img2,qna_img3,qna_lock,qna_content,q.user_id,qna_pw,qna_date,c.qna_comment_num
+		FROM (SELECT @num:=(#{pageStart}/#{perPageNum})*(${perPageNum})) AS n, qna q LEFT OUTER JOIN tibetdb.qna_comment c ON q.qna_num=c.qna_num
+		ORDER BY qna_date DESC
+		LIMIT #{pageStart}, #{perPageNum}
     ]]>
 </select>
 
@@ -58,15 +83,44 @@
 
 <insert id="insertQnaWritePage" parameterType="qnaVO">
 	<![CDATA[
-     	insert into qna(qna_num, qna_title, qna_content, qna_pw, qna_lock, qna_img, user_id, product_num)
-     	values(#{qna_num}, #{qna_title}, #{qna_content}, #{qna_pw}, #{qna_lock}, #{qna_img}, #{user_id}, #{product_num})
+     	insert into qna(qna_num, qna_title, qna_content, qna_pw, qna_lock, qna_img1,qna_img2,qna_img3, user_id, product_num)
+     	values(#{qna_num}, #{qna_title}, #{qna_content}, #{qna_pw}, #{qna_lock}, #{qna_img1},#{qna_img2},#{qna_img3}, #{user_id}, #{product_num})
     ]]>
 </insert>
+
+<select id="countQnaList" resultType="Integer">
+    <![CDATA[
+        SELECT
+            count(*)
+        FROM
+            qna
+    ]]>	
+</select>
 
 <select id="selectProdReviewsList" resultMap="reviewResult">
     <![CDATA[
      	select * from review where review.product_num=#{product.product_num} order by review_date desc
     ]]>
 </select>
+
+<select id="qnaDetail" resultType="com.myspring.tibet.board.vo.QnaVO">
+	select qna_num,qna_pw,qna_title, qna_content, cast(qna_date AS DATE) as qna_date, qna_img1,qna_img2,qna_img3, user_id from tibetdb.qna where qna_num=#{qna_num}
+</select>
+
+<select id="qnaDetailComment" resultType="com.myspring.tibet.board.vo.QnaCommentVO">
+	select * from tibetdb.qna_comment where qna_num=#{qna_num}
+</select>
+
+<update id="modifyQna" parameterType="com.myspring.tibet.board.vo.QnaVO">
+	<![CDATA[
+		update tibetdb.qna set qna_content=#{qna_content}, qna_lock=#{qna_lock},qna_pw=#{qna_pw},qna_img1=#{qna_img1},qna_img2=#{qna_img2},qna_img3=#{qna_img3},qna_date=NOW() where qna_num=#{qna_num}
+	]]>
+</update>
+
+<delete id="deleteQna" parameterType="Integer">
+	<![CDATA[
+		delete from tibetdb.qna where qna_num=#{qna_num}
+	]]>
+</delete>
 
 </mapper>

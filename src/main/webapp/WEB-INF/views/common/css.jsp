@@ -8,3 +8,4 @@
     <link rel="stylesheet" href="/resources/fontawesome/css/all.css">
     <link rel="stylesheet" href="/resources/css/reset.css">
     <link rel="stylesheet" href="/resources/css/style.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">

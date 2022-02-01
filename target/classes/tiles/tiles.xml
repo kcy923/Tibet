@@ -28,6 +28,12 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/service/notice.jsp" />
 	</definition>
+	
+	<definition name="/noticeDetail" extends="baseLayout">
+		<put-attribute name="title" value="공지사항" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/service/noticeDetail.jsp" />
+	</definition>
 
 	<definition name="/qna" extends="baseLayout">
 		<put-attribute name="title" value="Q&amp;A" />
@@ -46,6 +52,18 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/service/qnaWrite.jsp" />
 	</definition>
+	
+	<definition name="/qnaDetail" extends="baseLayout">
+		<put-attribute name="title" value="Q&amp;A 상세" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/service/qnaDetail.jsp" />
+	</definition>
+	
+	<definition name="/qnaModifyForm" extends="baseLayout">
+		<put-attribute name="title" value="Q&amp;A 상세" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/service/qnaModify.jsp" />
+	</definition>
 
 	<definition name="/membership" extends="baseLayout">
 		<put-attribute name="title" value="멤버쉽 안내" />
@@ -53,10 +71,10 @@
 			value="/WEB-INF/views/service/membership.jsp" />
 	</definition>
 
-	<definition name="/memModify" extends="baseLayout">
+	<definition name="/memModifyForm" extends="baseLayout">
 		<put-attribute name="title" value="회원정보수정" />
 		<put-attribute name="body"
-			value="/WEB-INF/views/member/memModify.jsp" />
+			value="/WEB-INF/views/member/memModifyForm.jsp" />
 	</definition>
 
 	<definition name="/signupForm" extends="baseLayout">
@@ -240,10 +258,10 @@
 	</definition>
 
 	<definition name="/sale" extends="baseLayout">
-	<put-attribute name="title" value="세일" />
-	<put-attribute name="body"
-		value="/WEB-INF/views/product/sale.jsp" />
-</definition>
+		<put-attribute name="title" value="세일" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/product/sale.jsp" />
+	</definition>
 
 	<definition name="/cart" extends="baseLayout">
 		<put-attribute name="title" value="장바구니" />
@@ -255,6 +273,18 @@
 		<put-attribute name="title" value="주문하기" />
 		<put-attribute name="body"
 			value="/WEB-INF/views/order/order.jsp" />
+	</definition>
+	
+	<definition name="/orderList" extends="baseLayout">
+		<put-attribute name="title" value="주문내역" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/order/orderList.jsp" />
+	</definition>
+	
+	<definition name="/cancelList" extends="baseLayout">
+		<put-attribute name="title" value="취소환불반품내역" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/order/cancelList.jsp" />
 	</definition>
 	
 	<definition name="/nowBuy" extends="baseLayout">
@@ -269,12 +299,6 @@
 			value="/WEB-INF/views/order/orderResult.jsp" />
 	</definition>
 
-	<definition name="/orderList" extends="baseLayout">
-		<put-attribute name="title" value="주문내역" />
-		<put-attribute name="body"
-			value="/WEB-INF/views/order/orderList.jsp" />
-	</definition>
-
 	<definition name="/productListNew" extends="baseLayout">
 		<put-attribute name="title" value="상품목록" />
 		<put-attribute name="body"
@@ -287,8 +311,7 @@
 			value="/WEB-INF/views/product/new.jsp" />
 	</definition>
 
-	<definition name="/productListHighprice"
-		extends="baseLayout">
+	<definition name="/productListHighprice" extends="baseLayout">
 		<put-attribute name="title" value="상품목록" />
 		<put-attribute name="body"
 			value="/WEB-INF/views/product/new.jsp" />

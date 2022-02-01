@@ -8,6 +8,8 @@ public interface ProductController {
 	public ModelAndView productlistNew(ModelAndView mav) throws Exception;
 	public ModelAndView productlistLowprice(ModelAndView mav) throws Exception;
 	public ModelAndView productlistHighprice(ModelAndView mav) throws Exception;
+//	public ModelAndView productlistName(int main_category_num, ModelAndView mav) throws Exception;
 	public ModelAndView productlistName(ModelAndView mav) throws Exception;
 	public ModelAndView detail(@PathVariable("product_num") String product_num, ModelAndView mav) throws Exception;
+	public ModelAndView mainCate(ModelAndView mav) throws Exception;
 }

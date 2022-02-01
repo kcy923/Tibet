@@ -5,26 +5,41 @@
 <%
   request.setCharacterEncoding("UTF-8");
 %>
+<%@ page import="java.util.Date" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%
+	Date nowTime = new Date();
+	SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
+<%
+session.getAttribute("memberInfo");
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="resources/css/reset.css">
-<link rel="stylesheet" href="resources/css/orderList.css">
 <link rel="stylesheet" href="resources/css/style.css">
+<link rel="stylesheet" href="resources/css/orderList.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+
+
 <title>마이페이지</title>
 </head>
 <body>
 	<section>
+		
 		<div class="mypage">
 			<div class="mypage-table mgb10">
 				<div class="mypage-front-fonter-orderList">
-					<a href="${contextPath}/orderList.do" class="font-777">주문내역</a>
+					<a href="#">주문내역</a>
 				</div>
 				<div class="mypage-front-fonter-memModify">
-					<a href="${contextPath}/orderList.do" class="font-777">회원정보</a>
+					<a href="${contextPath}/memModifyForm.do" class="font-777">회원정보</a>
 				</div>
 				<div class="mypage-front-fonter-delivery">
 					<a href="" class="font-777">배송조회</a>
@@ -35,31 +50,32 @@
 		<div class="mypage-detail-table">
 			<div class="mypage-detail-table mgb10">
 				<div class="mypage-orderList">
-					<a href="${contextPath}/orderList.do" class="font-777">주문내역조회</a>
+					<a href="${contextPath}/orderList${memberInfo.user_id}.do">주문내역조회</a>
 				</div>
 				<div class="mypage-cancelList">
-					<a href="" class="font-777">취소/교환/반품 내역</a>
+					<a href="${contextPath}/cancelList${memberInfo.user_id}.do" class="font-777">취소/교환/반품 내역</a>
 				</div>
 			</div>
 		</div>
-		<br>
 
-		<div class="select-date">
-			<label for="start" class="cal-label">조회 기간 선택&nbsp;</label> 
-				<input type="date" id="start" name="list-start"
-					value="2021-01-01" min="2000-01-01" max="2030-12-31">
-			<label for="end"  class="cal-label">&nbsp;~&nbsp;</label>
-				<input type="date" id="end" name="list-end" 
-					value="2021-12-02" min="2000-01-01" max="2030-12-31">
-		</div>
-		<br>
-		<br>
 
 		<div class="orderList">
-			<div class="oderList-title">주문 상품 정보</div>
-				<div class="div-orderList">
-					<table class="orderList-table">
-						<tr class="orderList-table-title">
+			<div class="orderList-titlebox">
+				<div class="orderList-title">주문 상품 정보</div>
+				<div class="select-date">
+					<form action="" method="GET" name="searchFrm">
+						<label for="From" class="cal-label">조회 기간 선택&nbsp;</label> 
+						<input id="dateFrom" name="dateFrom" readonly>
+						<label for="To" class="cal-label">&nbsp;~&nbsp;</label> 
+						<input id="dateTo" name="dateTo" readonly>
+						<button class="date-button" type="submit" onclick="">조회하기</button>
+					</form>
+				</div>
+			</div>
+				<div class="orderList-tablebox">
+					<table class="div-orderList">
+						<tr class="orderList-table">
+							<th class="orderNum-th">주문번호</th>
 							<th class="orderDate-th">주문일자</th>
 							<th class="orderImage-th">이미지</th>
 							<th class="orderInfo-th">상품정보</th>
@@ -67,43 +83,36 @@
 							<th class="orderCash-th">상품구매금액</th>
 							<th class="orderPoint-th">적립금</th>
 							<th class="orderState-th">주문처리상태</th>
-							<th class="orderCancel-th">취소/교환/반품</th>
 						</tr>
+						<c:forEach var="list" items="${list}">
+						<input type="hidden" name="user_id" value="${memberInfo.user_id}">
 						<tr class="orderList-tr">
-							<td class="orderDate">2021-12-02</td>
-							<td class="orderImage"><a href="" class="orderImage-a">이미지</a></td>
-							<td class="orderInfo"><a href="" class="orderInfo-a">상품정보</a></td>
-							<td class="orderCount">2</td>
-							<td class="orderCash">30,000원</td>
-							<td class="orderPoint">1,500원</td>
-							<td class="orderState">배송준비중</td>
-							<td class="orderCancel">-</td>
-						</tr>
-						<tr class="orderList-tr"> 
-							<td class="orderDate">2021-12-02</td>
-							<td class="orderImage"><a href="" class="orderImage-a">이미지</a></td>
-							<td class="orderInfo"><a href="" class="orderInfo-a">상품정보</a></td>
-							<td class="orderCount">2</td>
-							<td class="orderCash">30,000원</td>
-							<td class="orderPoint">1,500원</td>
-							<td class="orderState">배송중</td>
-							<td class="orderCancel">-</td>
-						</tr>
-						<tr class="orderList-tr"> 
-							<td class="orderDate">2021-12-02</td>
-							<td class="orderImage"><a href="" class="orderImage-a">이미지</a></td>
-							<td class="orderInfo"><a href="" class="orderInfo-a">상품정보</a></td>
-							<td class="orderCount">2</td>
-							<td class="orderCash">30,000원</td>
-							<td class="orderPoint">1,500원</td>
-							<td class="orderState">배송완료
-우체국택배
-[123456789]
-<button type="button" id="review-btn">리뷰쓰기</button>
+							<td class="orderNum">${list.order_num}</td>
+							<td class="orderDate"><fmt:formatDate value="${list.order_date}" pattern="yyyy-MM-dd" /></td>
+							<td class="orderImage"><a href="" class="orderImage-a"><img src="resources/${list.product_thumbnail}"></a></td>
+							<td class="orderInfo"><a href="" class="orderInfo-a">${list.product_name}</a><br><p>[ ${list.product_color} / ${list.product_size} ]</p></td>
+							<td class="orderCount">${list.product_count}</td>
+							<td class="orderCash"><fmt:formatNumber
+										value="${(list.product_price - list.product_sale) * list.product_count}"
+										pattern="###,###,###원" /></td>
+							<td class="orderPoint"><fmt:formatNumber
+										value="${list.product_price * 0.05}"
+										pattern="###,###,###원" /></td>
+							<c:choose>
+								<c:when test="${list.order_state =='배송완료'}">
+									<td class="orderState">${list.order_state}<br>우체국택배<br>[123456789]<br>
+<button type="button" id="review-btn" data-order_num="${list.order_num}"data-product_num="${list.product_num}" data-product_name="${list.product_name}" data-product_option="[ ${list.product_color} / ${list.product_size} ]">리뷰쓰기</button>
 <button type="button" id="cancel-btn">취소/교환/반품</button>
+							<input type="hidden" value="${list.order_num}" name="order_num" id="order_num" />
+							<input type="hidden" value="${list.product_num}" name="product_num" id="product_num" />
 </td>
-							<td class="orderCancel">-</td>
+								</c:when>
+								<c:otherwise>
+									<td class="orderState">${list.order_state}</td>
+								</c:otherwise>
+							</c:choose>
 						</tr>
+						</c:forEach>
 				</table>
 			</div>
 		</div>
@@ -111,36 +120,55 @@
 		<div id="review-modal">
 			<div class="div-title">Review</div>
 			<br><br>
+			<form action="${contextPath}/reviewWrt.do" method="POST">
 			<div>
 	            <label class="info-label">상품정보</label>
-	            	<input type="text" class="info-input">
+	            	<input type="hidden" id="review_product_num" name="product_num">
+	            	<input type="hidden" id="review_order_num" name="order_num">
+	            	
+	            	<input type="text" class="info-input" id="review_product_name" name="product_name" value='' readonly>
             </div>
             <div>
 	            <label class="writer-label">작성자</label>
-	            	<input type="text" class="writer-input">
-	            <label class="size-label">평소사이즈</label>
-	            	<input type="text" class="size-input">
+	            	<input type="text" class="writer-input" name="user_id" value="${memberInfo.user_id}" readonly>
+	            <label class="size-label">상품옵션</label>
+	            	<input type="text" class="size-input" id="review_product_option" name="review_option" readonly>
             </div>
             <div>
 	            <label class="height-label">키</label>
-	            	<input type="text" class="height-input">
+	            	<input type="text" class="height-input" name="review_height" onKeyup="this.value=this.value.replace(/[^0-9.]/g,'');" placeholder="숫자,소수점만 입력가능"/>
+	            	<label id="user_height">cm</label>
 	            <label class="weight-label">몸무게</label>
-	            	<input type="text" class="weight-input">
+	            	<input type="text" class="weight-input" name="review_weight" onKeyup="this.value=this.value.replace(/[^0-9.]/g,'');" placeholder="숫자,소수점만 입력가능"/>
+	            	<label id="user_weight">kg</label>
+            </div>
+            <div class="div-reviewtitle">
+            	<label class="title-label">리뷰제목</label>
+	            	<input type="text" class="title-input" id="review_title" name="review_title" value='' >
             </div>
             <div class="div-content">
 	            <label class="content-label">내용</label>
-	            	<textarea class="content-input"></textarea>
+	            	<textarea class="content-input" name="review_content"></textarea>
             </div>
             <div>
             	<label>이미지첨부&nbsp;&nbsp;</label>
-            		<input type="file">
+            		<input type="file" name="review_img1">
+            </div>
+            <div>
+            	<label>이미지첨부&nbsp;&nbsp;</label>
+            		<input type="file" name="review_img2">
+            </div>
+            <div>
+            	<label>이미지첨부&nbsp;&nbsp;</label>
+            		<input type="file" name="review_img3">
             </div>
             <br><br>
             <div class="review-write">
             	<button type="submit" class="review-write-btn">
-            		<a href="${contextPath}/orderList.do" class="font-FFF">작성하기</a>
+      				<p class="font-FFF">작성하기</p>
             	</button>
             </div>
+            </form>
             <a class="modal_close_btn"><i class="fas fa-times"></i></a>
         </div>
         
@@ -166,16 +194,85 @@
             </div>
             <br><br>
             <div class="cancel-write">
-            	<button type="submit" class="cancel-write-btn">
-            		<a href="${contextPath}/orderList.do" class="font-FFF">작성하기</a>
+            	<button type="submit" class="cancel-write-btn" onclick="'${contextPath}/orderList.do'">
+            		<a class="font-FFF">작성하기</a>
             	</button>
             </div>
             <a class="modal_close_btn"><i class="fas fa-times"></i></a>
         </div>
 
-	</section>
+		<script>
 
+			$(function() {
+				$.datepicker.setDefaults({
+					dateFormat : 'yy-mm-dd',
+					prevText : '이전 달',
+					nextText : '다음 달',
+					monthNames : [ '1월', '2월', '3월', '4월', '5월', '6월', '7월',
+							'8월', '9월', '10월', '11월', '12월' ],
+					monthNamesShort : [ '1월', '2월', '3월', '4월', '5월', '6월',
+							'7월', '8월', '9월', '10월', '11월', '12월' ],
+					dayNames : [ '일', '월', '화', '수', '목', '금', '토' ],
+					dayNamesShort : [ '일', '월', '화', '수', '목', '금', '토' ],
+					dayNamesMin : [ '일', '월', '화', '수', '목', '금', '토' ],
+					showMonthAfterYear : true,
+					yearSuffix : '년'
+				});
+				$('#dateFrom').datepicker();
+				$('#dateTo').datepicker();
+				
+				if(${dateFrom == null && dateTo == null}) {
+					$('#dateFrom').datepicker("setDate",'-7D');
+					$('#dateTo').datepicker("setDate", 'today');
+				}
+				else{
+					$('#dateFrom').datepicker("setDate",'${date.dateFrom}');
+					$('#dateTo').datepicker("setDate", '${date.dateTo}');
+				}
+
+				
+				$('#dateFrom').datepicker("option", "maxDate",
+						$("#dateTo").val());
+				$('#dateTo').datepicker("option", "maxDate",
+						"today");
+				$('#dateFrom').datepicker(
+						"option",
+						"onClose",
+						function(selectedDate) {
+							$("#dateTo").datepicker("option", "minDate",
+									selectedDate);
+						});
+
+				$('#dateTo').datepicker("option", "minDate",
+						$("#dateFrom").val());
+				$('#dateTo').datepicker(
+						"option",
+						"onClose",
+						function(selectedDate) {
+							$("#dateFrom").datepicker("option", "maxDate",
+									selectedDate);
+						});
+			});
+		</script>
+	</section>
 	<script>
+
+		
+	$(document).on("click", "#review-btn", function () {
+		var product_name = $(this).data('product_name'); 
+		$("#review_product_name").val(product_name);
+		var product_option = $(this).data('product_option');
+		$("#review_product_option").val(product_option);
+		var product_num = $(this).data('product_num');
+		$("#review_order_num").val(order_num);
+		var order_num = $(this).data('order_num');
+		$("#review_order_num").val(order_num);
+		
+		// As pointed out in comments, 
+		// it is superfluous to have to manually call the modal. 
+		// $('#addBookDialog').modal('show'); 
+		});
+
 		function modal(id) {
 			var zIndex = 9999;
 			var modal = document.getElementById(id);
@@ -190,7 +287,7 @@
 				width : '100%',
 				height : '100%',
 				overflow : 'auto',
-				// 레이어 색갈은 여기서 바꾸면 됨
+				// 레이어 색깔은 여기서 바꾸면 됨
 				backgroundColor : 'rgba(0,0,0,0.4)'
 			});
 			document.body.append(bg);
@@ -238,6 +335,7 @@
 					// 모달창 띄우기
 					modal('cancel-modal');
 				});
+
 	</script>
 </body>
 </html>

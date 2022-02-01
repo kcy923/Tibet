@@ -1,6 +1,5 @@
 package com.myspring.tibet.member.dao;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
@@ -14,5 +13,9 @@ public interface MemberDAO {
 	public String selectOverlappedID(String id) throws DataAccessException;
 	public MemberVO findID(MemberVO memberVO) throws DataAccessException;
 	public MemberVO findPW(MemberVO memberVO) throws DataAccessException;
+	public void deleteMember(MemberVO vo) throws Exception;
+	public MemberVO modifyMemberForm(String user_id);
+	public int modifyMember(MemberVO vo) throws Exception;
+	public MemberVO getBySns(MemberVO snsUser);
 	public int updatePoint(Map<String, Object> map) throws DataAccessException;
 }

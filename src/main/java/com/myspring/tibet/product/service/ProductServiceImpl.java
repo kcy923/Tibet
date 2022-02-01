@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.myspring.tibet.product.dao.ProductDAO;
+import com.myspring.tibet.product.vo.MainCateVO;
 import com.myspring.tibet.product.vo.ProductVO;
 
 @Service("productService")
@@ -29,6 +30,12 @@ public class ProductServiceImpl implements ProductService{
 		return productDao.productlistLowprice();
 	}
 	
+	// Çö¼º
+//	@Override	
+//	public List<ProductVO> productListName(int main_category_num) throws Exception {	
+//		return productDao.productlistName(main_category_num);	
+//	}
+	
 	@Override
 	public List<ProductVO> productListName() throws Exception {
 		return productDao.productlistName();
@@ -38,4 +45,9 @@ public class ProductServiceImpl implements ProductService{
 	public ProductVO productDetail(String product_num) throws Exception {
 		return productDao.productDetail(product_num);
 	}
+	
+	@Override	
+	public List<MainCateVO> mainCate() throws Exception {	
+		return productDao.mainCate();	
+	}	
 }

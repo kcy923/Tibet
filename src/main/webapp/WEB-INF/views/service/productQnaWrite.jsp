@@ -17,11 +17,13 @@ request.setCharacterEncoding("UTF-8");
 <link rel="stylesheet" href="resources/css/qnaWrite.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link
-	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap"
-	rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="resources/fontawesome/css/all.css">
 <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+<script src="resources/summernote/summernote-lite.js"></script>	
+<script src="resources/summernote/lang/summernote-ko-KR.js"></script>	
+<link rel="stylesheet" href="resources/summernote/summernote-lite.css">
+
 </head>
 <body>
 	<form action="${contextPath}/qnaWrt.do" id="qnaWrt" method="post">
@@ -66,11 +68,21 @@ request.setCharacterEncoding("UTF-8");
 					</div>
 					<div class="qna-ask-form">
 						<label>내용</label>
-						<textarea name="qna_content" class="textarea"></textarea>
+						<textarea id="summernote" name="qna_content"></textarea>
 					</div>
 					<div class="qna-ask-form-img">
+						<div>
 						<label>이미지 첨부</label> <input class="qna-ask-form-img-btn"
-							type="file" name="qna_img">
+							type="file" name="qna_img1">
+						</div>
+						<div>
+							<label>이미지 첨부</label> <input class="qna-ask-form-img-btn"
+							type="file" name="qna_img2">
+						</div>
+						<div>
+							<label>이미지 첨부</label> <input class="qna-ask-form-img-btn"
+							type="file" name="qna_img3">
+						</div>
 					</div>
 				</div>
 			</div>
@@ -117,6 +129,20 @@ request.setCharacterEncoding("UTF-8");
 		</div> --%>
 	</form>
 	<script>
+		$('#summernote').summernote({
+			height: 450,
+			lang: "ko-KR",
+	        toolbar: [
+	            ['fontname', ['fontname']],
+	            ['fontsize', ['fontsize']],
+	            ['style', ['bold', 'italic', 'underline', 'clear']],
+	            ['color', ['color']],
+	            ['para', ['paragraph']],
+	            ['insert', ['link', 'picture']],
+	            ['view', []]
+	        ]
+		});
+	
 		function submit_check() {
 			var answer;
 			answer = confirm("등록하시겠습니까?");

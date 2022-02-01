@@ -18,11 +18,14 @@ request.setCharacterEncoding("UTF-8");
 <link rel="stylesheet" href="resources/css/qnaWrite.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link
-	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap"
-	rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <link rel="stylesheet" href="resources/fontawesome/css/all.css">
 <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+<script src="resources/summernote/summernote-lite.js"></script>
+<script src="resources/summernote/lang/summernote-ko-KR.js"></script>
+<link rel="stylesheet" href="resources/summernote/summernote-lite.css">
+
 </head>
 <body>
 	<form action="${contextPath}/qnaWrt.do" id="qnaWrt" method="post">
@@ -37,44 +40,49 @@ request.setCharacterEncoding("UTF-8");
 			<div class="qna-ask">
 				<div class="form">
 					<div class="qna-ask-form">
-						<label>제목</label> <input type="text" class="input" id="qna_title"
-							name="qna_title" value="배송문의" readonly>
+						<label>제목</label> 
+						<input type="text" class="input" id="qna_title" name="qna_title" value="배송문의" readonly>
 					</div>
 					<%
 					session.getAttribute("memberInfo");
 					%>
-					<input type="hidden" id="user_id" name="user_id"
-						value="${memberInfo.user_id}">
+					<input type="hidden" id="user_id" name="user_id" value="${memberInfo.user_id}">
 					<div class="qna-ask-form">
-						<label>공개여부</label> <input type="radio" name="qna_lock"
-							class="lock-radio" id="lock-radio-open" value="0"
-							onclick='btnDisabled()' /> <label class="lock-label">공개</label>
-						<input type="radio" name="qna_lock" class="lock-radio"
-							id="lock-radio-close" value="1" onclick='btnActive()' checked />
+						<label>공개여부</label> 
+						<input type="radio" name="qna_lock" class="lock-radio" id="lock-radio-open" value="0" onclick='btnDisabled()' /> 
+						<label class="lock-label">공개</label>
+						<input type="radio" name="qna_lock" class="lock-radio" id="lock-radio-close" value="1" onclick='btnActive()' checked />
 						<label class="lock-label">비공개</label>
 					</div>
 					<div class="qna-ask-form">
-						<label>비밀번호</label> <input type="password" name="qna_pw"
-							class="input" id="password" maxlength="4"
-							placeholder="비밀번호는 4자리 숫자로 설정해주세요." />
+						<label>비밀번호</label> 
+						<input type="password" name="qna_pw" class="input" id="password" maxlength="4" placeholder="비밀번호는 4자리 숫자로 설정해주세요." />
 					</div>
 					<div class="qna-ask-form">
 						<label>내용</label>
-						<textarea name="qna_content" class="textarea"></textarea>
+						<textarea id="summernote" name="qna_content"></textarea>
 					</div>
 					<div class="qna-ask-form-img">
-						<label>이미지 첨부</label> <input class="qna-ask-form-img-btn"
-							type="file" name="qna_img">
+						<div>
+							<label>이미지 첨부</label> 
+							<input class="qna-ask-form-img-btn" type="file" name="qna_img1">
+						</div>
+						<div>
+							<label>이미지 첨부</label> 
+							<input class="qna-ask-form-img-btn" type="file" name="qna_img2">
+						</div>
+						<div>
+							<label>이미지 첨부</label> 
+							<input class="qna-ask-form-img-btn" type="file" name="qna_img3">
+						</div>
 					</div>
 				</div>
 			</div>
 			<div class="box-btn">
-				<div class="box-btn-text">
-					<button type="button" class="btn-text" id="button-reg"
-						onclick="javascript:submit_check('${contextPath}/qna.do')">등록</button>
-					<button type="button" class="btn-text" id="button-can"
-						onclick="javascript:delete_check()">취소</button>
-				</div>
+					<div class="box-btn-text">
+						<button type="button" class="btn-text" id="button-reg" onclick="javascript:submit_check('${contextPath}/qna.do')">등록</button>
+						<button type="button" class="btn-text" id="button-can" onclick="javascript:delete_check()">취소</button>
+					</div>
 			</div>
 		</section>
 
@@ -111,6 +119,20 @@ request.setCharacterEncoding("UTF-8");
 		</div> --%>
 	</form>
 	<script>
+	   $('#summernote').summernote({
+			height: 450,
+			lang: "ko-KR",
+            toolbar: [
+                ['fontname', ['fontname']],
+                ['fontsize', ['fontsize']],
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['color', ['color']],
+                ['para', ['paragraph']],
+                ['insert', ['link', 'picture']],
+                ['view', []]
+            ]
+		});
+	   
 		function submit_check() {
 			var answer;
 			answer = confirm("등록하시겠습니까?");
@@ -120,6 +142,7 @@ request.setCharacterEncoding("UTF-8");
 				location = url;
 			}
 		}
+		
 		function delete_check() {
 			var answer;
 			//페이지를 이동하기 전에 confirm()을 사용해 다시 한번 확인한다.
@@ -161,6 +184,7 @@ request.setCharacterEncoding("UTF-8");
 		 'height' : '100%'
 		 }); //scroll hidden 해제 $('#element').off('scroll touchmove mousewheel'); // 터치무브 및 마우스휠 스크롤 가능
 		 */
+		 
 		function btnActive() {
 			const target = document.getElementById('password');
 			target.disabled = false;

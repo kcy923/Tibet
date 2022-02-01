@@ -14,6 +14,10 @@ body {
     box-sizing: border-box;
 }
 
+.lock-label {
+	width:60%;
+}
+
 a{
     text-decoration: none;
     color: inherit;
@@ -42,10 +46,10 @@ div{
     margin-bottom: 0px;
 }
 
-input{
+/* input{
     width: 60%;
     height: 20px;
-}
+} */
 
 .mgb15{
     font-size: 15px;
@@ -53,7 +57,7 @@ input{
 
 
 .qna-ask{
-    max-width: 500px;
+    max-width: 800px;
     width: 100%;
     margin: 30px auto;
     margin-top: 30px;
@@ -73,12 +77,17 @@ input{
     width: 100px;
     margin-right: 2px;
     font-size: 15px;
-    padding-top: 10px;
+    padding-top: 5px;
 }
 
-.form input, textarea{
+#product_name {
+	height: 20px;
+    width: auto;
+}
+
+#qna_title, #password{
 	height: 30px;
-    width: 75%;
+    width: 87%;
     border: 1px solid rgb(180, 180, 180);
     font-size: 15px;
     border-radius: 6px;
@@ -88,6 +97,11 @@ input{
 .form textarea{
     resize: none;
     height: 120px;
+    padding: 10px 5px;
+    width: 87%;
+    border: 1px solid rgb(180, 180, 180);
+    font-size: 15px;
+    border-radius: 6px;
 }
 
 .form .qna-ask-form-img input{
@@ -103,10 +117,8 @@ input{
     text-align: center;
     border: 1px solid #b9b9b9;
     border-radius: 6px;
+	margin-right: 10px;
 }
-
-
-
 
 .box-btn{
     text-align: center;
@@ -158,7 +170,6 @@ input{
 	display: none;
 }
 
-
 .popup{
 	position: absolute;
 	left: 50%;
@@ -199,6 +210,7 @@ input{
 .popup button{
     margin-left: 190px;
 }
+
 #close-button1 {
 	width: auto;
 	height: auto;
@@ -207,6 +219,7 @@ input{
 	font-size: 40px;
 	cursor: pointer;
 }
+
 #close-button2 {
 	width: auto;
 	height: auto;
@@ -215,12 +228,24 @@ input{
 	font-size: 40px;
 	cursor: pointer;
 }
+
 .text111 {
 	justify-content: center;
 	margin-top: 20px;
 }
+
 .text01{
     text-align: center;
     font-size: 16px;
     font-family: 'Noto Sans KR', sans-serif;
+}
+
+.lock-radio {
+	width: 7%;
+    height: 25px;
+    vertical-align: middle;
+}
+
+.note-frame {
+	width: 45vw;
 }

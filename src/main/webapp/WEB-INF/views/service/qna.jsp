@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <%
 request.setCharacterEncoding("UTF-8");
 %>
@@ -13,8 +15,12 @@ request.setCharacterEncoding("UTF-8");
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>service</title>
+<link rel="stylesheet" href="resources/css/reset.css">
+<link rel="stylesheet" href="resources/css/style.css">
 <link rel="stylesheet" href="resources/css/qna.css">
+<link rel="stylesheet" href="resources/fontawesome/css/all.css">
 <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
 <body>
 	<section>
@@ -28,13 +34,18 @@ request.setCharacterEncoding("UTF-8");
 				</div>
 
 				<div class="service-front-fonter-member">
-					<a href="${contextPath}/membership.do" class="font-999"">멤버쉽 안내</a>
+					<a href="${contextPath}/membership.do" class="font-999">멤버쉽 안내</a>
 				</div>
 			</div>
 
 			<div class="box-btn">
 				<div class="box-btn-text">
-					<button type="button" onclick="location.href='${contextPath}/qnaWrite.do'" class="btn-text">글쓰기</button>
+					<c:if test="${isLogOn eq true}">
+						<button type="button" onclick="location.href='${contextPath}/qnaWrite.do'" class="btn-text">글쓰기</button>
+					</c:if>
+					<c:if test="${isLogOn eq false || isLogOn eq null}">
+						<button type="button" onclick="needLogin()" class="btn-text">글쓰기</button>
+					</c:if>
 				</div>
 			</div>
 
@@ -43,7 +54,7 @@ request.setCharacterEncoding("UTF-8");
 					<thead class="service-qna-title mgb15">
 						<tr>
 							<th class="qna-no">번호</th>
-							<th class="qna-goods">상품 정보</th>
+							<th class="qna-type">문의 유형</th>
 							<th class="qna-tit">제목</th>
 							<th class="qna-nm">작성자</th>
 							<th class="qna-date">작성일</th>
@@ -51,90 +62,82 @@ request.setCharacterEncoding("UTF-8");
 					</thead>
 					<tbody class="service-qna-content mgb20">
 						<c:choose>
-							<c:when test="${qnasList == null}">
-								<tr>
-									<td>
-										<p>
-											<b><span>등록된 글이 없습니다.</span></b>
-										</p>
-									</td>
-								</tr>
-							</c:when>
-							<c:when test="${qnasList != null}">
-								<c:forEach var="qna" items="${qnasList}" varStatus="qna_num">
-									<c:set var="i" value="${i + 1}"/>
+							<c:when test="${fn:length(list)>0}">
+								<c:forEach items="${list }" var="bList">
 									<tr>
-										<td class="qna-no">${i}</td>
-										<td class="qna-goods"><img src="" alt="" width="90px"></td>
-										<c:choose>											
-											<c:when test="${qna.qna_lock eq 0}">
-												<td class="qna-tit-td"><i class="fas fa-lock-open"></i><a href="#">&nbsp;&nbsp;${qna.qna_title}</a></td>
+										<td scope="row">${bList.num}</td>
+										<c:if test="${bList.qna_title eq '배송문의'}">
+											<td class="qna-type-td">배송</td>
+										</c:if>
+										<c:if test="${bList.qna_title eq '상품문의'}">
+											<td class="qna-type-td">상품</td>
+										</c:if>
+										<c:choose>						
+											<c:when test="${bList.qna_lock eq 0}">
+												<c:if test="${isLogOn eq true}">
+													<td class="qna-tit-td"><a href="${contextPath}/qnaDetail${bList.qna_num}.do"><i class="fas fa-lock-open"></i>&nbsp;&nbsp;${bList.qna_title}&nbsp;&nbsp; <c:if test="${bList.qna_comment_num ne null}"><i class="far fa-comment-dots"></i></c:if></a></td>
+												</c:if>
+												<c:if test="${isLogOn eq false || isLogOn eq null}">
+													<td class="qna-tit-td"><a onclick="needLogin()"><i class="fas fa-lock-open"></i>&nbsp;&nbsp;${bList.qna_title}&nbsp;&nbsp;<c:if test="${bList.qna_comment_num ne null}"><i class="far fa-comment-dots"></i></c:if></a></td>
+												</c:if>
 											</c:when>
-											<c:when test="${qna.qna_lock eq 1}">
-												<td class="qna-tit-td"><i class="fas fa-lock"></i><a href="#">&nbsp;&nbsp;비밀글입니다.</a></td>
-											</c:when>
+											<c:otherwise>
+												<c:if test="${isLogOn eq true}">
+													<td class="qna-tit-td"><a style="cursor:pointer;" onclick="passWord(${bList.qna_pw},'${contextPath}/qnaDetail${bList.qna_num}.do')" ><i class="fas fa-lock"></i>&nbsp;&nbsp;비밀글입니다.&nbsp;&nbsp;<c:if test="${bList.qna_comment_num ne null}"><i class="far fa-comment-dots"></i></c:if></a></td>
+												</c:if>
+												<c:if test="${isLogOn eq false || isLogOn eq null}">
+													<td class="qna-tit-td"><a style="cursor:pointer;" onclick="needLogin()" ><i class="fas fa-lock"></i>&nbsp;&nbsp;비밀글입니다.&nbsp;&nbsp;<c:if test="${bList.qna_comment_num ne null}"><i class="far fa-comment-dots"></i></c:if></a></td>
+												</c:if>
+											</c:otherwise>
 										</c:choose>
-										<td class="qna-nm">${qna.user_id}</td>
-										<td class="qna-date"><fmt:formatDate value="${qna.qna_date}" pattern="yyyy.MM.dd"/></td>
+										<td class="qna-tit-td">${bList.user_id }</td>
+										<td class="qna-tit-td"><fmt:parseDate value="${bList.qna_date}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="parsedDateTime" type="both"/>
+										<fmt:formatDate value="${parsedDateTime}" pattern="yyyy-MM-dd" /></td>
 									</tr>
 								</c:forEach>
 							</c:when>
+							<c:otherwise>
+								<tr>
+									<td colspan="5">조회된 결과가 없습니다.</td>
+								</tr>
+							</c:otherwise>
 						</c:choose>
-						<tr>
-							<td class="qna-no">1</td>
-							<td class="qna-goods"><img src="resources/img/1-1.jpg"
-								alt="" width="90px"></td>
-							<td class="mgb20-txt"><i class="fas fa-lock"></i> <a href="">비밀글
-									입니다.</a></td>
-							<td class="qna-nm">작성자</td>
-							<td class="qna-date">2021-11-25</td>
-						</tr>
-						<tr>
-							<td class="qna-no">2</td>
-							<td class="qna-goods"><img src="resources/img/2-1.jpg"
-								alt="" width="90px"></td>
-							<td class="mgb20-txt"><i class="fas fa-lock"></i> <a href="">비밀글
-									입니다.</a></td>
-							<td class="qna-nm">작성자</td>
-							<td class="qna-date">2021-11-24</td>
-						</tr>
-						<tr>
-							<td class="qna-no">3</td>
-							<td class="qna-goods"><img src="resources/img/3-1.jpg"
-								alt="" width="90px"></td>
-							<td class="mgb20-txt"><i class="fas fa-lock"></i> <a href="">비밀글
-									입니다.</a></td>
-							<td class="qna-nm">작성자</td>
-							<td class="qna-date">2021-11-25</td>
-						</tr>
-						<tr>
-							<td class="qna-no">4</td>
-							<td class="qna-goods"><img src="resources/img/1-1.jpg"
-								alt="" width="90px"></td>
-							<td class="mgb20-txt"><i class="fas fa-lock-open"></i> <a
-								href="">안녕하세요 이곳은 Q&A 페이지 입니다.</a></td>
-							<td class="qna-nm">작성자</td>
-							<td class="qna-date">2021-11-25</td>
-						</tr>
-						<tr>
-							<td class="qna-no">5</td>
-							<td class="qna-goods"><img src="resources/img/4-1.jpg"
-								alt="" width="90px"></td>
-							<td class="mgb20-txt"><i class="fas fa-lock-open"></i> <a
-								href="">안녕하세요 이곳은 Q&A 페이지 입니다.</a></td>
-							<td class="qna-nm">작성자</td>
-							<td class="qna-date">2021-11-25</td>
-						</tr>
+
 					</tbody>
 				</table>
 			</div>
-
-			<div class="paging">
-				<a href="#" class="bt"><<</a> <a href="#" class="bt"><</a> <a
-					href="#" class="num-on">1</a> <a href="#" class="num">2</a> <a
-					href="#" class="bt">></a> <a href="#" class="bt">>></a>
-			</div>
+			<ul class="btn-group pagination">
+				<c:if test="${pageMaker.prev }">
+					<li><a href='<c:url value="/qna.do?page=${pageMaker.startPage-1 }"/>'><i class="fas fa-chevron-left"></i></a></li>
+				</c:if>
+				<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
+					<li><a href='<c:url value="/qna.do?page=${pageNum }"/>'>${pageNum }</a></li>
+				</c:forEach>
+				<c:if test="${pageMaker.next && pageMaker.endPage >0 }">
+					<li><a href='<c:url value="/qna.do?page=${pageMaker.endPage+1 }"/>'><i class="fas fa-chevron-right"></i></a></li>
+				</c:if>
+			</ul>
 		</div>
 	</section>
+	<SCRIPT>
+		function passWord(a,url) {
+			var pwd = a;
+			var getpwd = prompt("게시물 비밀번호를 입력하세요.", "");
+				
+			if (pwd == getpwd) {
+				alert("승인되었습니다.");
+
+			} else if (pwd != getpwd) {
+				alert("다시 시도해주세요.");
+				url="";
+			}
+			location.href=url;
+		}
+		
+		function needLogin() {
+			alert("로그인이 필요합니다.");
+			location.href="${contextPath}/login.do"
+		}
+	</SCRIPT>
 </body>
 </html>

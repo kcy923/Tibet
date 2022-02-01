@@ -18,11 +18,12 @@ request.setCharacterEncoding("UTF-8");
 <link rel="stylesheet" href="resources/fontawesome/css/all.css">
 <link rel="stylesheet" href="resources/css/reset.css">
 <link rel="stylesheet" href="resources/css/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Roboto&display=swap" rel="stylesheet">
 
 <script src="resources/js/jquery-3.6.0.min.js"></script>
-
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
 <title>header</title>
 </head>
@@ -33,16 +34,15 @@ request.setCharacterEncoding("UTF-8");
 			<c:choose>
 				<c:when test="${isLogOn==true and not empty memberInfo and memberInfo.user_id !='admin'}">
 					<li><a href="${contextPath}/notice.do">SERVICE</a></li>
+					<li>${memberInfo.user_name}님 환영합니다.</li>
 					<li><a href="${contextPath}/logout.do">LOGOUT</a></li>
-					<li><a href="${contextPath}/memModify.do">MYPAGE</a></li>
-					<li><a href="${contextPath}/cart${memberInfo.user_id}.do">CART</a></li>
-
+					<li><a href="${contextPath}/memModifyForm.do">MYPAGE</a></li>
+					<li><a href="${contextPath}/CART.do">CART</a></li>
 				</c:when>
 				<c:when test="${isLogOn==true and not empty memberInfo and memberInfo.user_id =='admin' }">
 					<li><a href="${contextPath}/notice.do">SERVICE</a></li>
 					<li><a href="${contextPath}/logout.do">LOGOUT</a></li>
-					<li class="no_line"><a
-						href="${contextPath}/admin/goods/adminMain.do">Manager</a></li>
+					<li class="no_line"><a href="${contextPath}/admin/goods/adminMain.do">Manager</a></li>
 				</c:when>
 				<c:otherwise>
 					<li><a href="${contextPath}/notice.do">SERVICE</a></li>
@@ -50,65 +50,90 @@ request.setCharacterEncoding("UTF-8");
 					<li><a href="${contextPath}/signupForm.do">SIGN UP</a></li>
 				</c:otherwise>
 			</c:choose>
-
-
-
 			<!-- 관리자로 로그인시 관리자표시 -->
 
-
-
 			<li><button id="open-button">
-					<i class="fas fa-search"></i>
-				</button></li>
-
+				<i class="fas fa-search"></i>
+			</button></li>
 		</ul>
+		
 		<div id="logo">
 			<a href="${contextPath}/main.do">THE TIBET</a>
 		</div>
-		<ul class="gnb">
-			<li class="hamburger"><i class="fa fa-bars"></i></li>
-			<li><a href="${contextPath}/productlistNew.do">NEW</a>
-				<ul class="sub">
-					<li><a href="${contextPath}/new.do">신상품(5%)</a></li>
-
-				</ul></li>
-			<li><a href="${contextPath}/outer.do">OUTER</a>
-				<ul class="sub">
-					<li><a href="${contextPath}/outer-1.do">재킷&점퍼</a></li>
-					<li><a href="${contextPath}/outer-2.do">코트</a></li>
-				</ul></li>
-			<li><a href="${contextPath}/top.do">TOP</a>
-				<ul class="sub">
-					<li><a href="${contextPath}/top-1.do">티셔츠</a></li>
-					<li><a href="${contextPath}/top-2.do">셔츠</a></li>
-					<li><a href="${contextPath}/top-3.do">후드&맨투맨</a></li>
-					<li><a href="${contextPath}/top-4.do">니트&가디건</a></li>
-					<li><a href="${contextPath}/top-5.do">조끼</a></li>
-				</ul></li>
-			<li><a href="${contextPath}/pants.do">PANTS</a>
-				<ul class="sub">
-					<li><a href="${contextPath}/pants-1.do">팬츠</a></li>
-					<li><a href="${contextPath}/pants-2.do">쇼츠</a></li>
-				</ul></li>
-			<li><a href="${contextPath}/bag.do">BAG</a>
-				<ul class="sub">
-					<li><a href="${contextPath}/bag-1.do">숄더 백</a></li>
-					<li><a href="${contextPath}/bag-2.do">백팩</a></li>
-					<li><a href="${contextPath}/bag-3.do">크로스 백</a></li>
-					<li><a href="${contextPath}/bag-4.do">메신저 백</a></li>
-				</ul></li>
-			<li><a href="${contextPath}/acc.do">ACC</a>
-				<ul class="sub">
-					<li><a href="${contextPath}/acc-1.do">모자</a></li>
-					<li><a href="${contextPath}/acc-2.do">반지&팔찌</a></li>
-					<li><a href="${contextPath}/acc-3.do">선글라스</a></li>
-					<li><a href="${contextPath}/acc-4.do">벨트</a></li>
-				</ul></li>
-			<li><a href="${contextPath}/sale.do">SALE</a>
-				<ul class="sub">
-					<li><a href="${contextPath}/memModify.do">Sale</a></li>
-				</ul></li>
+		<ul class="nav-table">
+			<li><input type="checkbox" id="menuicon" class="menuicon01">
+            <label for="menuicon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label></li>
+      		<li class="nav-table-menu"><a href="${contextPath}/productlistNew.do">NEW</a></li>
+			<li class="nav-table-menu"><a href="${contextPath}/outer.do">OUTER</a></li>
+			<li class="nav-table-menu"><a href="${contextPath}/top.do">TOP</a></li>
+			<li class="nav-table-menu"><a href="${contextPath}/pants.do">PANTS</a></li>
+			<li class="nav-table-menu"><a href="${contextPath}/bag.do">BAG</a></li>
+			<li class="nav-table-menu"><a href="${contextPath}/acc.do">ACC</a></li>
+			<li class="nav-table-menu"><a href="${contextPath}/sale.do">SALE</a></li>
+<%--           <c:forEach var="list" items="${a}">
+				<li class="nav-table-menu"><a href="${contextPath}/productlistName${list.main_category_num}.do">${list.main_category_name}</a></li>
+			</c:forEach> --%>
 		</ul>
+		<div class="nav-table02">
+			 <div class="nav-table01">
+			 	<div class="submenu00" id="submenu10-0">
+                    <ul>
+                        <li><a></a></li>
+                    </ul>
+                </div>
+			 	<div class="submenu01" id="submenu10-1">
+                    <ul>
+                        <li><a href="${contextPath}/productlistNew.do">신상품</a></li>
+                    </ul>
+                </div>
+                <div class="submenu02" id="submenu10-1">
+                    <ul>
+                        <li><a href="">재킷&점퍼</a></li>
+                        <li><a href="">코트</a></li>
+                    </ul>
+                </div>
+                <div class="submenu03" id="submenu10-1">
+                    <ul>
+                        <li><a href="${contextPath}/top-1.do">티셔츠</a></li>
+                        <li><a href="">셔츠</a></li>
+                        <li><a href="">후드&맨투맨</a></li>
+                        <li><a href="">니트&가디건</a></li>
+                        <li><a href="">조끼</a></li>
+                    </ul>
+                </div>
+                <div class="submenu04" id="submenu10-1">
+                    <ul>
+                        <li><a href="${contextPath}/productlistName.do">팬츠</a></li>
+                        <li><a href="">쇼츠</a></li>
+                    </ul>
+                </div>
+                <div class="submenu05" id="submenu10-1">
+                    <ul>
+                        <li><a href="">숄더백</a></li>
+                        <li><a href="">백팩</a></li>
+                        <li><a href="">크로스백</a></li>
+                        <li><a href="">메선저백</a></li>
+                    </ul>
+                </div>
+                <div class="submenu06" id="submenu10-1">
+                    <ul>
+                        <li><a href="">모자</a></li>
+                        <li><a href="">반지&팔찌</a></li>
+                        <li><a href="">선글라스</a></li>
+                        <li><a href="">밸트</a></li>
+                    </ul>
+                </div>
+                <div class="submenu07" id="submenu10-1">
+                    <ul>
+                        <li><a href="">세일</a></li>
+                    </ul>
+                </div>
+			 </div>
+		</div>
 		<div class="drop-box"></div>
 	</header>
 
@@ -141,11 +166,15 @@ request.setCharacterEncoding("UTF-8");
 	</div>
 
 	<script>
-		$(document).on('click', '.hamburger', function() {
-			if (!$(this).hasClass('.sub')) {
-				$(".sub").slideToggle(300);
-			}
-		})
+		$(document).ready(function(){
+	        $(".menuicon01").on('click', function(){
+	            if($(this).prop('checked')){
+	                $(".nav-table02").css({"display":"block"});
+	            } else {
+	                $(".nav-table02").css({"display":"none"});
+	            }
+	        })
+	    });
 
 		$("#open-button").click(function() {
 			$(".modal").attr("style", "display:block");

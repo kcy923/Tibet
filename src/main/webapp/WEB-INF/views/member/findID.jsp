@@ -1,13 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
-<c:set var="contextPath" value="${pageContext.request.contextPath}" />
-
-
-
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <!DOCTYPE html>
 <html>
@@ -87,19 +82,17 @@
 			<form action="${contextPath}/resultID.do" name="checks" class="form-signin" method="POST">
 				<div class="info-rect">
 					<div class="control-box">
-						<input type="text" name="user_name" id="user_name" class="form-control"
-							placeholder="이름" required>
+						<input type="text" name="user_name" id="user_name" class="form-control" placeholder="이름" required>
 					</div>
 					<div>
-						<input type="email" name="user_email" id="user_email" class="form-control"
-							placeholder="이메일" required>
+						<input type="email" name="user_email" id="user_email" class="form-control" placeholder="이메일" required>
 					</div>
-
 				</div>
 				<input id="correction-btn" class="correction-btn" type="submit" value="확인" onclick="check()"/>
 			</form>
 		</div>
 	</section>
+	
 	<script>
 	function check() {
         if (document.getElementById("user_name").value == "") {
@@ -111,7 +104,6 @@
         } else
         	form.submit();
 	}
-	
 	</script>
 </body>
 </html>

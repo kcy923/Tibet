@@ -75,14 +75,25 @@ img{
 .kakao-btn{
 	border: none;
     background: transparent;
+    cursor: pointer;
 }
 
 .naver-btn{
 	border: none;
     background: transparent;
+    cursor: pointer;
 }
 
 .google-btn {
 	border: none;
     background: transparent;
+    cursor: pointer;
+}
+
+#naver_id_login{
+	display:none;
+}
+
+#naverLogin img{
+	width: 4vw;
 }
